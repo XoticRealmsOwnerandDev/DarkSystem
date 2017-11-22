@@ -13,6 +13,8 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
 
 **We may have language problems :)**
 
+**DarkSystem based on fun!**
+
 # Features:
 - DarkSystem is **# 1** about speed & no-lag. (We think so)
 - Based on **old** PocketMine-MP for better performance and stability.
@@ -101,7 +103,7 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
 
 # Known Bugs in 1.2:
 - Moving is glitchy. (Seen on Android OS & 32-bit machines)
-- AvailableCommandPacket problems
+- AvailableCommandsPacket problems
 
 # Notes:
 - DarkSystem does not support PMAnvil map format, only support Anvil and McRegion.
