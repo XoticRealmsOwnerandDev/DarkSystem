@@ -168,7 +168,7 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
  * [ ] Working Command Block (indev) (progress 40%) 
 
 # TODO List:
-- checked item boxes mean we are working on them, empty mean that will we work soon on them!
+- checked item boxes mean we are working on them **OR** they are in-dev, empty mean that will we work soon on them!
 - [x] **Command Block (indev)**
 - [ ] **Experience System (working)**
 - [ ] **Map**
