@@ -103,7 +103,7 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
 - AvailableCommandsPacket problems
 
 # Notes:
-- DarkSystem does not support PMAnvil map format,it only supports Anvil and McRegion.
+- DarkSystem does not support PMAnvil map format, it only supports Anvil and McRegion.
 - DarkSystem's language is currently Turkish, but you can change it in pocketmine.yml (Supports 20+ Languages)
 - Some strings, messages and lines may be in Turkish, we are adding translation to them on every update.
 - DarkSystem is 68% stable now.It will be 90%+ in future
