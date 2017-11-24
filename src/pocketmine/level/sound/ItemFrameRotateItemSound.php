@@ -18,7 +18,6 @@
  *
  *
 */
-*/
 
 namespace pocketmine\level\sound;
 
