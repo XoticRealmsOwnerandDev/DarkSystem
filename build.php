@@ -16,6 +16,6 @@ if(count(glob("plugins/DevTools/DarkSystem*.phar")) === 0){
 	echo "DarkSystem PHAR was not created!\n";
 	exit(1);
 }else{
-	echo "Prismarine PHAR created!\n";
+	echo "DarkSystem PHAR created!\n";
 	exit(0);
 }
