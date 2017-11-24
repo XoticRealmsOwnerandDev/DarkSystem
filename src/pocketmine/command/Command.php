@@ -80,11 +80,11 @@ abstract class Command{
 		$this->setAliases($aliases);
 		$this->timings = new TimingsHandler("** Komut: " . $name);
 		
-		if(count($overloads) == 0){
+		/*if(count($overloads) == 0){
 			self::applyDefaultSettings($this);
 		}else{
 			$this->overloads = $overloads;
-		}
+		}*/
 	}
 	
 	/**

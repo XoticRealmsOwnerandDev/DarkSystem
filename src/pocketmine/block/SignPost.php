@@ -39,8 +39,7 @@ class SignPost extends Transparent{
 	public function getBoundingBox(){
 		return null;
 	}
-
-
+	
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		if($face !== 0){
 			$faces = [
@@ -49,15 +48,14 @@ class SignPost extends Transparent{
 				4 => 4,
 				5 => 5,
 			];
+			
 			if(!isset($faces[$face])){
 				$this->meta = floor((($player->yaw + 180) * 16 / 360) + 0.5) & 0x0F;
 				$this->getLevel()->setBlock($block, Block::get(Item::SIGN_POST, $this->meta), true);
-
 				return true;
 			}else{
 				$this->meta = $faces[$face];
 				$this->getLevel()->setBlock($block, Block::get(Item::WALL_SIGN, $this->meta), true);
-
 				return true;
 			}
 		}
@@ -69,7 +67,7 @@ class SignPost extends Transparent{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(0)->getId() === self::AIR){
 				$this->getLevel()->useBreakOn($this);
-
+				
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
@@ -79,7 +77,6 @@ class SignPost extends Transparent{
 
 	public function onBreak(Item $item){
 		$this->getLevel()->setBlock($this, new Air(), true, true, true);
-
 		return true;
 	}
 

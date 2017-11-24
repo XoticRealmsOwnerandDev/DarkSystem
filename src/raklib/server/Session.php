@@ -193,7 +193,7 @@ class Session{
         $this->sendQueue();
     }
 
-    public function disconnect($reason = "Bilinmeyen Neden"){
+    public function disconnect($reason = "Unknown Reason"){
         $this->sessionManager->removeSession($this, $reason);
     }
 

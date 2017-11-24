@@ -130,13 +130,13 @@ class SimpleCommandMap implements CommandMap{
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new SaveOffCommand("save-off"));
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new SaveCommand("save-all"), null, true);
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new GiveCommand("give"));
-		SimpleCommandMap::register(SimpleCommandMap::ROOT, new GivePizzaCommand("givepizza"));
-		SimpleCommandMap::register(SimpleCommandMap::ROOT, new HackCommand("hack"));
+		//SimpleCommandMap::register(SimpleCommandMap::ROOT, new GivePizzaCommand("givepizza"));
+		//SimpleCommandMap::register(SimpleCommandMap::ROOT, new HackCommand("hack"));
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new AddUICommand("addui"));
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new ServerInfoCommand("serverinfo"));
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new CreateInvCommand("createinv"));
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new WorldCommand("world"));
-		SimpleCommandMap::register(SimpleCommandMap::ROOT, new MorphCommand("morph"));
+		//SimpleCommandMap::register(SimpleCommandMap::ROOT, new MorphCommand("morph"));
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new ZoomCommand("zoom"));
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new XYZCommand("xyz"));
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new EffectCommand("effect"));

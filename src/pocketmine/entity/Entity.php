@@ -671,8 +671,8 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->namedtag->FallDistance = new FloatTag("FallDistance", $this->fallDistance);
 		$this->namedtag->Fire = new ShortTag("Fire", $this->fireTicks);
 		$this->namedtag->Air = new ShortTag("Air", $this->getDataProperty(Entity::DATA_AIR));
-		$this->namedtag->OnGround = new ByteTag("OnGround", $this->onGround == true ? 1 : 0);
-		$this->namedtag->Invulnerable = new ByteTag("Invulnerable", $this->invulnerable == true ? 1 : 0);
+		$this->namedtag->OnGround = new ByteTag("OnGround", $this->onGround ? 1 : 0);
+		$this->namedtag->Invulnerable = new ByteTag("Invulnerable", $this->invulnerable ? 1 : 0);
 
 		if(count($this->effects) > 0){
 			$effects = [];
@@ -1006,7 +1006,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 			return false;
 		}
 		
-		foreach ($this->effects as $effect){
+		foreach($this->effects as $effect){
 			if($effect->canTick()){
 				$effect->applyEffect($this);
 			}
@@ -1014,7 +1014,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 			$newDuration = $effect->getDuration() - $tickDiff;
 			if($newDuration <= 0){
 				$this->removeEffect($effect->getId());
-			} else {
+			}else{
 				$effect->setDuration($newDuration);
 			}
 		}
@@ -1030,7 +1030,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 			$block->onEntityCollide($this);
 		}
 		
-		if($this->y < 0 && $this->dead !== true){
+		if($this->y < 0 && !$this->dead){
 			$ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_VOID, 20);
 			$this->attack($ev->getFinalDamage(), $ev);
 			$hasUpdate = true;
@@ -1236,6 +1236,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		
 		$this->setLevel($targetLevel);
 		$this->level->addEntity($this);
+		
 		if($this instanceof Player){
 			$this->usedChunks = [];
 			$pk = new SetTimePacket();
@@ -1375,7 +1376,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		}
 	}
 	
-	/*public function fastMove($dx, $dy, $dz){
+	public function fastMove($dx, $dy, $dz){
 		if($dx == 0 && $dz == 0 && $dy == 0){
 			return true;
 		}
@@ -1411,9 +1412,9 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$notInAir = $this->onGround || $this->isCollideWithWater();
 		$this->updateFallState($dy, $notInAir);
 		return true;
-	}*/
+	}
 	
-	public function fastMove($dx, $dy, $dz){
+	/*public function fastMove($dx, $dy, $dz){
 		$this->blocksAround = null;
 
 		if($dx == 0 && $dz == 0 && $dy == 0){
@@ -1448,9 +1449,9 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->updateFallState($dy, $this->onGround);
 		
 		return true;
-	}
+	}*/
 	
-	/*public function move($dx, $dy, $dz){	
+	public function move($dx, $dy, $dz){	
 		if($dx == 0 && $dz == 0 && $dy == 0){
 			return true;
 		}
@@ -1479,9 +1480,9 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 			
 			return true;
 		}
-	}*/
+	}
 	
-	public function move($dx, $dy, $dz){
+	/*public function move($dx, $dy, $dz){
 		$this->blocksAround = null;
 
 		if($dx == 0 && $dz == 0 && $dy == 0){
@@ -1595,7 +1596,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 			
 			return true;
 		}
-	}
+	}*/
 	
 	public function setPositionAndRotation(Vector3 $pos, $yaw, $pitch){
 		if($this->setPosition($pos) === true){
@@ -1731,7 +1732,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->ySize = 0;
 		$pos = $ev->getTo();
 
-		$this->setMotion(new Vector3(0, 0.1, 0));
+		//$this->setMotion(new Vector3(0, 0.1, 0));
 		
 		if($this->setPositionAndRotation($pos, $yaw === null ? $this->yaw : $yaw, $pitch === null ? $this->pitch : $pitch, true) !== false){
 			$this->resetFallDistance();
@@ -1772,7 +1773,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		}
 		
 		foreach($this->level->getUsingChunk($this->chunk->getX(), $this->chunk->getZ()) as $player){
-			if($player->loggedIn === true && $player->canSeeEntity($this)){
+			if($player->loggedIn && $player->canSeeEntity($this)){
 				$this->spawnTo($player);
 			}
 		}
@@ -1889,7 +1890,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 				$this->linkedEntity = $entity;
 				$this->linkedType = 2;
 				return true;
-			default:
+				default;
 				return false;
 		}
 	}

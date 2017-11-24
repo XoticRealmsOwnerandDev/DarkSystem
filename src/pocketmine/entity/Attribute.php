@@ -92,7 +92,7 @@ class Attribute
      */
     public static function getAttributeByName($name)
     {
-        foreach (Attribute::$attributes as $a){
+        foreach(Attribute::$attributes as $a){
             if($a->getName() === $name){
                 return clone $a;
             }

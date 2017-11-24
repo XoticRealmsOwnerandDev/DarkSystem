@@ -25,7 +25,7 @@ abstract class Spawnable extends Tile{
 		if($this->closed){
 			return false;
 		}
-
+		
 		$nbt = new NBT(NBT::LITTLE_ENDIAN);
 		$nbt->setData($this->getSpawnCompound());
 		$pk = new TileEntityDataPacket();
@@ -52,7 +52,7 @@ abstract class Spawnable extends Tile{
 		}
 
 		foreach($this->getLevel()->getUsingChunk($this->chunk->getX(), $this->chunk->getZ()) as $player){
-			if($player->spawned === true){
+			if($player->spawned){
 				$this->spawnTo($player);
 			}
 		}

@@ -13,7 +13,7 @@ class RedstoneLamp extends Solid{
     }
     
     public function getName(){
-        return 'Redstone Lamp';
+        return "Redstone Lamp";
     }
     
     public function getHardness(){
@@ -24,6 +24,11 @@ class RedstoneLamp extends Solid{
         return 0;
     }
     
+    public function turnOn(){
+		$this->getLevel()->setBlock($this, new ActiveRedstoneLamp(), true, true);
+		return true;
+	}
+	
     public function getDrops(Item $item){
         return [
             [self::REDSTONE_LAMP, 0, 1]

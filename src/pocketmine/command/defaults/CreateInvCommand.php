@@ -42,7 +42,15 @@ class CreateInvCommand extends VanillaCommand{
         
         $player = $this->server->getPlayer($args[0]);
         
-        $inventoryAPI->createInventory($player, "Test", true);
+        if($player instanceof Player){
+            $inventoryAPI->createInventory($player, "Test", true);
+        }else{
+        	if(Translate::checkTurkish() === "yes"){
+        	    $sender->sendMessage(TextFormat::RED . "Oyuncu Bulunamadı!");
+        	}else{
+        	    $sender->sendMessage(TextFormat::RED . "Player not Found!");
+        	}
+        }
         
         return true;
     }

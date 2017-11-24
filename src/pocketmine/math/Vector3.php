@@ -82,7 +82,7 @@ class Vector3{
 	 * @return Vector3
 	 */
 	public function add($x, $y = 0, $z = 0){
-		if ($x instanceof Vector3) {
+		if($x instanceof Vector3){
 			return new Vector3($this->x + $x->x, $this->y + $x->y, $this->z + $x->z);
 		}
 		return new Vector3($this->x + $x, $this->y + $y, $this->z + $z);
@@ -96,7 +96,7 @@ class Vector3{
 	 * @return Vector3
 	 */
 	public function subtract($x = 0, $y = 0, $z = 0){
-		if ($x instanceof Vector3) {
+		if($x instanceof Vector3){
 			return $this->add(-$x->x, -$x->y, -$x->z);
 		}
 		return $this->add(-$x, -$y, -$z);
@@ -176,11 +176,11 @@ class Vector3{
 	}
 
 	public function maxPlainDistance($x = 0, $z = 0){
-		if ($x instanceof Vector3) {
+		if($x instanceof Vector3){
 			return max(abs($this->x - $x->x), abs($this->z - $z->z));
-		} else if ($x instanceof Vector2) {
+		}elseif($x instanceof Vector2){
 			return max(abs($this->x - $x->x), abs($this->z - $x->y));
-		} else {
+		}else{
 			return max(abs($this->x - $x), abs($this->z - $z));
 		}
 	}
@@ -198,9 +198,9 @@ class Vector3{
 	 */
 	public function normalize(){
 		$len = $this->x ** 2 + $this->y ** 2 + $this->z ** 2;
-		if ($len == 0) {
+		if($len == 0){
 			return new Vector3(0, 0, 0);
-		} else if ($len == 1) {
+		}elseif($len == 1){
 			return new Vector3($this->x, $this->y, $this->z);
 		}
 		return $this->divide(sqrt($len));
@@ -233,7 +233,7 @@ class Vector3{
 	 */
 	public function getIntermediateWithXValue(Vector3 $v, $x){
 		$xDiff = $v->x - $this->x;
-		if (($xDiff < 1 && $xDiff > -1) || $x > $v->x || ($this->x > $x && $xDiff > 0)) {
+		if(($xDiff < 1 && $xDiff > -1) || $x > $v->x || ($this->x > $x && $xDiff > 0)){
 			return null;
 		}
 		$f = ($x - $this->x) / $xDiff;
@@ -253,7 +253,7 @@ class Vector3{
 	 */
 	public function getIntermediateWithYValue(Vector3 $v, $y){
 		$yDiff = $v->y - $this->y;
-		if (($yDiff < 1 && $yDiff > -1) || $y > $v->y || ($this->y > $y && $yDiff > 0)) {
+		if(($yDiff < 1 && $yDiff > -1) || $y > $v->y || ($this->y > $y && $yDiff > 0)){
 			return null;
 		}
 		$f = ($y - $this->y) / $yDiff;
@@ -273,7 +273,7 @@ class Vector3{
 	 */
 	public function getIntermediateWithZValue(Vector3 $v, $z){
 		$zDiff = $v->z - $this->z;
-		if (($zDiff < 1 && $zDiff > -1) || $z > $v->z || ($this->z > $z && $zDiff > 0)) {
+		if(($zDiff < 1 && $zDiff > -1) || $z > $v->z || ($this->z > $z && $zDiff > 0)){
 			return null;
 		}
 		$f = ($z - $this->z) / $zDiff;

@@ -46,6 +46,7 @@ class Bat extends FlyingAnimal
         if(!isset($nbt->isResting)){
             $nbt->isResting = new ByteTag("isResting", 0);
         }
+        
         parent::__construct($level, $nbt);
 
         $this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_RESTING, $this->isResting());

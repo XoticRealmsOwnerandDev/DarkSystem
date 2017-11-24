@@ -34,7 +34,6 @@ class BaseClassLoader extends \Threaded implements ClassLoader{
      * @param bool   $prepend
      */
     public function addPath($path, $prepend = false){
-
         foreach($this->lookup as $p){
             if($p === $path){
                 return;
@@ -111,7 +110,7 @@ class BaseClassLoader extends \Threaded implements ClassLoader{
             include($path);
             if(!class_exists($name, false) and !interface_exists($name, false) and !trait_exists($name, false)){
 	            if($this->getParent() === null){
-		            throw new ClassNotFoundException("Class $name not found");
+		            throw new ClassNotFoundException("Class $name does not exist");
 	            }
                 return false;
             }
@@ -124,7 +123,7 @@ class BaseClassLoader extends \Threaded implements ClassLoader{
 
             return true;
         }elseif($this->getParent() === null){
-	        throw new ClassNotFoundException("Class $name not found");
+	        throw new ClassNotFoundException("Class $name does not exist");
         }
 
         return false;

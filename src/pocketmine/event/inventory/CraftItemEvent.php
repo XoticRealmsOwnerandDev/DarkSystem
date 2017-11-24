@@ -28,6 +28,7 @@ use pocketmine\item\Item;
 use pocketmine\Player;
 
 class CraftItemEvent extends Event implements Cancellable{
+	
 	public static $handlerList = null;
 
 	/** @var Item[] */

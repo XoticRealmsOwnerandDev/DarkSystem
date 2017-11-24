@@ -74,6 +74,7 @@ use pocketmine\network\SourceInterface;
 use pocketmine\permission\BanList;
 use pocketmine\permission\DefaultPermissions;
 use pocketmine\plugin\PharPluginLoader;
+use pocketmine\plugin\FolderPluginLoader;
 use pocketmine\plugin\ScriptPluginLoader;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginLoadOrder;
@@ -1559,7 +1560,7 @@ class Server extends DarkSystem{
 			
 			if(Translate::checkTurkish() === "yes"){
 				$lang = Translate::TUR;
-			}elseif($this->getProperty("settings.language", Language::FALLBACK_LANGUAGE) !== Translate::TUR){
+			}else{
 				$lang = $this->getProperty("settings.language", Language::FALLBACK_LANGUAGE);
 			}
 			
@@ -1744,7 +1745,7 @@ class Server extends DarkSystem{
 			$this->pluginMgr->setUseTimings($this->getProperty("settings.enable-profiling", false));
 			$this->profilingTickRate = (float) $this->getProperty("settings.profile-report-trigger", 20);
 			$this->pluginMgr->registerInterface(PharPluginLoader::class);
-            //$this->pluginMgr->registerInterface(FolderPluginLoader::class);
+            $this->pluginMgr->registerInterface(FolderPluginLoader::class);
 			$this->pluginMgr->registerInterface(ScriptPluginLoader::class);
 			
 			//\set_exception_handler([$this, "exceptionHandler"]);
@@ -1969,12 +1970,12 @@ class Server extends DarkSystem{
 	}
 	
 	public function broadcastMessage($message, $recipients = null){
-		if(strpos($message, $this->getDarkBotPrefix())){
+		/*if(strpos($message, $this->getDarkBotPrefix())){
 			foreach($this->getOnlinePlayers() as $p){
 				$p->sendMessage($message);
 				return true;
 			}
-		}
+		}*/
 		
 		if(!is_array($recipients)){
 			return $this->broadcast($message, Server::BROADCAST_CHANNEL_USERS);
