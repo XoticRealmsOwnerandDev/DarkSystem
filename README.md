@@ -122,7 +122,8 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
   * How to set language to Turkish?
     * Simple, choose language to **tur** on set-up wizard.
     * After set **language:** to **tur** on **pocketmine.yml**)
-  * **Greek language coming soon**
+- [ ] Greek language coming soon
+    * progress 10%
 - [x] MultiVersion® support: **What is this?**
   * We support:
     * **1.0.x
