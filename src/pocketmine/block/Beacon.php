@@ -98,7 +98,7 @@ class Beacon extends Transparent
                 Tile::createTile(Tile::BEACON, $this->getLevel(), $nbt);
             }
             
-            //$player->addWindow($beacon->getInventory()); //Will be fixed soon!
+            $player->addWindow($beacon->getInventory());
         }
 
         return true;
