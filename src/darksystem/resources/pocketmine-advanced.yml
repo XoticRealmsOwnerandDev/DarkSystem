@@ -31,20 +31,3 @@ troll:
  #Sandık Açıldığında Creeper Sesi Çıkarır
  chest-sound: false
  
-fun:
- ########/PIZZA/########
- #Pizzalar Aktif Olsun mu?
- pizza: true
- #Pizza Markası (dominos, crackers, little_caesars, pizza_hut, pizza_sbarro)
- pizza-mark: dominos
- #Pizza Yenildiğinde Giderdiği Açlık (1 = 1 Bar)
- pizza-hunger: 3
- ########/SILAHLAR/########
- #Silah Sistemi Aktif Olsun mu?
- weapons: true
- #Silahların Verdiği Hasar (1 = 1 Kalp)
- weapons-damage: 4
- #Silahlar
- #Ak-47: ID
- #P90: ID
- 
