@@ -1745,7 +1745,7 @@ class Server extends DarkSystem{
 			$this->pluginMgr->setUseTimings($this->getProperty("settings.enable-profiling", false));
 			$this->profilingTickRate = (float) $this->getProperty("settings.profile-report-trigger", 20);
 			$this->pluginMgr->registerInterface(PharPluginLoader::class);
-            $this->pluginMgr->registerInterface(FolderPluginLoader::class);
+			$this->pluginMgr->registerInterface(FolderPluginLoader::class);
 			$this->pluginMgr->registerInterface(ScriptPluginLoader::class);
 			
 			//\set_exception_handler([$this, "exceptionHandler"]);
@@ -2660,7 +2660,7 @@ class Server extends DarkSystem{
 			//$skin;
 			$eid = "114514";
 			$item = Item::get(0);
-			$this->dbot->spawn("DarkBot", $eid, $x, $y + 0.1, $z, $skin, $item);
+			$this->dbot->spawn("DarkBot", $eid, $x, $y, $z, $skin, $item);
 			$this->broadcastPopup("§aDarkBot Oyuna Katıldı!");
 		}*/
 		$now = microtime(true);

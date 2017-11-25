@@ -19,6 +19,7 @@ use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
+use pocketmine\block\Block;
 
 class Beacon extends Spawnable implements Nameable, InventoryHolder{
 	

@@ -17,6 +17,7 @@ use darksystem\Thread;
 use darksystem\Worker;
 use pocketmine\Translate;
 use darksystem\ThemeManager;
+use pocketmine\utils\TextFormat as TF;
 
 class MainLogger extends \AttachableThreadedLogger{
 	
@@ -60,57 +61,57 @@ class MainLogger extends \AttachableThreadedLogger{
 
 	public function emergency($message){
 		if(Translate::checkTurkish() === "yes"){
-			$this->send($message, \LogLevel::EMERGENCY, "ACIL", TextFormat::RED);
+			$this->send($message, \LogLevel::EMERGENCY, "ACIL", TF::RED);
 		}else{
-			$this->send($message, \LogLevel::EMERGENCY, "EMERGENCY", TextFormat::RED);
+			$this->send($message, \LogLevel::EMERGENCY, "EMERGENCY", TF::RED);
 		}
 	}
 
 	public function alert($message){
 		if(Translate::checkTurkish() === "yes"){
-			$this->send($message, \LogLevel::ALERT, "IKAZ", TextFormat::RED);
+			$this->send($message, \LogLevel::ALERT, "IKAZ", TF::RED);
 		}else{
-			$this->send($message, \LogLevel::ALERT, "ALERT", TextFormat::RED);
+			$this->send($message, \LogLevel::ALERT, "ALERT", TF::RED);
 		}
 	}
 
 	public function critical($message){
 		if(Translate::checkTurkish() === "yes"){
-			$this->send($message, \LogLevel::CRITICAL, "KRITIK", TextFormat::RED);
+			$this->send($message, \LogLevel::CRITICAL, "KRITIK", TF::RED);
 		}else{
-			$this->send($message, \LogLevel::CRITICAL, "CRITICAL", TextFormat::RED);
+			$this->send($message, \LogLevel::CRITICAL, "CRITICAL", TF::RED);
 		}
 	}
 
 	public function error($message){
 		if(Translate::checkTurkish() === "yes"){
-			$this->send($message, \LogLevel::ERROR, "HATA", TextFormat::RED);
+			$this->send($message, \LogLevel::ERROR, "HATA", TF::RED);
 		}else{
-			$this->send($message, \LogLevel::ERROR, "ERROR", TextFormat::RED);
+			$this->send($message, \LogLevel::ERROR, "ERROR", TF::RED);
 		}
 	}
 
 	public function warning($message){
 		if(Translate::checkTurkish() === "yes"){
-			$this->send($message, \LogLevel::WARNING, "UYARI", TextFormat::GOLD);
+			$this->send($message, \LogLevel::WARNING, "UYARI", TF::GOLD);
 		}else{
-			$this->send($message, \LogLevel::WARNING, "WARNING", TextFormat::GOLD);
+			$this->send($message, \LogLevel::WARNING, "WARNING", TF::GOLD);
 		}
 	}
 
 	public function notice($message){
 		if(Translate::checkTurkish() === "yes"){
-			$this->send($message, \LogLevel::NOTICE, "BILDIRIM", TextFormat::GRAY);
+			$this->send($message, \LogLevel::NOTICE, "BILDIRIM", TF::GRAY);
 		}else{
-			$this->send($message, \LogLevel::NOTICE, "NOTICE", TextFormat::GRAY);
+			$this->send($message, \LogLevel::NOTICE, "NOTICE", TF::GRAY);
 		}
 	}
 
 	public function info($message){
 		if(Translate::checkTurkish() === "yes"){
-			$this->send($message, \LogLevel::INFO, "BILGI", TextFormat::YELLOW);
+			$this->send($message, \LogLevel::INFO, "BILGI", TF::YELLOW);
 		}else{
-			$this->send($message, \LogLevel::INFO, "INFO", TextFormat::YELLOW);
+			$this->send($message, \LogLevel::INFO, "INFO", TF::YELLOW);
 		}
 	}
 
@@ -119,9 +120,9 @@ class MainLogger extends \AttachableThreadedLogger{
 			return false;
 		}
 		if(Translate::checkTurkish() === "yes"){
-			$this->send($message, \LogLevel::DEBUG, $name, TextFormat::GRAY);
+			$this->send($message, \LogLevel::DEBUG, $name, TF::GRAY);
 		}else{
-			$this->send($message, \LogLevel::DEBUG, "DEBUG", TextFormat::GRAY);
+			$this->send($message, \LogLevel::DEBUG, "DEBUG", TF::GRAY);
 		}
 	}
 	
@@ -228,6 +229,9 @@ class MainLogger extends \AttachableThreadedLogger{
 	protected function send($message, $level, $prefix, $color){
 		$now = time();
 		$thread = \Thread::getCurrentThread();
+		if($message == ""){
+			return false;
+		}
 		if($thread === null){
 			if(Translate::checkTurkish() === "yes"){
 				$threadName = "Sunucu İşlemi";
@@ -256,36 +260,36 @@ class MainLogger extends \AttachableThreadedLogger{
 		}
 		$name = \pocketmine\CODENAME;
 		$easter = "LOL";
-		$message = TextFormat::toANSI("§" . mt_rand(1, 9) . "<" . date("H:i:s", $now) . "> " . TextFormat::BLUE . $name . " §l§" . mt_rand(1, 9) . "》§r " . $color . $prefix . ":" . " " . $message . TextFormat::RESET);
+		$message = TF::toANSI("§" . mt_rand(1, 9) . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§" . mt_rand(1, 9) . "》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 		//Not works correctly
 		/*switch(Server::getInstance()->getTheme()){
 			case "darkness":
 			//Server::getInstance()->getThemeManager()->setTheme(Server::getInstance()->getThemeManager()->getDefaultTheme());
-			$message = TextFormat::toANSI(TextFormat::GREEN . "<" . date("H:i:s", $now) . "> " . TextFormat::AQUA . $easter . " §l§6》§r " . $color . $prefix . ":" . " " . $message . TextFormat::RESET);
+			$message = TF::toANSI(TF::GREEN . "<" . date("H:i:s", $now) . "> " . TF::AQUA . $easter . " §l§6》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 			break;
 			case "classic":
-			$message = TextFormat::toANSI(TextFormat::AQUA . "<" . date("H:i:s", $now) . "> " . TextFormat::BLUE . $name . " §l§6》§r " . $color . $prefix . ":" . " " . $message . TextFormat::RESET);
+			$message = TF::toANSI(TF::AQUA . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§6》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 			break;
 			case "dark":
-			$message = TextFormat::toANSI(TextFormat::GRAY . "<" . date("H:i:s", $now) . "> " . TextFormat::BLUE . $name . " §l§3》§r " . $color . $prefix . ":" . " " . $message . TextFormat::RESET);
+			$message = TF::toANSI(TF::GRAY . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§3》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 			break;
 			case "light":
-			$message = TextFormat::toANSI(TextFormat::WHITE . "<" . date("H:i:s", $now) . "> " . TextFormat::BLUE . $name . " §l§f》§r " . $color . $prefix . ":" . " " . $message . TextFormat::RESET);
+			$message = TF::toANSI(TF::WHITE . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§f》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 			break;
 			case "metal":
-			$message = TextFormat::toANSI(TextFormat::GRAY . "<" . date("H:i:s", $now) . "> " . TextFormat::BLUE . $name . " §l§f》§r " . $color . $prefix . ":" . " " . $message . TextFormat::RESET);
+			$message = TF::toANSI(TF::GRAY . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§f》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 			break;
 			case "energy":
-			$message = TextFormat::toANSI(TextFormat::YELLOW . "<" . date("H:i:s", $now) . "> " . TextFormat::BLUE . $name . " §l§6》§r " . $color . $prefix . ":" . " " . $message . TextFormat::RESET);
+			$message = TF::toANSI(TF::YELLOW . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§6》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 			break;
 			case "uranium":
-			$message = TextFormat::toANSI(TextFormat::GREEN . "<" . date("H:i:s", $now) . "> " . TextFormat::BLUE . $name . " §l§e》§r " . $color . $prefix . ":" . " " . $message . TextFormat::RESET);
+			$message = TF::toANSI(TF::GREEN . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§e》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 			break;
 			default;
-			$message = TextFormat::toANSI(TextFormat::AQUA . "<" . date("H:i:s", $now) . "> " . TextFormat::BLUE . $name . " §l§6》§r " . $color . $prefix . ":" . " " . $message . TextFormat::RESET);
+			$message = TF::toANSI(TF::AQUA . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§6》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 			break;
 		}*/
-		$cleanMessage = TextFormat::clean($message);
+		$cleanMessage = TF::clean($message);
 		if(!Terminal::hasFormattingCodes()){
 			echo $cleanMessage . PHP_EOL;
 		}else{
@@ -294,7 +298,7 @@ class MainLogger extends \AttachableThreadedLogger{
 		if($this->attachment instanceof \ThreadedLoggerAttachment){
 			$this->attachment->call($level, $message);
 		}
-		$this->logStream[] = date("Y-m-d", $now) . TextFormat::SPACE . $cleanMessage . "\n";
+		$this->logStream[] = date("Y-m-d", $now) . TF::SPACE . $cleanMessage . "\n";
 		if($this->logStream->count() == 1){
 			$this->synchronized(function(){
 				$this->notify();
@@ -304,8 +308,8 @@ class MainLogger extends \AttachableThreadedLogger{
 	}
 	
 	public function directSend($message){
-		$message = TextFormat::toANSI($message);
-		$cleanMessage = TextFormat::clean($message);
+		$message = TF::toANSI($message);
+		$cleanMessage = TF::clean($message);
 		if(!Terminal::hasFormattingCodes()){
 			echo $cleanMessage . PHP_EOL;
 		}else{

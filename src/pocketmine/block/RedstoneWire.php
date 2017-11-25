@@ -112,6 +112,7 @@ class RedstoneWire extends RedstoneSource{
 			Vector3::SIDE_NORTH => false,
 			Vector3::SIDE_SOUTH => false
 		];
+		
 		foreach($hasChecked as $side => $bool){
 			$block = $this->getSide($side);
 			if($block instanceof RedstoneSource and !$block instanceof PoweredRepeater){
@@ -270,6 +271,7 @@ class RedstoneWire extends RedstoneSource{
 			Vector3::SIDE_NORTH => false,
 			Vector3::SIDE_SOUTH => false
 		];
+		
 		$hash = Level::blockHash($wire->x, $wire->y, $wire->z);
 		if(!isset($hasUpdated[$hash])) $hasUpdated[$hash] = true;
 		else return [$powers, $hasUpdated];
@@ -435,6 +437,7 @@ class RedstoneWire extends RedstoneSource{
 			$down = $this->getSide(Vector3::SIDE_DOWN);
 			if($down instanceof Transparent and $down->getId() != Block::REDSTONE_LAMP and $down->getId() != Block::REDSTONE_LAMP_ACTIVE){
 				$this->getLevel()->useBreakOn($this);
+				
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}

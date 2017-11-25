@@ -158,7 +158,6 @@ use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
 use pocketmine\utils\Utils;
 use pocketmine\utils\TextFormat as TF;
-//use pocketmine\scheduler\SendPlayerFaceTask;
 use pocketmine\network\protocol\SetPlayerGameTypePacket;
 use pocketmine\network\protocol\SetCommandsEnabledPacket;
 use pocketmine\network\protocol\AvailableCommandsPacket;
@@ -254,6 +253,8 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	
 	protected $sleeping = null;
 	protected $clientID = null;
+	protected $uuid = null;
+	protected $rawUUID = null;
 	
 	private $loaderId = null;
 	
@@ -686,23 +687,15 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$this->perm = new PermissibleBase($this);
 		$this->namedtag = new CompoundTag();
 		$this->server = Server::getInstance();
-		$this->lastBreak = 0;
 		$this->ip = $ip;
 		$this->port = $port;
 		$this->clientID = $clientID;
-		//$this->chunksPerTick = (int) $this->server->getProperty("chunk-sending.per-tick", 4);
-		//$this->spawnPosition = null;
 		$this->gamemode = $this->server->getGamemode();
 		$this->setLevel($this->server->getDefaultLevel(), true);
-		//$this->newPosition = new Vector3(0, 0, 0);
-		//$this->checkMovement = (bool) $this->server->getAdvancedProperty("main.check-movement", true);
 		$this->boundingBox = new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 		
 		$this->morphManager = new MorphManager($this->server);
 		
-		$this->uuid = null;
-		$this->rawUUID = null;
-
 		$this->creationTime = microtime(true);
 		
 		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
@@ -1105,7 +1098,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$this->spawnPosition = new Position($pos->x, $pos->y, $pos->z, $level);
 		$pk = new SetSpawnPositionPacket();
 		$pk->x = (int) $this->spawnPosition->x;
-		$pk->y = (int) $this->spawnPosition->y + 0.1;
+		$pk->y = (int) $this->spawnPosition->y;
 		$pk->z = (int) $this->spawnPosition->z;
 		$this->dataPacket($pk);
 	}
@@ -2390,7 +2383,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 							$chandler = new ChatHandler($this->server);
 							$result = $chandler->check($this, $message);
 							if($result !== ""){
-								$this->server->broadcastMessage($result);
+								//$this->server->broadcastMessage($result);
 							}
 						}
 						if(trim($message) !== "" && strlen($message) <= 255 && $this->messageCounter-- > 0 && /*!strpos($message, $externalIP) && !strpos($message, $internalIP) && */!strpos($message, $leetcc) && !strpos($message, $playmcpe)){
@@ -3149,7 +3142,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			if($this->spawnPosition instanceof Position && $this->spawnPosition->getLevel() instanceof Level){
 				$this->namedtag["SpawnLevel"] = $this->spawnPosition->getLevel()->getName();
 				$this->namedtag["SpawnX"] = (int) $this->spawnPosition->x;
-				$this->namedtag["SpawnY"] = (int) $this->spawnPosition->y + 0.1;
+				$this->namedtag["SpawnY"] = (int) $this->spawnPosition->y;
 				$this->namedtag["SpawnZ"] = (int) $this->spawnPosition->z;
 			}
 
@@ -3311,7 +3304,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$pk = new RespawnPacket();
 			$pos = $this->getSpawn();
 			$pk->x = $pos->x;
-			$pk->y = $pos->y + 0.1;
+			$pk->y = $pos->y;
 			$pk->z = $pos->z;
 			$this->dataPacket($pk);
 			$this->setMayMove(false);
@@ -3628,7 +3621,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$this->setLevel($this->server->getDefaultLevel(), true);
 			$nbt["Level"] = $this->level->getName();
 			$nbt["Pos"][0] = $this->level->getSpawnLocation()->x;
-			$nbt["Pos"][1] = $this->level->getSpawnLocation()->y + 0.1;
+			$nbt["Pos"][1] = $this->level->getSpawnLocation()->y;
 			$nbt["Pos"][2] = $this->level->getSpawnLocation()->z;
 		}else{
 			$this->setLevel($level, true);
@@ -3665,13 +3658,13 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$pk->seed = -1;
 		$pk->dimension = 0;
 		$pk->x = $this->x;
-		$pk->y = $this->y + 0.1;
+		$pk->y = $this->y;
 		$pk->z = $this->z;
 		$pk->spawnX = $hub->x;
-		$pk->spawnY = $hub->y + 0.1;
+		$pk->spawnY = $hub->y;
 		$pk->spawnZ = $hub->z;
 		//$pk->spawnX = $lobby->x;
-		//$pk->spawnY = $lobby->y + 0.1;
+		//$pk->spawnY = $lobby->y;
 		//$pk->spawnZ = $lobby->z;
 		$pk->generator = 1;
 		$pk->gamemode = $this->gamemode & 0x01;
@@ -3683,7 +3676,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$this->dataPacket($pk);
 		$pk = new SetSpawnPositionPacket();
 		$pk->x = (int) $hub->x;
-		$pk->y = (int) $hub->y + 0.1;
+		$pk->y = (int) $hub->y;
 		$pk->z = (int) $hub->z;
 		$this->dataPacket($pk);
 		//$pk = new ResourcePackDataInfoPacket();
@@ -3745,10 +3738,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		foreach($this->server->getOnlinePlayers() as $p){
 			$p->sendMessage($format);
 		}
-	}
-	
-	public function sendFace(){
-		$this->server->getScheduler()->scheduleAsyncTask(new SendPlayerFaceTask($this->getSkinData()));
 	}
 	
 	public function givePizza($mark){
@@ -3914,14 +3903,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		}
 		
 		$this->updateSpeed($this->movementSpeed);
-	}
-
-	public function checkVersion(){
-		if(!$this->loggedIn){
-			$this->close(TF::RED . "Oyun Sürümünüz Uyumlu Değil!");
-		}else{
-			var_dump("zlib_decode Hatası");
-		}
 	}
 	
 	public function getProtectionEnchantments(){
