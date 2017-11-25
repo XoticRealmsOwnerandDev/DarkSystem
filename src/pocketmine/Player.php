@@ -1668,7 +1668,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 						$diff = ($this->speed->y - $expectedVelocity) ** 2;
 						if(!$this->hasEffect(Effect::JUMP) && $diff > 0.6 && $expectedVelocity < $this->speed->y && !$this->server->getAllowFlight() && !$this->isOp() && !$this->getDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_NOT_MOVE)){
 							if($this->inAirTicks < 1000){
-								$this->setMotion(new Vector3(0, $expectedVelocity, 0));
+								//$this->setMotion(new Vector3(0, $expectedVelocity, 0));
 							}elseif(!$this->server->getAllowFlight()){
 								if(Translate::checkTurkish() === "yes"){
 									$this->kick("Uçmak Yasak!");
@@ -1940,9 +1940,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 					if(!$this->isMayMove()){
 						if($this->yaw != $packet->yaw || $this->pitch != $packet->pitch || abs($this->x - $packet->x) >= 0.05 || abs($this->z - $packet->z) >= 0.05){
 							$this->setMayMove(true);
-							$spawn = $this->getSpawn();
-							$spawn->y += 0.1;
-							$this->teleport($spawn);
 						}
 					}
 					$this->setRotation($packet->yaw, $packet->pitch);

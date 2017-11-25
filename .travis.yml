@@ -2,6 +2,10 @@
 "sudo": true,
   "language": "php",
   "php": 7,
+  "matrix":
+  "include":
+    "php": 7
+      "env": WP_TRAVISCI=phpunit
   "before_deploy": [
     "mv plugins/DarkSystem/DarkSystem*.phar plugins/DarkSystem/DarkSystem.phar"
   ],
