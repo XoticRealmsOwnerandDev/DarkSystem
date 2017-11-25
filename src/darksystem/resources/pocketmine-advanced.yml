@@ -13,7 +13,7 @@ main:
  
 messages:
  #Bilinmeyen Bir Komut Yazıldığında Gösterilecek Mesaj
- unknown-command: "Unknown command!"
+ unknown-command: "Bilinmeyen Komut!"
  
 commands:
  #/operator (OP) Komutunu Aktif Eder
@@ -30,4 +30,3 @@ inventory:
 troll:
  #Sandık Açıldığında Creeper Sesi Çıkarır
  chest-sound: false
- 

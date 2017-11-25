@@ -239,7 +239,7 @@ class AvailableCommandsPacket extends PEPacket{
 	}
 	
     private static function getFlag($paramName){
-        switch ($paramName){
+        switch($paramName){
             case "int":
             	return self::ARG_TYPE_INT;
             case "float":

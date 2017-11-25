@@ -59,4 +59,8 @@ class Translate{
     	return Translate::$result;
     }
     
+    public static function getServer(){
+    	return $this->server;
+    }
+    
 }

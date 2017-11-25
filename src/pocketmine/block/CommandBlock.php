@@ -78,7 +78,7 @@ class CommandBlock extends Solid{
 				}
 				$commandBlock = Tile::createTile(Tile::COMMAND_BLOCK, $this->getLevel(), $nbt);
 			}
-			$player->addWindow(new CommandBlockInventory($this));
+			//$player->addWindow(new CommandBlockInventory($this));
 		}
 		return true;
 	}

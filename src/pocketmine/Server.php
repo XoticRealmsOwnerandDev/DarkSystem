@@ -16,6 +16,7 @@ use darksystem\CrashReport;
 use darksystem\DarkSystem;
 use pocketmine\block\Block;
 use darksystem\PacketManager;
+use darksystem\StringTranslator;
 use pocketmine\inventory\customUI\CustomUI;
 use darksystem\ThemeManager;
 use darksystem\darkbot\DarkBot;
@@ -412,6 +413,10 @@ class Server extends DarkSystem{
 		return $this->serverID;
 	}
 	
+	public function getStringTranslator(){
+		return $this->stranslator;
+	}
+	
 	public function getServerLanguage(){
 		if(!file_exists($this->getDataPath() . "sunucu.properties") && !file_exists($this->getDataPath() . "yoneticiler.json") && !file_exists($this->getDataPath() . "beyaz-liste.json")){
 			return Translate::ENG;
@@ -422,9 +427,9 @@ class Server extends DarkSystem{
 	
 	public function getServerName(){
 		if(Translate::checkTurkish() === "yes"){
-			return $this->getConfigString("motd", "DarkSystem Sunucusu");
+			return $this->getConfigString("motd", $this->getCodename() . " Sunucusu");
 		}else{
-			return $this->getConfigString("motd", "DarkSystem Server");
+			return $this->getConfigString("motd", $this->getCodename() . " Server");
 		}
 	}
 	
@@ -1348,6 +1353,7 @@ class Server extends DarkSystem{
 		$this->autoloader = $autoloader;
 		$this->konsol = $knsol;
 		$this->filePath = $filePath;
+		//$this->stranslator = new StringTranslator($this);
 		$this->translate = new Translate($this);
 		$this->translate->prepareLang();
 		$this->dbot = new DarkBot($this);
@@ -1404,16 +1410,11 @@ class Server extends DarkSystem{
 
 			$this->dataPath = realpath($dataPath) . DIRECTORY_SEPARATOR;
 			$this->pluginPath = realpath($pluginPath) . DIRECTORY_SEPARATOR;
-
-			/*if(!file_exists($this->getDataPath() . "pocketmine.yml")){
-				$content1 = file_get_contents($this->filePath . "src/darksystem/resources/pocketmine.yml");
-				@file_put_contents($this->getDataPath() . "pocketmine.yml", $content1);
-			}*/
 			
 			if(!file_exists($this->getDataPath() . "pocketmine.yml")){
 				if(file_exists($this->getDataPath() . "lang_cache.txt")){
 					$langFile = new Config($configPath = $this->getDataPath() . "lang_cache.txt", Config::ENUM, []);
-                    $setupLang = null;
+					$setupLang = null;
 					foreach($langFile->getAll(true) as $langName){
 						$setupLang = $langName;
 						break;
@@ -1431,22 +1432,37 @@ class Server extends DarkSystem{
 				@file_put_contents($this->getDataPath() . "pocketmine.yml", $content1);
 			}
 			
+			if(!file_exists($this->getDataPath() . "pocketmine-advanced.yml")){
+				if(file_exists($this->getDataPath() . "lang_cache.txt")){
+					$langFile = new Config($configPath = $this->getDataPath() . "lang_cache.txt", Config::ENUM, []);
+					$setupLang = null;
+					foreach($langFile->getAll(true) as $langName){
+						$setupLang = $langName;
+						break;
+					}
+					
+					if(file_exists($this->filePath . "src/darksystem/resources/pocketmine-advanced_$setupLang.yml")){
+						$content1 = file_get_contents($file = $this->filePath . "src/darksystem/resources/pocketmine-advanced_$setupLang.yml");
+					}else{
+						$content1 = file_get_contents($file = $this->filePath . "src/darksystem/resources/pocketmine-advanced_eng.yml");
+					}
+				}else{
+					$content1 = file_get_contents($file = $this->filePath . "src/darksystem/resources/pocketmine-advanced_eng.yml");
+				}
+				
+				@file_put_contents($this->getDataPath() . "pocketmine-advanced.yml", $content1);
+			}
+			
 			if(file_exists($this->getDataPath() . "lang_cache.txt")){
 				unlink($this->getDataPath() . "lang_cache.txt");
 			}
 			
-			if(!file_exists($this->getDataPath() . "pocketmine-advanced.yml")){
-				$content2 = file_get_contents($this->filePath . "src/darksystem/resources/pocketmine-advanced.yml");
-				@file_put_contents($this->getDataPath() . "pocketmine-advanced.yml", $content2);
-			}
-			
-		    $this->softConfig = new Config($this->getDataPath() . "pocketmine-advanced.yml", Config::YAML, []);
-		
 			if(!is_dir($this->pluginPath . $this->getName())){
 				mkdir($this->pluginPath . $this->getName());
 			}
 			
 			$this->config = new Config($configPath = $this->getDataPath() . "pocketmine.yml", Config::YAML, []);
+			$this->softConfig = new Config($this->getDataPath() . "pocketmine-advanced.yml", Config::YAML, []);
 			$this->cmdReader = new CommandReader($knsol);
 			
 			//$this->loadAdvancedConfig();
@@ -1455,7 +1471,7 @@ class Server extends DarkSystem{
 			
 			if(Translate::checkTurkish() === "yes"){
 			$this->properties = new Config($this->getDataPath() . "sunucu.properties", Config::PROPERTIES, [
-				"motd" => "DarkSystem Sunucusu",
+				"motd" => $this->getCodename() . " Sunucusu",
 				"server-ip" => "0.0.0.0",
 				"server-port" => 19132,
 				"memory-limit" => "256M",
@@ -1494,7 +1510,7 @@ class Server extends DarkSystem{
 			]);
 			}else{
 			$this->properties = new Config($this->getDataPath() . "server.properties", Config::PROPERTIES, [
-				"motd" => "DarkSystem Server",
+				"motd" => $this->getCodename() . " Server",
 				"server-ip" => "0.0.0.0",
 				"server-port" => 19132,
 				"memory-limit" => "256M",

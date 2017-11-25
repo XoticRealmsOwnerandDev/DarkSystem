@@ -79,9 +79,9 @@ namespace pocketmine{
 	}
 	
 	if(\Phar::running(true) !== ""){
-		@define("pocketmine\\PATH", \Phar::running(true) . "/");
+		define("pocketmine\\PATH", \Phar::running(true) . "/");
 	}else{
-		@define("pocketmine\\PATH", getcwd() . DIRECTORY_SEPARATOR);
+		define("pocketmine\\PATH", getcwd() . DIRECTORY_SEPARATOR);
 	}
 	
 	//TODO: License Checking
@@ -274,7 +274,7 @@ namespace pocketmine{
 				}
 				
 				foreach($args as $name => $value){
-					$params .= (is_object($value) ? get_class($value) . " " . (method_exists($value, "__toString") ? $value->__toString() : "object") : gettype($value) . " " . (is_array($value) ? "Array()" : Utils::printable(@strval($value)))) . ", ";
+					$params .= (is_object($value) ? get_class($value) . " " . (method_exists($value, "__toString") ? $value->__toString() : "object") : gettype($value) . " " . (is_array($value) ? "Array()" : Utils::printable(strval($value)))) . ", ";
 				}
 			}
 			
@@ -353,9 +353,9 @@ namespace pocketmine{
 		exit(1);
 	}
 	
-	@define("ENDIANNESS", (pack("d", 1) === "\77\360\0\0\0\0\0\0" ? 0x00 : 0x01));
-	@define("INT32_MASK", is_int(0xffffffff) ? 0xffffffff : -1);
-	@ini_set("opcache.mmap_base", bin2hex(random_bytes(8)));
+	define("ENDIANNESS", (pack("d", 1) === "\77\360\0\0\0\0\0\0" ? 0x00 : 0x01));
+	define("INT32_MASK", is_int(0xffffffff) ? 0xffffffff : -1);
+	ini_set("opcache.mmap_base", bin2hex(random_bytes(8)));
 	
 	ThreadManager::init();
 	

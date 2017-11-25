@@ -24,7 +24,6 @@ class Language{
 	protected $fallbackLang = [];
 
 	public function __construct($lang, $path = null, $fallback = Language::FALLBACK_LANGUAGE){
-
 		$this->langName = strtolower($lang);
 
 		if($path === null){

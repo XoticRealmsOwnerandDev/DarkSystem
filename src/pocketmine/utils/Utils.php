@@ -453,7 +453,7 @@ class Utils{
 	 * @return bool|mixed
 	 */
 	public static function getURL($page, $timeout = 10, array $extraHeaders = []){
-		if(Utils::$online === false){
+		if(!Utils::$online){
 			return false;
 		}
 
