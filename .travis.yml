@@ -1,0 +1,11 @@
+{
+"sudo": true,
+  "language": "php",
+  "php": 7,
+  "before_deploy": [
+    "mv plugins/DarkSystem/DarkSystem*.phar plugins/DarkSystem/DarkSystem.phar"
+  ],
+  "group": "stable",
+  "dist": "trusty",
+  "os": "linux"
+}
