@@ -99,10 +99,10 @@ class SimpleCommandMap implements CommandMap{
 
 	public function __construct(Server $server){
 		$this->server = $server;
-		SimpleCommandMap::registerDefaultCommands();
+		SimpleCommandMap::setDefaultCommands();
 	}
 
-	private function registerDefaultCommands(){
+	private function setDefaultCommands(){
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new WeatherCommand("weather"));
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new BanIpByNameCommand("banipbyname"));
 		SimpleCommandMap::register(SimpleCommandMap::ROOT, new BanCidByNameCommand("bancidbyname"));
