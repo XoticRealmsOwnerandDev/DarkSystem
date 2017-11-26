@@ -102,7 +102,7 @@ class ThemeManager{
     §d| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
     §6|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §5__/  |      
-                                 §d|___/            §eMCPE: $mcpe §a($protocol)
+                                 §d|___/         §eMCPE: $mcpe §a($protocol)
                                                       §eDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
@@ -120,7 +120,7 @@ class ThemeManager{
     §8| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
     §3|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §7__/  |      
-                                 §8|___/            §6MCPE: $mcpe §2($protocol)
+                                 §8|___/         §6MCPE: $mcpe §2($protocol)
                                                       §6DARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
@@ -138,7 +138,7 @@ class ThemeManager{
     §f| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
     §f|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §f__/  |      
-                                 §f|___/            §bMCPE: $mcpe §e($protocol)
+                                 §f|___/          §bMCPE: $mcpe §e($protocol)
                                                       §bDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
@@ -156,7 +156,7 @@ class ThemeManager{
     §7| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
     §f|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §f__/  |      
-                                 §f|___/            §bMCPE: $mcpe §e($protocol)
+                                 §f|___/          §bMCPE: $mcpe §e($protocol)
                                                       §bDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
@@ -174,7 +174,7 @@ class ThemeManager{
     §f| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
     §e|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §f__/  |      
-                                 §e|___/            §aMCPE: $mcpe §b($protocol)
+                                 §e|___/         §aMCPE: $mcpe §b($protocol)
                                                       §aDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
@@ -192,7 +192,7 @@ class ThemeManager{
     §7| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
     §a|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §f__/  |      
-                                 §7|___/            §eMCPE: $mcpe §b($protocol)
+                                 §7|___/         §eMCPE: $mcpe §b($protocol)
                                                       §eDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
@@ -210,7 +210,7 @@ class ThemeManager{
     §d| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
     §6|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §5__/  |      
-                                 §d|___/            §eMCPE: $mcpe §a($protocol)
+                                 §d|___/         §eMCPE: $mcpe §a($protocol)
                                                       §eDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       

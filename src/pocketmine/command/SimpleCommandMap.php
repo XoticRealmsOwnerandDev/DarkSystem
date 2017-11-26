@@ -291,7 +291,7 @@ class SimpleCommandMap implements CommandMap{
 			$command->unregister($this);
 		}
 		$this->knownCommands = [];
-		$this->setDefaultCommands();
+		$this->registerDefaultCommands();
 	}
 
 	public function getCommand($name){
