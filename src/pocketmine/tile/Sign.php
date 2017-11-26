@@ -12,10 +12,10 @@
 namespace pocketmine\tile;
 
 use pocketmine\level\Level;
-use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
+use pocketmine\event\block\SignChangeEvent;
 
 class Sign extends Spawnable{
 
@@ -75,5 +75,31 @@ class Sign extends Spawnable{
 			new IntTag("y", (int) $this->y),
 			new IntTag("z", (int) $this->z)
 		]);
+	}
+	
+	public function updateCompoundTag(CompoundTag $nbt, Player $player){
+		if($nbt["id"] !== Tile::SIGN){
+			return false;
+		}
+
+		$ev = new SignChangeEvent($this->getBlock(), $player, [
+			TextFormat::clean($nbt["Text1"], ($removeFormat = $player->getRemoveFormat())),
+			TextFormat::clean($nbt["Text2"], $removeFormat),
+			TextFormat::clean($nbt["Text3"], $removeFormat),
+			TextFormat::clean($nbt["Text4"], $removeFormat),
+		]);
+
+		if(!isset($this->namedtag->Creator) or $this->namedtag["Creator"] !== $player->getRawUniqueId()){
+			$ev->setCancelled();
+		}
+
+		$this->level->getServer()->getPluginManager()->callEvent($ev);
+
+		if(!$ev->isCancelled()){
+			$this->setText(...$ev->getLines());
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

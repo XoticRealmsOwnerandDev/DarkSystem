@@ -13,15 +13,17 @@ namespace pocketmine\tile;
 
 use pocketmine\item\Item;
 use pocketmine\level\Level;
-use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\NBT;
 
 class ItemFrame extends Spawnable{
-
+	
+	public $map_uuid = -1;
+	
 	public function __construct(Level $level, CompoundTag $nbt){
 		if(!isset($nbt->ItemRotation)){
 			$nbt->ItemRotation = new ByteTag("ItemRotation", 0);
@@ -48,15 +50,25 @@ class ItemFrame extends Spawnable{
 
 	public function setItem(Item $item = null){
 		if($item !== null and $item->getId() !== Item::AIR){
-			//$this->namedtag->Item = NBT::putItemHelper(-1, "Item");
-			$this->namedtag->Item = $item->nbtSerialize(-1, "Item");
+			$this->namedtag->Item = NBT::putItemHelper(-1, "Item");
+			//$this->namedtag->Item = $item->nbtSerialize(-1, "Item");
 		}else{
 			unset($this->namedtag->Item);
 		}
 		
 		$this->onChanged();
 	}
-
+	
+	public function setMapID($mapId){
+		$this->map_uuid = $mapId;
+		$this->namedtag->Map_UUID = new StringTag("map_uuid", $mapId);
+		$this->onChanged();
+	}
+	
+	public function getMapID(){
+		return $this->map_uuid;
+	}
+	
 	public function getItemRotation(){
 		return $this->namedtag->ItemRotation->getValue();
 	}
@@ -74,7 +86,7 @@ class ItemFrame extends Spawnable{
 		$this->namedtag->ItemDropChance->setValue($chance);
 		$this->onChanged();
 	}
-
+	
 	public function addAdditionalSpawnData(CompoundTag $nbt){
 		$nbt->ItemDropChance = $this->namedtag->ItemDropChance;
 		$nbt->ItemRotation = $this->namedtag->ItemRotation;
@@ -95,6 +107,11 @@ class ItemFrame extends Spawnable{
 		
 		if($this->hasItem()){
 			$tag->Item = $this->namedtag->Item;
+			if($this->getItem()->getId() === Item::FILLED_MAP){
+				if(isset($this->namedtag->Map_UUID)){
+					$tag->Map_UUID = $this->namedtag->Map_UUID;
+				}
+			}
 		}
 		
 		return $tag;
