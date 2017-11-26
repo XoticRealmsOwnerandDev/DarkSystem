@@ -1663,10 +1663,11 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 						$this->elytrasActivated = false;
 					}
 				}else{
+					$anticheat = true;
 					if(!$this->isUseElytra() && !$this->allowFlight && !$this->isSleeping()){
 						$expectedVelocity = (-$this->gravity) / $this->drag - ((-$this->gravity) / $this->drag) * exp(-$this->drag * ($this->inAirTicks - $this->startAirTicks));
 						$diff = ($this->speed->y - $expectedVelocity) ** 2;
-						if(!$this->hasEffect(Effect::JUMP) && $diff > 0.6 && $expectedVelocity < $this->speed->y && !$this->server->getAllowFlight() && !$this->isOp() && !$this->getDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_NOT_MOVE)){
+						if(!$this->hasEffect(Effect::JUMP) && $diff > 0.6 && $expectedVelocity < $this->speed->y && !$this->server->getAllowFlight() && !$this->isOp() && !$this->getDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_NOT_MOVE) && $anticheat){
 							if($this->inAirTicks < 1000){
 								//$this->setMotion(new Vector3(0, $expectedVelocity, 0));
 							}elseif(!$this->server->getAllowFlight()){
