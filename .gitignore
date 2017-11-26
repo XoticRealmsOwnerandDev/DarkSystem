@@ -28,10 +28,13 @@ timings/*
 *.log
 *.txt
 *.phar
+*.yml
+*.json
 server.properties
 /pocketmine.yml
 memoryDump_*/*
 resource_packs/
+behavior_packs/
 
 # Common IDEs
 .idea/
