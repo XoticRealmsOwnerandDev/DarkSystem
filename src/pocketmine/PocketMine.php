@@ -65,14 +65,13 @@ namespace pocketmine{
 	use pocketmine\utils\Terminal;
 	use pocketmine\utils\Utils;
 	use darksystem\setup\Setup;
-
+	
+	const NAME = "DarkSystem";
 	const VERSION = "4.3.0";
 	const DARKBOT_VERSION = "1.0.0";
 	const API_VERSION = "3.0.1";
-	const TAG = "Chloropyte";
 	const CURRENT_STATUS = "passing";
-	const CODENAME = "DarkSystem";
-	const CREATOR = "DarkYusuf13";
+	const CODENAME = "Chloropyte";
 	
 	function unlink(){
 		return true;
@@ -84,14 +83,11 @@ namespace pocketmine{
 		define("pocketmine\\PATH", getcwd() . DIRECTORY_SEPARATOR);
 	}
 	
-	//TODO: License Checking
-	
 	function checkLicense(){
 		$result = "";
 		$issues = 0;
 		/* Do Not Change! */
-		$codename = "DarkSystem";
-		$creator = "DarkYusuf13";
+		$name = "DarkSystem";
 		if(!strpos(VERSION, ".")){
 			$result = "invalid_ds_ver";
 			++$issues;
@@ -107,12 +103,7 @@ namespace pocketmine{
 			++$issues;
 		}
 		
-		if(CODENAME !== $codename){
-			$result = "unofficial";
-			++$issues;
-		}
-		
-		if(CREATOR !== $creator){
+		if(NAME !== $name){
 			$result = "unofficial";
 			++$issues;
 		}

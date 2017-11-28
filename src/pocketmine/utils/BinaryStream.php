@@ -50,7 +50,7 @@ class BinaryStream extends \stdClass{
 		if($len < 0){
 			$this->offset = strlen($this->buffer) - 1;
 			return "";
-		}elseif($len === true){
+		}elseif($len){
 			return substr($this->buffer, $this->offset);
 		}
 

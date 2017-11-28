@@ -65,7 +65,8 @@ class ThemeManager{
     }
     
     //ASCII Text Font: Doom
-    public function getLogoTheme($dbotcheck, $dbotver, $version, $mcpe, $protocol, $build, $tag, $splash){
+    public function getLogoTheme($dbotcheck, $dbotver, $version, $mcpe, $protocol, $build, $codename, $splash){
+    	$name = $this->server->getSoftwareName();
     	if(mt_rand(1, 100) == 1){ //%1 chance
     	    $random = substr(base64_encode(random_bytes(20)), 3, 10);
     	    return "
@@ -106,7 +107,7 @@ class ThemeManager{
                                                       §eDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
-      §bDarkSystem $version ($build)  *$tag*
+      §b$name $version ($build)  *$codename*
       
 			";
 			break;
@@ -124,7 +125,7 @@ class ThemeManager{
                                                       §6DARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
-      §9DarkSystem $version ($build)  *$tag*
+      §9$name $version ($build)  *$codename*
       
 			";
 			break;
@@ -142,7 +143,7 @@ class ThemeManager{
                                                       §bDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
-      §fDarkSystem $version ($build)  *$tag*
+      §f$name $version ($build)  *$codename*
       
 			";
 			break;
@@ -160,7 +161,7 @@ class ThemeManager{
                                                       §bDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
-      §dDarkSystem $version ($build)  *$tag*
+      §d$name $version ($build)  *$codename*
       
 			";
 			break;
@@ -178,7 +179,7 @@ class ThemeManager{
                                                       §aDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
-      §eDarkSystem $version ($build)  *$tag*
+      §e$name $version ($build)  *$codename*
       
 			";
 			break;
@@ -196,7 +197,7 @@ class ThemeManager{
                                                       §eDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
-      §aDarkSystem $version ($build)  *$tag*
+      §a$name $version ($build)  *$codename*
       
 			";
 			break;
@@ -214,7 +215,7 @@ class ThemeManager{
                                                       §eDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
-      §bDarkSystem $version ($build)  *$tag*
+      §b$name $version ($build)  *$codename*
       
 			";
 			break;

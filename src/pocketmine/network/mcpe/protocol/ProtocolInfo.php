@@ -15,8 +15,6 @@ use pocketmine\network\protocol\ProtocolConverter;
 
 interface ProtocolInfo extends ProtocolConverter{
 	
-	const DARKSYSTEM_VERSION = "v1";
-	const DARKSYSTEM_CODENAME = "DarkSystem"; //WARNING: Do not change!
 	const MINECRAFT_VERSION = "v1.x";
 	const MINECRAFT_VERSION_NETWORK = "1.2";
 	const CURRENT_PROTOCOL = 141;

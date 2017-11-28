@@ -94,6 +94,7 @@ class Chest extends Transparent{
 			new IntTag("y", $this->y),
 			new IntTag("z", $this->z)
 		]);
+		
 		$nbt->Items->setTagType(NBT::TAG_Compound);
 
 		if($item->hasCustomName()){

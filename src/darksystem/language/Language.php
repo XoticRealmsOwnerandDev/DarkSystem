@@ -136,6 +136,7 @@ class Language{
 					}else{
 						$newString .= $replaceString;
 					}
+					
 					$replaceString = null;
 
 					if($c === "%"){

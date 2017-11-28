@@ -129,6 +129,7 @@ class StringTranslator{
 					}else{
 						$newString .= $replaceString;
 					}
+					
 					$replaceString = null;
 
 					if($c === "%"){

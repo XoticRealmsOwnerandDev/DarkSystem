@@ -349,20 +349,16 @@ class Server extends DarkSystem{
 		return (\pocketmine\VERSION !== "" ? $prefix . \pocketmine\VERSION : "");
 	}
 	
+	public function getSoftwareName(){
+		return \pocketmine\NAME;
+	}
+	
 	public function getCodename(){
 		return \pocketmine\CODENAME;
 	}
 	
 	public function getCurrentStatus(){
 		return \pocketmine\CURRENT_STATUS;
-	}
-	
-	public function getCreator(){
-		return \pocketmine\CREATOR;
-	}
-	
-	public function getTag(){
-		return \pocketmine\TAG;
 	}
 	
 	public function getVersion(){
@@ -709,6 +705,14 @@ class Server extends DarkSystem{
 	
 	public function getServerToken(){
 		return $this->serverToken;
+	}
+	
+	public function getBuild(){
+		return $this->version->getBuild();
+	}
+	
+	public function getGameVersion(){
+		return $this->version->getRelease();
 	}
 	
 	public function isCreditsEnable(){
@@ -1299,7 +1303,7 @@ class Server extends DarkSystem{
 			Server::$sleeper->wait($ms);
 		}, $microseconds);
 	}
-
+	
 	public function loadAdvancedConfig(){
 		$this->weatherEnabled = $this->getAdvancedProperty("level.weather", false);
 		$this->foodEnabled = $this->getAdvancedProperty("player.hunger", true);
@@ -1340,20 +1344,11 @@ class Server extends DarkSystem{
 		$this->behaviorStack = $this->getAdvancedProperty("packs.behavior-stack", []);
 	}
 	
-	public function getBuild(){
-		return $this->version->getBuild();
-	}
-
-	public function getGameVersion(){
-		return $this->version->getRelease();
-	}
-	
 	public function __construct(\ClassLoader $autoloader, \ThreadedLogger $knsol, $filePath, $dataPath, $pluginPath, $defaultLang = "Bilinmeyen"){
 		Server::$instance = $this;
 		$this->autoloader = $autoloader;
 		$this->konsol = $knsol;
 		$this->filePath = $filePath;
-		//$this->stranslator = new StringTranslator($this);
 		$this->translate = new Translate($this);
 		$this->translate->prepareLang();
 		$this->dbot = new DarkBot($this);
@@ -1471,7 +1466,7 @@ class Server extends DarkSystem{
 			
 			if(Translate::checkTurkish() === "yes"){
 			$this->properties = new Config($this->getDataPath() . "sunucu.properties", Config::PROPERTIES, [
-				"motd" => $this->getCodename() . " Sunucusu",
+				"motd" => $this->getSoftwareName() . " Sunucusu",
 				"server-ip" => "0.0.0.0",
 				"server-port" => 19132,
 				"memory-limit" => "256M",
@@ -1510,7 +1505,7 @@ class Server extends DarkSystem{
 			]);
 			}else{
 			$this->properties = new Config($this->getDataPath() . "server.properties", Config::PROPERTIES, [
-				"motd" => $this->getCodename() . " Server",
+				"motd" => $this->getSoftwareName() . " Server",
 				"server-ip" => "0.0.0.0",
 				"server-port" => 19132,
 				"memory-limit" => "256M",
@@ -1607,6 +1602,8 @@ class Server extends DarkSystem{
 			$this->forceLanguage = $this->getProperty("settings.force-language", true);
 			$this->language = new Language($this->getProperty("settings.language", Language::FALLBACK_LANGUAGE));
 			
+			$this->stranslator = new StringTranslator($this->getProperty("settings.language", Language::FALLBACK_LANGUAGE));
+			
 			if(($poolSize = $this->getProperty("settings.async-workers", "auto")) === "auto"){
 				$poolSize = ServerScheduler::$WORKERS;
 				$processors = Utils::getCoreCount() - 2;
@@ -1637,8 +1634,8 @@ class Server extends DarkSystem{
 				$this->rcon = new RCON($this, $this->getConfigString("rcon.password", ""), $this->getConfigInt("rcon.port", $this->getPort()), ($ip = $this->getIp()) !== "" ? $ip : "0.0.0.0", $this->getConfigInt("rcon.threads", 1), $this->getConfigInt("rcon.clients-per-thread", 50));
 			}
 			
+			$data = [];
 			if($this->getConfigBoolean("auto-query", false)){
-				$data = [];
 				$data[$server] = $this->getProperty("query.server", "test");
 				$data[$host] = $this->getProperty("query.host", "0.0.0.0");
 				$data[$user] = $this->getProperty("query.user", "root");
@@ -1798,7 +1795,7 @@ class Server extends DarkSystem{
 					if(Translate::checkTurkish() === "yes"){
 						$this->konsol->warning("level-name Boş Olamaz!");
 					}else{
-						$this->konsol->warning("level-name Cannot be Null, Using Default");
+						$this->konsol->warning("level-name Cannot be null, Using Default");
 					}
 					
 					$default = "world";
@@ -1873,7 +1870,7 @@ class Server extends DarkSystem{
 		
 		Effect::init();
 		
-		switch(strtolower($this->getTag())){
+		switch(strtolower($this->getCodename())){
 			case "priv":
 			case "private":
 				if(Translate::checkTurkish() === "yes"){
@@ -1943,12 +1940,12 @@ class Server extends DarkSystem{
 		$this->version = $version;
 		$mcpe = $this->getVersion();
 		$protocol = ProtocolInfo::CURRENT_PROTOCOL;
-		$build = ProtocolInfo::DARKSYSTEM_VERSION;
-		$tag = $this->getTag();
+		$build = "v1"; //TODO
+		$codename = $this->getCodename();
 		
 		$splash = $this->getSplash();
 		
-		return $this->getThemeManager()->getLogoTheme($dbotcheck, $dbotver, $version, $mcpe, $protocol, $build, $tag, $splash);
+		return $this->getThemeManager()->getLogoTheme($dbotcheck, $dbotver, $version, $mcpe, $protocol, $build, $codename, $splash);
 	}
 	
 	protected function getSplash(){
@@ -2196,19 +2193,19 @@ class Server extends DarkSystem{
 	}
 	
 	public function dispatchCommand(CommandSender $sender, $commandLine){
-		if(!($sender instanceof CommandSender)){
+		if(!$sender instanceof CommandSender){
 			throw new ServerException("CommandSender Geçerli Değil!");
 		}
 		if($this->cmdMap->dispatch($sender, $commandLine)){
 			return true;
 		}
 		if($sender instanceof Player){
-			$message = $this->getSoftConfig("messages.unknown-command", "Unknown command!");
+			$message = $this->getSoftConfig("messages.unknown-command", "Unknown Command!");
 			if(is_string($message) && strlen($message) > 0){
 				$sender->sendMessage(TF::RED . $message);
 			}
 		}else{
-			$sender->sendMessage(TF::RED . "Unknown command!");
+			$sender->sendMessage(TF::RED . "Unknown Command!");
 		}
 		return false;
 	}

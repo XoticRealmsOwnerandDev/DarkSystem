@@ -5,13 +5,14 @@ namespace pocketmine\network\protocol;
 class GameRulesChangedPacket extends PEPacket{
 	
 	const NETWORK_ID = Info::GAME_RULES_CHANGED_PACKET;
-
+	const PACKET_NAME = "GAME_RULES_CHANGED_PACKET";
+	
 	public $rules = [];
 
 	public function decode($playerProtocol){
 		$this->getHeader($playerProtocol);
 		$count = $this->getVarInt();
-		for ($i = 0; $i < $count; $i++){
+		for($i = 0; $i < $count; $i++){
 			$this->rules[$i] = [];
 			$this->rules[$i]["NAME"] = $this->getString();
 			$this->rules[$i]["BOOL1"] = $this->getBool();

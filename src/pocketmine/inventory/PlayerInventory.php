@@ -92,7 +92,7 @@ class PlayerInventory extends BaseInventory{
 	public function setHeldItemIndex($index, $isNeedSendToHolder = true){
 		if($index >= 0 && $index < $this->getHotbarSize()){
 			$this->itemInHandIndex = $index;
-			if($isNeedSendToHolder === true && $this->getHolder() instanceof Player){
+			if($isNeedSendToHolder && $this->getHolder() instanceof Player){
 				$this->sendHeldItem($this->getHolder());
 				$this->sendContents($this->getHolder());
 			}
@@ -176,6 +176,7 @@ class PlayerInventory extends BaseInventory{
 			}
 			parent::onSlotChange($index, $before, $sendPacket);
 		}
+		$this->setHeldItemIndex($index);
 		if($index === $this->itemInHandIndex){
 			$this->sendHeldItem($this->getHolder()->getViewers());
 			if($sendPacket){

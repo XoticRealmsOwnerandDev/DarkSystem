@@ -27,7 +27,9 @@ use pocketmine\nbt\NBT;
 use pocketmine\utils\Config;
 
 class Item{
-
+	
+	const MAX_STACK = 64;
+	
 	private static $cachedParser = null;
 
 	/**
@@ -1545,7 +1547,7 @@ class Item{
 	}
 
 	public function getMaxStackSize(){
-		return 64;
+		return Item::MAX_STACK;
 	}
 
 	final public function getFuelTime(){

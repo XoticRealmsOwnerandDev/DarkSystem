@@ -13,8 +13,6 @@ namespace pocketmine\network\protocol;
 
 interface Info extends ProtocolConverter{
 	
-	const DARKSYSTEM_VERSION = "v1";
-	const DARKSYSTEM_CODENAME = "DarkSystem"; //WARNING: Do not change!
 	const MINECRAFT_VERSION = "v1.x";
 	const MINECRAFT_VERSION_NETWORK = "1.2";
 	const CURRENT_PROTOCOL = 141;
@@ -81,6 +79,7 @@ interface Info extends ProtocolConverter{
 	const CRAFTING_EVENT_PACKET = 0x36;
 	const ADVENTURE_SETTINGS_PACKET = 0x37;
 	const TILE_ENTITY_DATA_PACKET = 0x38;
+	const BLOCK_ENTITY_DATA_PACKET = 0x38;
 //	const PLAYER_INPUT_PACKET = 0x39;
 	const FULL_CHUNK_DATA_PACKET = 0x3a;
 	const SET_COMMANDS_ENABLED_PACKET = 0x3b;

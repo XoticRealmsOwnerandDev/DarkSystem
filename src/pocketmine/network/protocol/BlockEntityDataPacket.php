@@ -24,20 +24,21 @@ namespace pocketmine\network\protocol;
 class BlockEntityDataPacket extends PEPacket{
 
 	const NETWORK_ID = Info::BLOCK_ENTITY_DATA_PACKET;
-
+	const PACKET_NAME = "BLOCK_ENTITY_DATA_PACKET";
+	
 	public $x;
 	public $y;
 	public $z;
 	public $namedtag;
 
-	public function decode(){
+	public function decode($playerProtocol){
 		$this->getHeader($playerProtocol);
 		$this->getBlockCoords($this->x, $this->y, $this->z);
 		$this->namedtag = $this->get(true);
 	}
 
-	public function encode(){
-		$this->reset();
+	public function encode($playerProtocol){
+		$this->reset($playerProtocol);
 		$this->putBlockCoords($this->x, $this->y, $this->z);
 		$this->put($this->namedtag);
 	}

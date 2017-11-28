@@ -12,8 +12,8 @@ main:
  lobi-dunyasi: world
  
 messages:
- #Message to display when an Unknown command is written
- unknown-command: "Unknown command!"
+ #Message to display when an unknown command is written
+ unknown-command: "Unknown Command!"
  
 commands:
  #/operator (OP) Command active

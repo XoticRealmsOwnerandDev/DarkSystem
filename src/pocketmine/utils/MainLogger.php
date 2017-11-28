@@ -258,7 +258,7 @@ class MainLogger extends \AttachableThreadedLogger{
 				$this->shouldSendMsg .= $color . "|" . $prefix . "|" . trim($message, "\r\n") . "\n";
 			}
 		}
-		$name = \pocketmine\CODENAME;
+		$name = \pocketmine\NAME;
 		$easter = "LOL";
 		$message = TF::toANSI("§" . mt_rand(1, 9) . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§" . mt_rand(1, 9) . "》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 		//Not works correctly

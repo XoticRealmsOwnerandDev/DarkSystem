@@ -27,6 +27,7 @@ class PlayerInventory120 extends PlayerInventory{
 
 	const CURSOR_INDEX = -1;
 	const CREATIVE_INDEX = -2;
+	
 	const CRAFT_INDEX_0 = -3;
 	const CRAFT_INDEX_1 = -4;
 	const CRAFT_INDEX_2 = -5;
@@ -36,12 +37,13 @@ class PlayerInventory120 extends PlayerInventory{
 	const CRAFT_INDEX_6 = -9;
 	const CRAFT_INDEX_7 = -10;
 	const CRAFT_INDEX_8 = -11;
+	
 	const CRAFT_RESULT_INDEX = -12;
 	
 	/** @var Item */
 	protected $cursor;
 	/** @var Item[] */
-	protected $craftSlots = [ 0 => null, 1 => null, 2 => null, 3 => null, 4 => null, 5 => null, 6 => null, 7 => null, 8 => null ];
+	protected $craftSlots = [0 => null, 1 => null, 2 => null, 3 => null, 4 => null, 5 => null, 6 => null, 7 => null, 8 => null];
 	/** @var Item */
 	protected $craftResult = null;
 	
@@ -237,6 +239,25 @@ class PlayerInventory120 extends PlayerInventory{
 	 */
 	protected function isArmorSlot($slotIndex){
 		return $slotIndex >= $this->getSize();
+	}
+	
+	public function onSlotChange($index, $before, $sendPacket){
+		if($sendPacket){
+			$holder = $this->getHolder();
+			if(!$holder instanceof Player or !$holder->spawned){
+				return false;
+			}
+			parent::onSlotChange($index, $before, $sendPacket);
+		}
+		if($index === $this->itemInHandIndex){
+			$this->sendHeldItem($this->getHolder()->getViewers());
+			if($sendPacket){
+				$this->sendHeldItem($this->getHolder());
+			}
+		}elseif($index >= $this->getSize()){
+			$this->sendArmorSlot($index, $this->getViewers());
+			$this->sendArmorSlot($index, $this->getHolder()->getViewers());
+		}
 	}
 	
 	/**

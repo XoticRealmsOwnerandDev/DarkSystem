@@ -59,7 +59,7 @@ class TextPacket extends PEPacket{
 		$this->getHeader($playerProtocol);
 		$this->type = $this->getByte();
 		if($playerProtocol >= Info::PROTOCOL_120){
-			$this->isLocalize = $this->getByte();
+			$this->isLocalize = $this->getBool();
 		}
 		//$this->type = MultiversionEnums::getMessageType($playerProtocol, $this->type);
 		switch($this->type){
@@ -73,7 +73,7 @@ class TextPacket extends PEPacket{
 				break;
 			case TextPacket::TYPE_TRANSLATION:
 				$this->message = $this->getString();
-				$count = $this->getByte();
+				$count = $this->getVarInt();
 				for($i = 0; $i < $count; ++$i){
 					$this->parameters[] = $this->getString();
 				}
@@ -89,7 +89,7 @@ class TextPacket extends PEPacket{
 		//$this->putByte($typeId);
 		$this->putByte($this->type);
 		if($playerProtocol >= Info::PROTOCOL_120){
-			$this->putByte($this->isLocalize);
+			$this->putBool($this->isLocalize);
 		}
 		switch($this->type){
 			case TextPacket::TYPE_POPUP:
@@ -104,7 +104,7 @@ class TextPacket extends PEPacket{
 				break;
 			case TextPacket::TYPE_TRANSLATION:
 				$this->putString($this->message);
-				$this->putByte(count($this->parameters));
+				$this->putVarInt(count($this->parameters));
 				foreach($this->parameters as $p){
 					$this->putString($p);
 				}

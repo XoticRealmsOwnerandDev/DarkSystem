@@ -24,7 +24,8 @@ namespace pocketmine\network\protocol;
 class EventPacket extends PEPacket{
 	
 	const NETWORK_ID = Info::EVENT_PACKET;
-
+	const PACKET_NAME = "EVENT_PACKET";
+	
 	const TYPE_ACHIEVEMENT_AWARDED = 0;
 	const TYPE_ENTITY_INTERACT = 1;
 	const TYPE_PORTAL_BUILT = 2;
@@ -36,19 +37,19 @@ class EventPacket extends PEPacket{
 	const TYPE_AGENT_COMMAND = 8;
 	const TYPE_AGENT_CREATED = 9;
 
-	public $playerRuntimeId;
+	public $eid;
 	public $eventData;
 	public $type;
 
 	public function decode(){
 		$this->getHeader($playerProtocol);
-		$this->playerRuntimeId = $this->getEntityRuntimeId();
+		$this->eid = $this->getVarInt();
 		$this->eventData = $this->getVarInt();
 		$this->type = $this->getByte();
 	}
 
 	public function encode(){
-		$this->putEntityRuntimeId($this->playerRuntimeId);
+		$this->putVarInt($this->eid);
 		$this->putVarInt($this->eventData);
 		$this->putByte($this->type);
 	}
