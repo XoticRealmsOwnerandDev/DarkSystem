@@ -50,7 +50,7 @@ class BinaryStream extends \stdClass{
 		if($len < 0){
 			$this->offset = strlen($this->buffer) - 1;
 			return "";
-		}elseif($len){
+		}elseif($len === true){
 			return substr($this->buffer, $this->offset);
 		}
 
@@ -301,5 +301,16 @@ class BinaryStream extends \stdClass{
 		$this->putVarInt(strlen($v));
 		$this->put($v);
 	}
+
+    public function getBool() : bool{
+        return (bool) $this->getByte();
+    }
+
+    /**
+     * @param $v
+     */
+    public function putBool($v){
+        $this->putByte((bool) $v);
+    }
 	
 }

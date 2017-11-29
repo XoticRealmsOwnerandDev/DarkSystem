@@ -21,7 +21,6 @@
 
 namespace pocketmine\network\protocol;
 
-use pocketmine\network\multiversion\MultiversionTags;
 
 class TextPacket extends PEPacket{
 	
@@ -66,6 +65,7 @@ class TextPacket extends PEPacket{
 			case TextPacket::TYPE_POPUP:
 			case TextPacket::TYPE_CHAT:
 				$this->source = $this->getString();
+				break;
 			case TextPacket::TYPE_RAW:
 			case TextPacket::TYPE_TIP:
 			case TextPacket::TYPE_SYSTEM:
@@ -94,12 +94,12 @@ class TextPacket extends PEPacket{
 		switch($this->type){
 			case TextPacket::TYPE_POPUP:
 			case TextPacket::TYPE_CHAT:
+            /** @noinspection PhpMissingBreakStatementInspection */
             case TextPacket::TYPE_WHISPER:
 				$this->putString($this->source);
 			case TextPacket::TYPE_RAW:
 			case TextPacket::TYPE_TIP:
 			case TextPacket::TYPE_SYSTEM:
-            case TextPacket::TYPE_WHISPER:
 				$this->putString($this->message);
 				break;
 			case TextPacket::TYPE_TRANSLATION:
@@ -108,6 +108,7 @@ class TextPacket extends PEPacket{
 				foreach($this->parameters as $p){
 					$this->putString($p);
 				}
+				break;
 			case TextPacket::TYPE_JUKEBOX_POPUP:
 				$this->putString($this->message);
 				$this->putVarInt(count($this->parameters));
