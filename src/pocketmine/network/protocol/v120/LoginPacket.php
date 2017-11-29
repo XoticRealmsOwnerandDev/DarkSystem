@@ -49,7 +49,8 @@ class LoginPacket extends PEPacket {
 		if(!in_array($this->protocol1, Info::ACCEPTED_PROTOCOLS)){
 			$this->isValidProtocol = false;
 			return;
-		}	
+		}
+		
 		$body = $this->getString();
 		
 		$this->chainsDataLength = Binary::readLInt($this->getFromString($body, 4));
@@ -58,7 +59,7 @@ class LoginPacket extends PEPacket {
 		$this->playerDataLength = Binary::readLInt($this->getFromString($body, 4));
 		$this->playerData = $this->getFromString($body, $this->playerDataLength);
         
-		$this->chains['data'] = array();
+		$this->chains['data'] = [];
 		$index = 0;
 		foreach ($this->chains['chain'] as $key => $jwt){
 			$data = self::load($jwt);

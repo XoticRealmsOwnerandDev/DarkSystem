@@ -12,7 +12,7 @@
 namespace pocketmine\network\protocol;
 
 interface Info extends ProtocolConverter{
-
+	
 	const MINECRAFT_VERSION = "v1.x";
 	const MINECRAFT_VERSION_NETWORK = "1.2";
 	const CURRENT_PROTOCOL = 141;

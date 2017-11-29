@@ -71,7 +71,7 @@ class LoginPacket extends PEPacket{
 		}	
 		$data = $this->getString();
 		if($this->protocol1 >= Info::PROTOCOL_110){			
-			if(ord($data{0}) != 120 || (($decodedData = @zlib_decode($data)) === false)){
+			if(ord($data{0}) != 120 || (!($decodedData = @zlib_decode($data)))){
 				$body = $data;
 			}else{
 				$body = $decodedData;
@@ -86,7 +86,7 @@ class LoginPacket extends PEPacket{
 		$this->playerDataLength = Binary::readLInt($this->getFromString($body, 4));
 		$this->playerData = $this->getFromString($body, $this->playerDataLength);
         
-		$this->chains['data'] = array();
+		$this->chains['data'] = [];
 		$index = 0;
 		foreach($this->chains['chain'] as $key => $jwt){
 			$data = self::load($jwt);
