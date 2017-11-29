@@ -38,8 +38,7 @@ abstract class BaseInventory implements Inventory{
 	protected $viewers = [];
 	/** @var InventoryHolder */
 	protected $holder;
-
-	/** @var Item */
+	
 	protected $air;
 
 	/**

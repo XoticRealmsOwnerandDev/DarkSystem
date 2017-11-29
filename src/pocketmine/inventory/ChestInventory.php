@@ -76,8 +76,8 @@ class ChestInventory extends ContainerInventory{
 			}
 		}
 		parent::onClose($who);
-		$position = [ 'x' => $this->holder->x, 'y' => $this->holder->y, 'z' => $this->holder->z ];
- 		$who->sendSound(LevelSoundEventPacket::SOUND_CHEST_CLOSED, $position);
+		$position = ['x' => $this->holder->x, 'y' => $this->holder->y, 'z' => $this->holder->z];
+		$who->sendSound(LevelSoundEventPacket::SOUND_CHEST_CLOSED, $position);
 	}
 
 }

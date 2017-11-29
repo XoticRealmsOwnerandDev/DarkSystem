@@ -14,9 +14,8 @@ namespace pocketmine\inventory;
 use pocketmine\entity\Human;
 use pocketmine\event\entity\EntityArmorChangeEvent;
 use pocketmine\event\entity\EntityInventoryChangeEvent;
+use pocketmine\inventory\PlayerInventory;
 use pocketmine\item\Item;
-use pocketmine\network\protocol\ContainerSetContentPacket;
-use pocketmine\network\protocol\ContainerSetSlotPacket;
 use pocketmine\network\protocol\MobArmorEquipmentPacket;
 use pocketmine\network\protocol\v120\InventoryContentPacket;
 use pocketmine\network\protocol\v120\InventorySlotPacket;
@@ -47,8 +46,6 @@ class PlayerInventory120 extends PlayerInventory{
 	protected $craftSlots = [0 => null, 1 => null, 2 => null, 3 => null, 4 => null, 5 => null, 6 => null, 7 => null, 8 => null];
 	/** @var Item */
 	protected $craftResult = null;
-    /** @var Player */
-    protected $holder;
 	
 	public function __construct(Human $player){
 		parent::__construct($player);
@@ -88,32 +85,35 @@ class PlayerInventory120 extends PlayerInventory{
 				break;
 			case self::CRAFT_RESULT_INDEX:
 				$this->craftResult = $item;
+				if($sendPacket){
+				}
 				break;
 		}
 		return true;
 	}
 	
 	public function getItem($index){
-		if($index < 0) {
-            switch ($index) {
-                case self::CURSOR_INDEX:
-                    return $this->cursor == null ? clone $this->air : clone $this->cursor;
-                case self::CRAFT_INDEX_0:
-                case self::CRAFT_INDEX_1:
-                case self::CRAFT_INDEX_2:
-                case self::CRAFT_INDEX_3:
-                case self::CRAFT_INDEX_4:
-                case self::CRAFT_INDEX_5:
-                case self::CRAFT_INDEX_6:
-                case self::CRAFT_INDEX_7:
-                case self::CRAFT_INDEX_8:
-                    $slot = self::CRAFT_INDEX_0 - $index;
-                    return $this->craftSlots[$slot] == null ? clone $this->air : clone $this->craftSlots[$slot];
-                case self::CRAFT_RESULT_INDEX:
-                    return $this->craftResult == null ? clone $this->air : clone $this->craftResult;
-            }
-        }
-		return parent::getItem($index);
+		if($index < 0){
+			switch ($index){
+				case self::CURSOR_INDEX:
+					return $this->cursor == null ? clone $this->air : clone $this->cursor;
+				case self::CRAFT_INDEX_0:
+				case self::CRAFT_INDEX_1:
+				case self::CRAFT_INDEX_2:
+				case self::CRAFT_INDEX_3:
+				case self::CRAFT_INDEX_4:
+				case self::CRAFT_INDEX_5:
+				case self::CRAFT_INDEX_6:
+				case self::CRAFT_INDEX_7:
+				case self::CRAFT_INDEX_8:
+					$slot = self::CRAFT_INDEX_0 - $index;
+					return $this->craftSlots[$slot] == null ? clone $this->air : clone $this->craftSlots[$slot];
+				case self::CRAFT_RESULT_INDEX:
+					return $this->craftResult == null ? clone $this->air : clone $this->craftResult;
+			}
+		}else{
+			return parent::getItem($index);
+		}
 	}
 	
 	public function setHotbarSlotIndex($index, $slot){
@@ -210,10 +210,10 @@ class PlayerInventory120 extends PlayerInventory{
 			}
 		}
 	}
-
-    /**
-     * @param Player[] $targets
-     */
+	
+	/**
+	 * @param Player[] $target
+	 */
 	private function sendOffHandContents($targets){
 		$offHandIndex = $this->getSize() + 4;
 		$pk = new InventorySlotPacket();
@@ -258,21 +258,19 @@ class PlayerInventory120 extends PlayerInventory{
 			$this->sendArmorSlot($index, $this->getViewers());
 			$this->sendArmorSlot($index, $this->getHolder()->getViewers());
 		}
-		return true;
 	}
-
-    /**
-     * @param integer $slotIndex
-     * @param bool $sendPacket
-     * @return bool
-     */
+	
+	/**
+	 * @param integer $slotIndex
+	 * @return boolean
+	 */
 	public function clear($slotIndex, $sendPacket = true){
 		if(isset($this->slots[$slotIndex])){
 			if($this->isArmorSlot($slotIndex)){
 				$ev = new EntityArmorChangeEvent($this->holder, $this->slots[$slotIndex], clone $this->air, $slotIndex);
 				Server::getInstance()->getPluginManager()->callEvent($ev);
 				if($ev->isCancelled()){
-					$this->sendArmorSlot($slotIndex, [$this->holder]);
+					$this->sendArmorSlot($slotIndex, $this->holder);
 					return true;
 				}
 			}else{
