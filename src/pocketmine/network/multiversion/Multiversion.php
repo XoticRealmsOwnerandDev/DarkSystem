@@ -22,7 +22,7 @@ use pocketmine\network\protocol\v120\InventorySlotPacket;
 
 abstract class Multiversion{
 	
-	public static function getPlayerInventory($player){
+	public static function getPlayerInventory(Player $player){
 		if($player->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
 			return new PlayerInventory120($player);
 		}else{
@@ -30,7 +30,7 @@ abstract class Multiversion{
 		}
 	}
 	
-	public static function sendContainer($player, $windowId, $items){
+	public static function sendContainer(Player $player, $windowId, $items){
 		if($player->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
 			$pk = new InventoryContentPacket();
 			$pk->inventoryID = $windowId;
@@ -45,7 +45,7 @@ abstract class Multiversion{
 		$player->dataPacket($pk);
 	}
 	
-	public static function sendContainerSlot($player, $windowId, $item, $slot){
+	public static function sendContainerSlot(Player $player, $windowId, $item, $slot){
 		if($player->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
 			$pk = new InventorySlotPacket();
 			$pk->containerId = $windowId;
