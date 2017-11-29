@@ -12,16 +12,12 @@
 namespace pocketmine\event\player;
 
 use pocketmine\event\Event;
-use pocketmine\Player;
 
 abstract class PlayerEvent extends Event{
 	
 	protected $player;
 
-    /**
-     * @return Player
-     */
-    public function getPlayer(){
+	public function getPlayer(){
 		return $this->player;
 	}
 	
