@@ -303,11 +303,11 @@ class BinaryStream extends \stdClass{
 	}
 	
 	public function getBool(){
-		return $this->getByte();
+		return (bool) $this->getByte();
 	}
 	
 	public function putBool($v){
-		$this->putByte($v);
+		$this->putByte((bool) $v);
 	}
 	
 }
