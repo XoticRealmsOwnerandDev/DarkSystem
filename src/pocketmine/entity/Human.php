@@ -11,8 +11,11 @@
 
 namespace pocketmine\entity;
 
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityRegainHealthEvent;
+use pocketmine\event\player\PlayerExhaustEvent;
+use pocketmine\event\player\PlayerExperienceChangeEvent;
 use pocketmine\inventory\EnderChestInventory;
-use pocketmine\inventory\PlayerInventory120;
 use pocketmine\inventory\InventoryHolder;
 use pocketmine\inventory\PlayerInventory;
 use pocketmine\item\Item as ItemItem;
@@ -20,8 +23,14 @@ use pocketmine\utils\UUID;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\ShortTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\network\Network;
 use pocketmine\network\protocol\AddPlayerPacket;
+use pocketmine\network\protocol\PlayerListPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
 use pocketmine\network\multiversion\Multiversion;
 use pocketmine\level\Level;
@@ -53,9 +62,9 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	
 	const MAX_EXPERIENCE = 2147483648;
 	const MAX_EXPERIENCE_LEVEL = 21863;
-
-	/** @var PlayerInventory120 */
+	
 	protected $inventory;
+	protected $enderChestInventory;
 	protected $uuid;
 	protected $rawUUID;
 	protected $nameTag = "TESTIFICATE";
@@ -66,26 +75,18 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	public $eyeHeight = 1.62;
 	
 	protected $skinName = "Standard_Custom";
-	//protected $skinId;
 	protected $skin;
 	protected $skinGeometryName = "geometry.humanoid.custom";
-	//protected $skinGeometryId = "";
 	protected $skinGeometryData = "";
 	protected $capeData = "";
 	
 	protected $totalXp = 0;
 	protected $xpSeed;
 	protected $xpCooldown = 0;
-	/** @var  EnderChestInventory */
-    protected $enderChestInventory;
-
-    public function getSkinName(){
+	
+	public function getSkinName(){
 		return $this->skinName;
 	}
-	
-	/*public function getSkinId(){
-		return $this->skinId;
-	}*/
 	
 	public function getSkinData(){
 		return $this->skin;
@@ -94,10 +95,6 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	public function getSkinGeometryName(){
 		return $this->skinGeometryName;
 	}
-	
-	/*public function getSkinGeometryId(){
-		return $this->skinGeometryId;
-	}*/
 	
 	public function getSkinGeometryData(){
 		return $this->skinGeometryData;
@@ -131,12 +128,10 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	
 	/**
 	 * @param string $str
-	 * @param string $skinId
 	 * @param bool   $skinName
 	 */
-	public function setSkin($str, /*$skinId, */$skinName, $skinGeometryName = "", /*$skinGeometryId = "", */$skinGeometryData = "", $capeData = ""){
+	public function setSkin($str, $skinName, $skinGeometryName = "", $skinGeometryData = "", $capeData = ""){
 		$this->skin = $str;
-		//$this->skinId = $skinId;
 		if(is_string($skinName)){
 			$this->skinName = $skinName;
 		}
@@ -144,10 +139,6 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		if(!empty($skinGeometryName)){
 			$this->skinGeometryName = $skinGeometryName;
 		}
-		
-		/*if(!empty($skinGeometryId)){
-			$this->skinGeometryId = $skinGeometryId;
-		}*/
 		
 		if(!empty($skinGeometryData)){
 			$this->skinGeometryData = $skinGeometryData;
@@ -258,9 +249,9 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		if($player !== $this && !isset($this->hasSpawned[$player->getId()]) && isset($player->usedChunks[Level::chunkHash($this->chunk->getX(), $this->chunk->getZ())])){
 			$this->hasSpawned[$player->getId()] = $player;
 			
-			//$name = ($this instanceof Player) ? $this->getDisplayName() : $this->getName();
+			$name = ($this instanceof Player) ? $this->getDisplayName() : $this->getName();
 			$xuid = ($this instanceof Player) ? $this->getXUID() : "";
-			$this->server->updatePlayerListData($this->getUniqueId(), $this->getId(), /*$name, */$this->getName(), $this->skinName, /*$this->skinId, */$this->skin, $this->skinGeometryName, /*$this->skinGeometryId, */$this->skinGeometryData, $this->capeData, $xuid, [$player]);
+			$this->server->updatePlayerListData($this->getUniqueId(), $this->getId(), $name, $this->skinName, $this->skin, $this->skinGeometryName, $this->skinGeometryData, $this->capeData, $xuid, [$player]);
 			
 			$pk = new AddPlayerPacket();
 			$pk->uuid = $this->getUniqueId();

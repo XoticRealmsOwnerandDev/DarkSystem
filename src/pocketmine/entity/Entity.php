@@ -203,8 +203,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	
 	private static $knownEntities = [];
 	private static $shortNames = [];
-
-	/** @var Player[] */
+	
 	protected $hasSpawned = [];
 	
 	protected $effects = [];
@@ -328,7 +327,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->justCreated = true;
 		$this->namedtag = $nbt;
 		
-		$this->chunk = $level->getChunk($this->namedtag["Pos"][0] >> 4, $this->namedtag["Pos"][2] >> 4, true);
+		$this->chunk = $level->getChunk($this->namedtag["Pos"][0] >> 4, $this->namedtag["Pos"][2] >> 4);
 		$this->setLevel($level);
 		$this->server = $level->getServer();
 		$this->server->addSpawnedEntity($this);
@@ -341,7 +340,8 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 				$this->namedtag["Pos"][2]
 			),
 			$this->namedtag["Rotation"][0],
-			$this->namedtag["Rotation"][1]
+			$this->namedtag["Rotation"][1],
+			true
 		);
 		
 		$this->motionX = $this->namedtag["Motion"][0];

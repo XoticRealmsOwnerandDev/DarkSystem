@@ -301,16 +301,13 @@ class BinaryStream extends \stdClass{
 		$this->putVarInt(strlen($v));
 		$this->put($v);
 	}
-
-    public function getBool() : bool{
-        return (bool) $this->getByte();
-    }
-
-    /**
-     * @param $v
-     */
-    public function putBool($v){
-        $this->putByte((bool) $v);
-    }
+	
+	public function getBool(){
+		return $this->getByte();
+	}
+	
+	public function putBool($v){
+		$this->putByte($v);
+	}
 	
 }

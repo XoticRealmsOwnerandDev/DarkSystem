@@ -21,6 +21,7 @@
 
 namespace pocketmine\network\protocol;
 
+use pocketmine\network\multiversion\MultiversionTags;
 
 class TextPacket extends PEPacket{
 	
@@ -77,6 +78,7 @@ class TextPacket extends PEPacket{
 				for($i = 0; $i < $count; ++$i){
 					$this->parameters[] = $this->getString();
 				}
+				break;
 		}
 		if($playerProtocol >= Info::PROTOCOL_120){
 			$this->xuid = $this->getString();
@@ -94,9 +96,9 @@ class TextPacket extends PEPacket{
 		switch($this->type){
 			case TextPacket::TYPE_POPUP:
 			case TextPacket::TYPE_CHAT:
-            /** @noinspection PhpMissingBreakStatementInspection */
             case TextPacket::TYPE_WHISPER:
 				$this->putString($this->source);
+				break;
 			case TextPacket::TYPE_RAW:
 			case TextPacket::TYPE_TIP:
 			case TextPacket::TYPE_SYSTEM:
@@ -115,6 +117,7 @@ class TextPacket extends PEPacket{
 				foreach($this->parameters as $p){
 					$this->putString($p);
 				}
+				break;
 		}
 		if($playerProtocol >= Info::PROTOCOL_120){
 			$this->putString($this->xuid);
