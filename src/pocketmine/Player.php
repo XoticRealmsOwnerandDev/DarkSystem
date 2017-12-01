@@ -1232,7 +1232,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 
 			if($entity instanceof Arrow && $entity->hadCollision){
 				$item = Item::get(Item::ARROW, 0, 1);
-				//if($this->isSurvival() || $this->isAdventure() || $this->isCreative() && !$this->isSpectator() && !$this->inventory->canAddItem($item)){
 				if($this->isSurvival() && !$this->inventory->canAddItem($item)){
 					continue;
 				}
@@ -1253,7 +1252,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 				if($entity->getPickupDelay() <= 0){
 					$item = $entity->getItem();
 					if($item instanceof Item){
-						//if($this->isSurvival() || $this->isAdventure() || $this->isCreative() && !$this->isSpectator() && !$this->inventory->canAddItem($item)){
 						if($this->isSurvival() && !$this->inventory->canAddItem($item)){
 							continue;
 						}
@@ -4119,8 +4117,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$this->attackInCreative($this);
 			return true;
 		}
-
-		//if(!$target instanceof Entity || $this->isSpectator() && !$this->isCreative() && !$this->isSurvival() && !$this->isAdventure() || $target->dead === true){
+		
 		if(!$target instanceof Entity || $this->isSpectator() || $target->dead === true){
 			return true;
 		}
@@ -4213,15 +4210,13 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$target->attack($ev->getFinalDamage(), $ev);
 		$this->level->addSound(new LaunchSound($this), $this->getViewers());
 		if($ev->isCancelled()){
-			//if($item->isTool() && $this->isSurvival() || $this->isAdventure() && !$this->isCreative() && !$this->isSpectator()){
 			if($item->isTool() && $this->isLiving()){
 				$this->inventory->sendContents($this);
 			}
 			
 			return false;
 		}
-
-		//if($item->isTool() && $this->isSurvival() || $this->isAdventure()/* && !$this->isCreative() && !$this->isSpectator()*/){
+		
 		if($item->isTool() && $this->isLiving()){
 			if($item->useOn($target) && $item->getDamage() >= $item->getMaxDurability()){
 				$this->inventory->setItemInHand(Item::get(Item::AIR, 0, 1), $this);
@@ -4232,7 +4227,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	}
 	
 	protected function useItem($item, $slot, $face, $blockPosition, $clickPosition){
-		$this->setHeldItemIndex($slot);
+		$this->inventory->setHeldItemIndex($slot);
 		switch($face){
 			case 0:
 			case 1:
