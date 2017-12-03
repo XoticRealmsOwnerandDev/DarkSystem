@@ -72,6 +72,7 @@ use pocketmine\event\ui\UICloseEvent;
 use pocketmine\event\ui\UIDataReceiveEvent;
 use pocketmine\event\server\DataPacketReceiveEvent;
 use pocketmine\event\server\DataPacketSendEvent;
+use pocketmine\event\TranslationContainer;
 use pocketmine\event\TextContainer;
 use pocketmine\event\Timings;
 use pocketmine\inventory\BaseTransaction;
@@ -3245,7 +3246,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$this->morphManager->removeMob($this);
 		}
 		
-		$this->server->getPluginManager()->callEvent($ev = new PlayerDeathEvent($this, $this->getDrops(), $message));
+		$this->server->getPluginManager()->callEvent($ev = new PlayerDeathEvent($this, $this->getDrops(), new TranslationContainer($message, $params)));
 		
 		$this->freeChunks();
 		
