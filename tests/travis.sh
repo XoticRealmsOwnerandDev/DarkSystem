@@ -20,7 +20,7 @@ fi
 cp -r tests/plugins plugins
 "$PHP_BINARY" -dphar.readonly=0 ./plugins/PocketMine-DevTools/src/DevTools/ConsoleScript.php --make ./plugins/PocketMine-DevTools --relative ./plugins/PocketMine-DevTools --out ./plugins/DevTools.phar
 rm -rf ./plugins/PocketMine-DevTools
-echo -e "Y\n\Yversion\nmakeserver\nstop\n" | "$PHP_BINARY" -dphar.readonly=0 src/pocketmine/PocketMine.php --no-wizard --disable-ansi --disable-readline --debug.level=2
+echo -e "Y\nY\nversion\nmakeserver\nstop\n" | "$PHP_BINARY" -dphar.readonly=0 src/pocketmine/PocketMine.php --no-wizard --disable-ansi --disable-readline --debug.level=2
 if ls plugins/DevTools/DarkSystem*.phar >/dev/null 2>&1; then
     echo Server phar created successfully.
 else
