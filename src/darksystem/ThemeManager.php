@@ -65,7 +65,7 @@ class ThemeManager{
     }
     
     //ASCII Text Font: Doom
-    public function getLogoTheme($dbotcheck, $dbotver, $version, $mcpe, $protocol, $build, $codename, $splash){
+    public function getLogoTheme($version, $mcpe, $protocol, $build, $codename, $splash){
     	$name = $this->server->getSoftwareName();
     	if(mt_rand(1, 100) == 1){ //%1 chance
     	    $random = substr(base64_encode(random_bytes(20)), 3, 10);
@@ -104,7 +104,6 @@ class ThemeManager{
     §6|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §5__/  |      
                                  §d|___/         §eMCPE: $mcpe §a($protocol)
-                                                      §eDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
       §b$name $version ($build)  *$codename*
@@ -122,7 +121,6 @@ class ThemeManager{
     §3|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §7__/  |      
                                  §8|___/         §6MCPE: $mcpe §2($protocol)
-                                                      §6DARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
       §9$name $version ($build)  *$codename*
@@ -140,7 +138,6 @@ class ThemeManager{
     §f|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §f__/  |      
                                  §f|___/          §bMCPE: $mcpe §e($protocol)
-                                                      §bDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
       §f$name $version ($build)  *$codename*
@@ -158,7 +155,6 @@ class ThemeManager{
     §f|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §f__/  |      
                                  §f|___/          §bMCPE: $mcpe §e($protocol)
-                                                      §bDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
       §d$name $version ($build)  *$codename*
@@ -176,7 +172,6 @@ class ThemeManager{
     §e|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §f__/  |      
                                  §e|___/         §aMCPE: $mcpe §b($protocol)
-                                                      §aDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
       §e$name $version ($build)  *$codename*
@@ -194,7 +189,6 @@ class ThemeManager{
     §a|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §f__/  |      
                                  §7|___/         §eMCPE: $mcpe §b($protocol)
-                                                      §eDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
       §a$name $version ($build)  *$codename*
@@ -212,7 +206,6 @@ class ThemeManager{
     §6|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
                                  §5__/  |      
                                  §d|___/         §eMCPE: $mcpe §a($protocol)
-                                                      §eDARKBOT: $dbotcheck (v$dbotver)
       $splash
                                       
       §b$name $version ($build)  *$codename*

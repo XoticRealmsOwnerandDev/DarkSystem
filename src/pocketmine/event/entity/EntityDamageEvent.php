@@ -30,6 +30,7 @@ use pocketmine\item\Item;
 use pocketmine\item\enchantment\Enchantment;
 
 class EntityDamageEvent extends EntityEvent implements Cancellable{
+	
 	public static $handlerList = null;
 
 	const MODIFIER_BASE = 0;

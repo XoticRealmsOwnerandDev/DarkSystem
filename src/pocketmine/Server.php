@@ -369,14 +369,6 @@ class Server extends DarkSystem{
 		return \pocketmine\API_VERSION;
 	}
 	
-	public function getDarkBotVersion(){
-		return \pocketmine\DARKBOT_VERSION;
-	}
-	
-	public function getDarkBotAI(){
-		return SpawnDarkBotCommand::$darkbot;
-	}
-	
 	public function getFilePath(){
 		return $this->filePath;
 	}
@@ -1557,9 +1549,9 @@ class Server extends DarkSystem{
 			
 			$this->konsol->directSend($this->getLogo());
 			
-			if($this->dbot->check() == "✔"){
+			/*if($this->dbot->check() == "✔"){
 				$this->konsol->info($this->dbot->getStartupMessage());
-			}
+			}*/
 			
 			//if(count($this->pluginMgr->getPlugins()) > 0){
 				if(Translate::checkTurkish() === "yes"){
@@ -1933,9 +1925,6 @@ class Server extends DarkSystem{
 	}
 	
 	protected function getLogo(){
-		$dbotcheck = $this->dbot->check();
-		$dbotver = $this->getDarkBotVersion();
-		
 		$version = $this->getFormattedVersion();
 		$this->version = $version;
 		$mcpe = $this->getVersion();
@@ -1945,7 +1934,7 @@ class Server extends DarkSystem{
 		
 		$splash = $this->getSplash();
 		
-		return $this->getThemeManager()->getLogoTheme($dbotcheck, $dbotver, $version, $mcpe, $protocol, $build, $codename, $splash);
+		return $this->getThemeManager()->getLogoTheme($version, $mcpe, $protocol, $build, $codename, $splash);
 	}
 	
 	protected function getSplash(){

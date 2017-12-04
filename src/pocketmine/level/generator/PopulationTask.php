@@ -21,14 +21,11 @@
 
 namespace pocketmine\level\generator;
 
-
 use pocketmine\level\format\FullChunk;
-
 use pocketmine\level\Level;
 use pocketmine\level\SimpleChunkManager;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
-
 
 class PopulationTask extends AsyncTask{
 
@@ -42,7 +39,7 @@ class PopulationTask extends AsyncTask{
 	public $chunk1;
 	public $chunk2;
 	public $chunk3;
-	//center chunk
+	//4 is center
 	public $chunk5;
 	public $chunk6;
 	public $chunk7;

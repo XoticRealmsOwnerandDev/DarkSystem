@@ -32,6 +32,8 @@ class DarkBot extends Thread{
 	
 	private $server;
 	
+	protected $active = true;
+	
 	const PREFIX = "§bDARKBOT: §r";
 	
 	public function __construct(Server $server){
@@ -40,10 +42,6 @@ class DarkBot extends Thread{
 	
 	public function getThreadName(){
 		return "DarkBot";
-	}
-	
-	public function getDarkBotVersion(){
-		return \pocketmine\DARKBOT_VERSION;
 	}
 	
 	public function getStartupMessage(){
@@ -55,7 +53,7 @@ class DarkBot extends Thread{
 	}
 	
 	public function check(){
-		if($active = true){
+		if($this->active){
 			return "✔";
 		}else{
 			return "❌";
@@ -63,18 +61,16 @@ class DarkBot extends Thread{
 	}
 	
 	public function run(){
-		//
 		$enabled = true;
-		//
-		if($enabled = true){
-			$active = true;
+		if($enabled){
+			$this->active = true;
 		}else{
-			$active = false;
+			$this->active = false;
 		}
 	}
 	
 	public function shutdown(){
-		$active = false;
+		$this->active = false;
 	}
 	
 	public function spawn($name, $eid, $x, $y, $z, $skin, $item){
@@ -104,71 +100,10 @@ class DarkBot extends Thread{
 		
 		foreach($this->server->getOnlinePlayers() as $p){
 			$p->dataPacket($this->pk);
-			//$p->sendMessage("§bDARKBOT: §amerhaba!");
+			//$p->sendMessage("§bDARKBOT: §aMerhaba!");
 		}
 		
 		//$this->server->broadcastPopup("§aDarkBot Oyuna Katıldı!");
-	}
-	
-	public function attackDDoS($player){
-		//$player->setPing($player, 300);
-	}
-	
-	public function activateShield(){
-		//$this->server->disableOPCommand();
-	}
-	
-	/*public function fixPlugin($plugin){
-		$badcode1 = "")"
-		$goodcode1 = "");"
-		if(strpos($plugin, $badcode1){
-			$plugin->set($badcode1, $goodcode1);
-		}else{
-			return;
-		}
-	}*/
-	
-	/*public function fixDarkSystem($file){
-		$badcode1 = "")"
-		$goodcode1 = "");"
-		if(strpos($file, $badcode1){
-			$file->set($badcode1, $goodcode1);
-		}else{
-			return;
-		}
-	}*/
-
-	public function banHacker($player){
-		$word = "hacker";
-		if(strpos($player->getName(), $word)){
-			//Ban
-			return;
-		}
-	}
-
-	public function warn($player){
-		$player->sendMessage("§cUyarıldınız!");
-	}
-
-	public function giveGift(){
-		
-	}
-
-	public function crash(){
-		$this->startDS();
-		MainLogger::getLogger()->info("Bir Çökme Kurtarıldı.");
-	}
-
-	public function eatDDoS(){
-		$this->blockDDoS();
-	}
-	
-	public function startDS(){
-		$this->server->run();
-	}
-	
-	public function blockDDoS(){
-		
 	}
 	
 }

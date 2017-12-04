@@ -75,7 +75,8 @@ class Effect{
 		Effect::$effects[Effect::FIRE_RESISTANCE] = new Effect(Effect::FIRE_RESISTANCE, "%potion.fireResistance", 228, 154, 58);
 		Effect::$effects[Effect::WATER_BREATHING] = new Effect(Effect::WATER_BREATHING, "%potion.waterBreathing", 46, 82, 153);
 		Effect::$effects[Effect::INVISIBILITY] = new InvisibilityEffect(Effect::INVISIBILITY, "%potion.invisibility", 127, 131, 146);
-		Effect::$effects[Effect::HUNGER] = new Effect(Effect::HUNGER, "%potion.hunger", 46, 139, 87);
+		Effect::$effects[Effect::BLINDNESS] = new Effect(Effect::BLINDNESS, "%potion.blindnes", 191, 192, 192);
+		Effect::$effects[Effect::HUNGER] = new HungerEffect(Effect::HUNGER, "%potion.hunger", 46, 139, 87);
 		Effect::$effects[Effect::WEAKNESS] = new Effect(Effect::WEAKNESS, "%potion.weakness", 72, 77, 72 , true);
 		Effect::$effects[Effect::POISON] = new PoisonEffect(Effect::POISON, "%potion.poison", 78, 147, 49, true);
 		Effect::$effects[Effect::WITHER] = new WitherEffect(Effect::WITHER, "%potion.wither", 53, 42, 39, true);
@@ -186,7 +187,8 @@ class Effect{
 		return false;
 	}
 
-	public function applyEffect(Entity $entity) {
+	public function applyEffect(Entity $entity){
+		
 	}
 
 	public function getColor(){
@@ -197,8 +199,8 @@ class Effect{
 		$this->color = (($r & 0xff) << 16) + (($g & 0xff) << 8) + ($b & 0xff);
 	}
 	
-	public function add(Entity $entity, $modify = false) {
-		if ($entity instanceof Player) {
+	public function add(Entity $entity, $modify = false){
+		if($entity instanceof Player){
 			$pk = new MobEffectPacket();
 			$pk->eid = $entity->getId();
 			$pk->effectId = $this->getId();
@@ -210,8 +212,8 @@ class Effect{
 		}
 	}
 	
-	public function remove(Entity $entity) {
-		if ($entity instanceof Player) {
+	public function remove(Entity $entity){
+		if($entity instanceof Player){
 			$pk = new MobEffectPacket();
 			$pk->eid = $entity->getId();
 			$pk->eventId = MobEffectPacket::EVENT_REMOVE;

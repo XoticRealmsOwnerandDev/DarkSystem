@@ -67,8 +67,7 @@ namespace pocketmine{
 	use darksystem\setup\Setup;
 	
 	const NAME = "DarkSystem";
-	const VERSION = "4.4.0";
-	const DARKBOT_VERSION = "1.0.0";
+	const VERSION = "5.0.0";
 	const API_VERSION = "3.0.1";
 	const CURRENT_STATUS = "alpha";
 	const CODENAME = "Chloropyte";

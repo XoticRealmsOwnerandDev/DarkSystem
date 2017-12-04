@@ -21,6 +21,7 @@
 
 namespace pocketmine\level\generator;
 
+use pocketmine\item\Item;
 use pocketmine\block\CoalOre;
 use pocketmine\block\DiamondOre;
 use pocketmine\block\Dirt;
@@ -29,7 +30,6 @@ use pocketmine\block\Gravel;
 use pocketmine\block\IronOre;
 use pocketmine\block\LapisOre;
 use pocketmine\block\RedstoneOre;
-use pocketmine\item\Item;
 use pocketmine\level\ChunkManager;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\generator\biome\Biome;
@@ -39,6 +39,7 @@ use pocketmine\math\Vector3;
 use pocketmine\utils\Random;
 
 class Flat extends Generator{
+	
 	/** @var ChunkManager */
 	private $level;
 	/** @var FullChunk */
@@ -47,6 +48,7 @@ class Flat extends Generator{
 	private $random;
 	/** @var Populator[] */
 	private $populators = [];
+	
 	private $structure, $chunks, $options, $floorLevel, $preset;
 
 	public function getSettings(){
@@ -75,6 +77,7 @@ class Flat extends Generator{
 				new object\OreType(new Dirt(), 20, 32, 0, 128),
 				new object\OreType(new Gravel(), 10, 16, 0, 128),
 			]);
+			
 			$this->populators[] = $ores;
 		}
 
@@ -125,8 +128,7 @@ class Flat extends Generator{
 				}
 			}
 		}
-
-
+		
 		preg_match_all('#(([0-9a-z_]{1,})\(?([0-9a-z_ =:]{0,})\)?),?#', $options, $matches);
 		foreach($matches[2] as $i => $option){
 			$params = true;
@@ -176,7 +178,6 @@ class Flat extends Generator{
 		foreach($this->populators as $populator){
 			$populator->populate($this->level, $chunkX, $chunkZ, $this->random);
 		}
-
 	}
 
 	public function getSpawn(){

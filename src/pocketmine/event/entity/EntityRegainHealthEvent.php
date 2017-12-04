@@ -25,6 +25,7 @@ use pocketmine\entity\Entity;
 use pocketmine\event\Cancellable;
 
 class EntityRegainHealthEvent extends EntityEvent implements Cancellable{
+	
 	public static $handlerList = null;
 
 	const CAUSE_REGEN = 0;

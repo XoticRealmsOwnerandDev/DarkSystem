@@ -16,11 +16,11 @@ use pocketmine\level\format\FullChunk;
 use pocketmine\level\particle\CriticalParticle;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\protocol\AddEntityPacket;
-use pocketmine\Player;
 use pocketmine\entity\Projectile;
 use pocketmine\entity\Entity;
 use pocketmine\level\Explosion;
 use pocketmine\event\entity\ExplosionPrimeEvent;
+use pocketmine\Player;
 
 class FireBall extends Projectile{
 	

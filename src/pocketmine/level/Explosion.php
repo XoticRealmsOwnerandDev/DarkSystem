@@ -214,7 +214,7 @@ class Explosion{
 		$this->level->addParticle(new HugeExplodeParticle(new Vector3($this->source->x,  $this->source->y, $this->source->z)));
 	
 		$pk1 = new LevelSoundEventPacket();
-		$pk1->eventId = 45;
+		$pk1->eventId = LevelSoundEventPacket::SOUND_EXPLODE;
 		$pk1->x = $this->source->x;
 		$pk1->y = $this->source->y;
 		$pk1->z = $this->source->z;

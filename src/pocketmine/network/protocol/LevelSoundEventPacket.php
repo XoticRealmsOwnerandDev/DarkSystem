@@ -48,6 +48,7 @@ class LevelSoundEventPacket extends PEPacket{
 	const SOUND_THROW = 38;
 	const SOUND_ATTACK = 39;
 	const SOUND_ATTACK_NODAMAGE = 40;
+	const SOUND_ATTACK_NO_DAMAGE = 40;
 	const SOUND_WARN = 41;
 	const SOUND_SHEAR = 42;
 	const SOUND_MILK = 43;
@@ -129,7 +130,9 @@ class LevelSoundEventPacket extends PEPacket{
 	public function decode($playerProtocol){
 		$this->getHeader($playerProtocol);
 		$this->eventId = $this->getByte();
-		$this->getVector3f($this->x, $this->y, $this->z);
+		$this->x = $this->getLFloat();
+		$this->y = $this->getLFloat();
+		$this->z = $this->getLFloat();
 		$this->extraData = $this->getVarInt();
 		$this->pitch = $this->getVarInt();
 		$this->unknownBool = $this->getBool();
