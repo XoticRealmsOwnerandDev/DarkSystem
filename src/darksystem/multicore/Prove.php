@@ -4,7 +4,7 @@ namespace darksystem\multicore;
 
 use pocketmine\utils\Utils;
 
-class ProveWorker extends \Collectable{
+class ProveWorker extends \Threaded{
 	
 	public function run() {
 		$this->bcpi ();
@@ -35,7 +35,7 @@ class Prove{
 	}
 	public function useMultiCore1() {
 		$core = $this->getCoreCount ();
-		$pool = new \Pool ( $core );
+		$pool = new \Pool ( $core, Prove::class);
 		for($i = 0; $i < $core; $i ++)
 			$pool->submit ( new ProveWorker () );
 	}
@@ -44,11 +44,11 @@ class Prove{
 		$core = $this->getCoreCount ();
 		$thread = array ();
 		for($i = 0; $i < $core; $i ++)
-			$thread [$i] = new \Thread ( 'bcpi' );
+			$thread [$i] = new \Thread ();
 		for($i = 0; $i < $core; $i ++)
 			$thread [$i]->start ();
-		while ( true ) {
-		}
+//		while ( true ) {
+//		}
 	}
 	
 	public function getCoreCount() {
