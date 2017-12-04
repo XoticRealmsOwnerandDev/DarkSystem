@@ -1,29 +1,9 @@
 #!/bin/bash
-
-PHP_BINARY="php"
-
-while getopts "p:" OPTION 2> /dev/null; do
-	case ${OPTION} in
-		p)
-			PHP_BINARY="$OPTARG"
-			;;
-	esac
-done
-
-./tests/lint.sh -p "$PHP_BINARY"
-
-if [ $? -ne 0 ]; then
-	echo Lint scan failed!
-	exit 1
-fi
-
-cp -r tests/plugins plugins
-"$PHP_BINARY" -dphar.readonly=0 ./plugins/PocketMine-DevTools/src/DevTools/ConsoleScript.php --make ./plugins/PocketMine-DevTools --relative ./plugins/PocketMine-DevTools --out ./plugins/DevTools.phar
-rm -rf ./plugins/PocketMine-DevTools
-echo -e "Y\nY\nversion\nmakeserver\nstop\n" | "$PHP_BINARY" -dphar.readonly=0 src/pocketmine/PocketMine.php --no-wizard --disable-ansi --disable-readline --debug.level=2
-if ls plugins/DevTools/DarkSystem*.phar >/dev/null 2>&1; then
-    echo Server phar created successfully.
+find . -name "*.php" -print0 | xargs -0 -n1 php -l || exit 1
+echo -e "ms\nstop\n\n" | php src/pocketmine/PocketMine.php --no-wizard
+if ls plugins/DarkSystem/DarkSystem*.phar >/dev/null 2>&1; then
+    echo "DarkSystem.phar successfully created!"
 else
-    echo No phar created!
+    echo "DarkSystem.phar wasn't able to be created!"
     exit 1
 fi
