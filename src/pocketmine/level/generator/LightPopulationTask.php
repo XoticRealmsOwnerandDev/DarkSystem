@@ -21,9 +21,9 @@
 
 namespace pocketmine\level\generator;
 
+use pocketmine\scheduler\AsyncTask;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\Level;
-use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 
 class LightPopulationTask extends AsyncTask{

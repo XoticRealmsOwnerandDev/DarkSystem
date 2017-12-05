@@ -2018,6 +2018,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 			throw new LevelException("Invalid Tile level");
 		}
 		$this->tiles[$tile->getId()] = $tile;
+		$this->chunkCacheClear($tile->getX() >> 4, $tile->getZ() >> 4);
 	}
 
 	/**
@@ -2032,6 +2033,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 
 		unset($this->tiles[$tile->getId()]);
 		unset($this->updateTiles[$tile->getId()]);
+		$this->chunkCacheClear($tile->getX() >> 4, $tile->getZ() >> 4);
 	}
 
 	/**
@@ -2062,9 +2064,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 			$this->chunks[$index] = $chunk;
 			$chunk->initChunk();
 		}else{
-			//$this->timings->syncChunkLoadTimer->startTiming();
 			$this->provider->loadChunk($x, $z, $generate);
-			//$this->timings->syncChunkLoadTimer->stopTiming();
 			if(($chunk = $this->provider->getChunk($x, $z)) !== null){
 				$this->chunks[$index] = $chunk;
 				$chunk->initChunk();
@@ -2073,7 +2073,9 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 			}
 		}
 		$this->server->getPluginManager()->callEvent(new ChunkLoadEvent($chunk, !$chunk->isGenerated()));
-		//$this->server->getScheduler()->scheduleAsyncTask(new LightPopulationTask($this, $chunk));
+		if(!$chunk->isLightPopulated() && $chunk->isPopulated() && $this->getServer()->getProperty("chunk-ticking.light-updates", false)){
+			$this->getServer()->getScheduler()->scheduleAsyncTask(new LightPopulationTask($this, $chunk));
+		}
 		return true;
 	}
 
@@ -2083,7 +2085,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 	}
 
 	public function unloadChunkRequest($x, $z, $safe = true){
-		if(($safe === true && $this->isChunkInUse($x, $z)) || $this->isSpawnChunk($x, $z)){
+		if(($safe && $this->isChunkInUse($x, $z)) || $this->isSpawnChunk($x, $z)){
 			return false;
 		}
 
@@ -2097,7 +2099,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 	}
 
 	public function unloadChunk($x, $z, $safe = true){
-		if($this->isFrozen || ($safe === true && $this->isChunkInUse($x, $z))){
+		if($this->isFrozen || ($safe && $this->isChunkInUse($x, $z))){
 			return false;
 		}
 		$index = Level::chunkHash($x, $z);
@@ -2310,8 +2312,6 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 
 	public function doChunkGarbageCollection(){
 		if(!$this->isFrozen){
-			//$this->timings->doChunkGC->startTiming();
-
 			$X = null;
 			$Z = null;
 
@@ -2331,8 +2331,6 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 			}
 
 			$this->provider->doGarbageCollection();
-
-			//$this->timings->doChunkGC->stopTiming();
 		}
 	}
 

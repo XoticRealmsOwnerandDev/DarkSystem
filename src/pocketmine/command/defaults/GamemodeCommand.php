@@ -59,7 +59,7 @@ class GamemodeCommand extends VanillaCommand{
 			return true;
 		}
 
-		if($target->setGamemode($gameMode) == false){
+		if($target->setGamemode($gameMode) === false){
 			$sender->sendMessage(TextFormat::RED . "Komut Uygulanırken Bilinmeyen Hata Oluştu!");
 		}else{
 			if($target === $sender){

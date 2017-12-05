@@ -1536,11 +1536,11 @@ class Server extends DarkSystem{
 			]);
 			}
 			
-			if($this->getCurrentStatus() == "alpha" || $this->getCurrentStatus() == "beta"){
+			/*if($this->getCurrentStatus() == "alpha" || $this->getCurrentStatus() == "beta"){
 				$this->konsol->directSend("§e<?php>");
 			}else{
 				$this->konsol->directSend("§6》》》");
-			}
+			}*/
 			
 			if($this->getMotd() == "schudoz" || $this->getMotd() == "devlrs"){ //Easter egg
 				$random = substr(base64_encode(random_bytes(20)), 3, 10);
@@ -1810,21 +1810,21 @@ class Server extends DarkSystem{
 				return false;
 			}
 		
-			/*if($this->netherEnabled){
+			if($this->netherEnabled){
 				if(!$this->loadLevel($this->netherName)){
 					$this->generateLevel($this->netherName, time(), Generator::getGenerator("nether"));
 				}
 				
 				$this->netherLevel = $this->getLevelByName($this->netherName);
-			}*/
+			}
 			
-			/*if($this->endEnabled){
+			if($this->endEnabled){
                 if(!$this->loadLevel($this->endName)){
                     $this->generateLevel($this->endName, time(), Generator::getGenerator("ender"));
                 }
                 
                 $this->endName = $this->getLevelByName($this->endName);
-            }*/
+            }
             
 			if($this->getProperty("ticks-per.autosave", 6000) > 0){
 				$this->autoSaveTicks = $this->getProperty("ticks-per.autosave", 6000);

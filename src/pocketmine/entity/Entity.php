@@ -328,6 +328,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->namedtag = $nbt;
 		
 		$this->chunk = $level->getChunk($this->namedtag["Pos"][0] >> 4, $this->namedtag["Pos"][2] >> 4);
+		assert($this->chunk !== null);
 		$this->setLevel($level);
 		$this->server = $level->getServer();
 		$this->server->addSpawnedEntity($this);
@@ -340,10 +341,15 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 				$this->namedtag["Pos"][2]
 			),
 			$this->namedtag["Rotation"][0],
-			$this->namedtag["Rotation"][1],
-			true
+			$this->namedtag["Rotation"][1]
 		);
 		
+		if(isset($this->namedtag->Motion)){
+            $this->setMotion($this->temporalVector->setComponents($this->namedtag["Motion"][0], $this->namedtag["Motion"][1], $this->namedtag["Motion"][2]));
+        }else{
+            $this->setMotion($this->temporalVector->setComponents(0, 0, 0));
+        }
+        
 		$this->motionX = $this->namedtag["Motion"][0];
 		$this->motionY = $this->namedtag["Motion"][1];
 		$this->motionZ = $this->namedtag["Motion"][2];

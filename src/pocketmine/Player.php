@@ -3246,8 +3246,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		
 		$this->freeChunks();
 		
-		if(!$ev->getKeepInventory()){
-		//if($this->server->getSoftConfig("inventory.keep", false)){
+		if(!$ev->getKeepInventory() && $this->server->getSoftConfig("inventory.keep", false) === false){
 			foreach($ev->getDrops() as $item){
 				$this->level->dropItem($this, $item);
 			}

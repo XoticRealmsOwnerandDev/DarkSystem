@@ -108,7 +108,7 @@ player:
   #만약 잘못된다면, 플레이어들이 부정 행위를 하지 않도록 하기 위해 휴식 시간을 차단한다. 아직 제대로 구현되지 않은 일부 블록에 문제가 발생할 수 있습니다.
   allow-instabreak: false
   
-  level-settings:
+level-settings:
  # 만들 때 사용하게 될 맵기본 형식
  default-format: anvil
  #자동으로 초당 20 틱을 유지하도록 틱 속도를 변경합니다.
@@ -120,7 +120,7 @@ player:
  #다른 설정을 선택하더라도 모든 플레이어가 체크 표시를 선택합니다.
  always-tick-players: false
  
- chunk-sending:
+chunk-sending:
  #서버 정상 렌더링 거리를 변경하려면 server.properties에서 view-distance를 변경하십시오.
  #틱 단위로 보내진 청크의 양
  per-tick: 4
@@ -139,7 +139,7 @@ chunk-ticking:
  clear-tick-list: true
  #IDs of blocks not to perform random ticking on.
  disable-block-ticking:
-  #- 2 # grass
+ #- 2 # grass
 
 chunk-generation:
  #Max. 생성 될 대기열의 청크 양
@@ -147,7 +147,7 @@ chunk-generation:
  #Max. 채워지는 대기열의 청크 양
  population-queue-size: 8
  
- ticks-per:
+ticks-per:
  animal-spawns: 400
  monster-spawns: 1
  autosave: 6000
