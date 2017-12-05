@@ -31,7 +31,7 @@ class ThemeManager{
 	}
 	
 	public function getTheme(){
-		return "uranium"; //Force theme
+		return "uranium"; //Force theme for 4.0
 		$configTheme = $this->server->getConfigString("theme", ThemeManager::DEFAULT_THEME);
 		/*if($this->server->getConfigInt("random-theme", "false")){
 		    return $this->availableThemes[array_rand($this->availableThemes)];
@@ -80,7 +80,7 @@ class ThemeManager{
                                  §f__/  |              
                                  §f|___/               
                              
-      §bDakrSyten 9.9.9 (4)  *$random*
+      §bDakrSyten 9.9.9  *$random*
       
 			";
 		}
@@ -106,7 +106,7 @@ class ThemeManager{
                                  §d|___/         §eMCPE: $mcpe §a($protocol)
       $splash
                                       
-      §b$name $version ($build)  *$codename*
+      §b$name $version  *$codename*
       
 			";
 			break;
@@ -123,7 +123,7 @@ class ThemeManager{
                                  §8|___/         §6MCPE: $mcpe §2($protocol)
       $splash
                                       
-      §9$name $version ($build)  *$codename*
+      §9$name $version  *$codename*
       
 			";
 			break;
@@ -140,7 +140,7 @@ class ThemeManager{
                                  §f|___/          §bMCPE: $mcpe §e($protocol)
       $splash
                                       
-      §f$name $version ($build)  *$codename*
+      §f$name $version  *$codename*
       
 			";
 			break;
@@ -157,7 +157,7 @@ class ThemeManager{
                                  §f|___/          §bMCPE: $mcpe §e($protocol)
       $splash
                                       
-      §d$name $version ($build)  *$codename*
+      §d$name $version  *$codename*
       
 			";
 			break;
@@ -174,7 +174,7 @@ class ThemeManager{
                                  §e|___/         §aMCPE: $mcpe §b($protocol)
       $splash
                                       
-      §e$name $version ($build)  *$codename*
+      §e$name $version  *$codename*
       
 			";
 			break;
@@ -191,7 +191,7 @@ class ThemeManager{
                                  §7|___/         §eMCPE: $mcpe §b($protocol)
       $splash
                                       
-      §a$name $version ($build)  *$codename*
+      §a$name $version  *$codename*
       
 			";
 			break;
@@ -208,7 +208,7 @@ class ThemeManager{
                                  §d|___/         §eMCPE: $mcpe §a($protocol)
       $splash
                                       
-      §b$name $version ($build)  *$codename*
+      §b$name $version  *$codename*
       
 			";
 			break;

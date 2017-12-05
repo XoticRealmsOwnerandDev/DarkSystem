@@ -11,13 +11,12 @@
 
 namespace darksystem;
 
-use darksystem\Worker;
 use pocketmine\utils\Binary;
 use pocketmine\network\protocol\FullChunkDataPacket;
 use pocketmine\network\protocol\DataPacket;
 use pocketmine\network\protocol\Info as ProtocolInfo;
 
-class ChunkGenerator extends Worker{
+class ChunkGenerator extends Thread{
 	
 	protected $classLoader;
 	protected $shutdown;
@@ -72,7 +71,7 @@ class ChunkGenerator extends Worker{
 	}
 
 	protected function tickProcessor(){
-		while (!$this->shutdown){
+		while(!$this->shutdown){
 			$start = microtime(true);
 			$count = count($this->internalQueue);
 			$this->tick();
@@ -196,8 +195,9 @@ class ChunkGenerator extends Worker{
 		$this->externalQueue[] = serialize($result);
 	}
 
-	public function shutdown(){		
+	public function join(){		
 		$this->shutdown = true;
+		parent::join();
 	}
 	
 	public function errorHandler($errno, $errstr, $errfile, $errline, $context, $trace = null){

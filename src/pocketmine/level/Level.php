@@ -381,6 +381,10 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 	}
 
 	public function close(){
+		if($this->closed){
+			return false;
+		}
+		
 		if($this->getAutoSave()){
 			$this->save();
 		}
@@ -392,6 +396,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 		$this->unregisterGenerator();
 
 		$this->closed = true;
+		$this->chunkGenerator->quit();
 		$this->provider->close();
 		$this->provider = null;
 		$this->blockMetadata = null;

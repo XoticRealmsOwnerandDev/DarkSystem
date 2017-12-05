@@ -20,9 +20,8 @@ use pocketmine\network\protocol\MoveEntityPacket;
 use pocketmine\network\protocol\SetEntityMotionPacket;
 use pocketmine\network\protocol\MovePlayerPacket;
 use pocketmine\utils\Binary;
-use darksystem\Worker;
 
-class PacketManager extends Worker{
+class PacketManager extends Thread{
 	
 	protected $classLoader;
 	protected $shutdown;
@@ -107,7 +106,7 @@ class PacketManager extends Worker{
 						$pk->pitch = $singleMoveData[6];
 						$pk->yaw = $singleMoveData[5];
 						$pk->bodyYaw = $singleMoveData[4];
-					} else {
+					}else{
 						$pk = new MoveEntityPacket();
 						$pk->entities = [$singleMoveData];
 					}
@@ -138,7 +137,7 @@ class PacketManager extends Worker{
 				$pkBatch->isEncoded = true;
 				$this->externalQueue[] = $this->makeBuffer($identifier, $pkBatch, false, false);
 			}
-		} elseif($data["isBatch"]){
+		}elseif($data["isBatch"]){
 			$packetsStr = [];
 			foreach($data["packets"] as $protocol => $packetData){		
 				foreach($packetData as $p){
@@ -168,15 +167,16 @@ class PacketManager extends Worker{
 	}
 	
 	protected function makeBuffer($identifier, $fullPacket, $needACK, $identifierACK){		
-		$data = array(
+		$data = [
 			'identifier' => $identifier,
 			'buffer' => $fullPacket->buffer
-		);
+		];
 		return serialize($data);
 	}
 	
-	public function shutdown(){		
+	public function join(){		
 		$this->shutdown = true;
+		parent::join();
 	}
 	
 	public function errorHandler($errno, $errstr, $errfile, $errline, $context, $trace = null){
