@@ -24,8 +24,7 @@ class VersionCommand extends VanillaCommand{
 		parent::__construct(
 			$name,
 			"%pocketmine.command.version.description",
-			"%pocketmine.command.version.usage",
-			["easter"]
+			"%pocketmine.command.version.usage"
 		);
 		$this->setPermission("pocketmine.command.version");
 	}
@@ -37,14 +36,12 @@ class VersionCommand extends VanillaCommand{
 
 		if(count($args) === 0){
 			$ver = \pocketmine\VERSION;
-			$tag = \pocketmine\TAG;
-			$creator = \pocketmine\CREATOR;
-			$codename = \pocketmine\CODENAME;
-			$build = ProtocolInfo::DARKSYSTEM_VERSION;
+			$name = \pocketmine\CODENAME;
+			$company = $name . "-PE";
 			if(Translate::checkTurkish() === "yes"){
-				$sender->sendMessage("§eBu Sunucu §a$codename $tag $ver ($build) §eVersiyonunda Çalışıyor\n§eAPI: §a3.0.1\n§e$codename'i İndirmek İçin:\n§ahttps://github.com/$creator/$codename §r");
+				$sender->sendMessage("§eBu Sunucu §a$name $ver §eVersiyonunda Çalışıyor\n§eAPI: §a3.0.1\n§e$name'i İndirmek İçin:\n§ahttps://github.com/$company/$name §r");
 			}else{
-				$sender->sendMessage("§eThis Server is Running on §a$codename $tag $ver ($build)\n§eAPI: §a3.0.1\n§eTo Download $codename:\n§ahttps://github.com/$creator/$codename §r");
+				$sender->sendMessage("§eThis Server is Running on §a$name $ver\n§eAPI: §a3.0.1\n§eTo Download $codename:\n§ahttps://github.com/$company/$name §r");
 			}
 		}else{
 			$pluginName = implode(" ", $args);

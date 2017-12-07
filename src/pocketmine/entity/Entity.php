@@ -345,19 +345,17 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		);
 		
 		if(isset($this->namedtag->Motion)){
-            $this->setMotion($this->temporalVector->setComponents($this->namedtag["Motion"][0], $this->namedtag["Motion"][1], $this->namedtag["Motion"][2]));
-        }else{
-            $this->setMotion($this->temporalVector->setComponents(0, 0, 0));
-        }
-        
+			$this->setMotion($this->temporalVector->setComponents($this->namedtag["Motion"][0], $this->namedtag["Motion"][1], $this->namedtag["Motion"][2]));
+		}else{
+			$this->setMotion($this->temporalVector->setComponents(0, 0, 0));
+		}
+		
 		$this->motionX = $this->namedtag["Motion"][0];
 		$this->motionY = $this->namedtag["Motion"][1];
 		$this->motionZ = $this->namedtag["Motion"][2];
 		
-		//$this->setMotion($this->temporalVector->setComponents($this->namedtag["Motion"][0], $this->namedtag["Motion"][1], $this->namedtag["Motion"][2]));
-
-		//assert(!is_nan($this->x) && !is_infinite($this->x) && !is_nan($this->y) && !is_infinite($this->y) && !is_nan($this->z) && !is_infinite($this->z));
-
+		assert(!is_nan($this->x) && !is_infinite($this->x) && !is_nan($this->y) && !is_infinite($this->y) && !is_nan($this->z) && !is_infinite($this->z));
+		
 		if(!isset($this->namedtag->FallDistance)){
 			$this->namedtag->FallDistance = new FloatTag("FallDistance", 0);
 		}
@@ -378,9 +376,9 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_NOT_IN_WATER, true);
 		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_SHOW_NAMETAG, true);
 		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG, true);
-		//$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_CAN_CLIMBING, true);
-		//$this->setDataProperty(Entity::DATA_AIR, Entity::DATA_TYPE_SHORT, $this->namedtag["Air"]);
-
+		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_CAN_CLIMBING, true);
+		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_CAN_FLY, true);
+		
 		if(!isset($this->namedtag->OnGround)){
 			$this->namedtag->OnGround = new ByteTag("OnGround", 0);
 		}
@@ -395,18 +393,9 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 
 		$this->attributeMap = new AttributeMap();
 		
-		if($this->server->isSupportProtocol("120")){
-			//$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_AFFECTED_BY_GRAVITY, true);
-			//$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_HAS_COLLISION, true);
-		}
+		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_AFFECTED_BY_GRAVITY, true);
 		
-		try{ //Bad method
-			$this->chunk->addEntity($this);
-		}catch(\Exception $e){
-			$this->server->getLogger()->emergency("There was an error about current world. Please control your world of server and again.");
-			$this->server->getLogger()->critical("If still not fixed, please contant our developers about problem.");
-		}
-		
+		$this->chunk->addEntity($this);
 		$level->addEntity($this);
 		$this->initEntity();
 		$this->lastUpdate = $this->server->getTick();
@@ -448,6 +437,20 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	 */
 	public function getScale(){
 		return $this->getDataProperty(Entity::DATA_SCALE, Entity::DATA_TYPE_FLOAT);
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getDropExpMin(){
+		return $this->dropExp[0];
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getDropExpMax(){
+		return $this->dropExp[1];
 	}
 	
 	/**
@@ -518,6 +521,44 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	
 	public function setImmobile($value = true){
 		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_IMMOBILE, (bool) $value);
+	}
+	
+	public function canClimb(){
+		return $this->getDataFlag(self::DATA_FLAGS, self::DATA_FLAG_CAN_CLIMB);
+	}
+	
+	public function setCanClimb($value = true){
+		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_CAN_CLIMB, $value);
+	}
+	
+	public function canClimbWalls(){
+		return $this->getDataFlag(self::DATA_FLAGS, self::DATA_FLAG_WALLCLIMBING);
+	}
+	
+	public function setCanClimbWalls($value = true){
+		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_WALLCLIMBING, $value);
+	}
+	
+	public function getOwningEntityId(){
+		return $this->getDataProperty(self::DATA_OWNER_EID);
+	}
+	
+	public function getOwningEntity(){
+		$eid = $this->getOwningEntityId();
+		if($eid !== null){
+			return $this->server->findEntity($eid, $this->level);
+		}
+		
+		return null;
+	}
+	
+	public function setOwningEntity(Entity $owner){
+		if($owner->closed){
+			throw new \InvalidArgumentException("Supplied owning entity is garbage and cannot be used");
+		}
+		
+		$this->setDataProperty(self::DATA_OWNER_EID, self::DATA_TYPE_LONG, $owner->getId());
+		return true;
 	}
 	
 	public function getEffects(){
@@ -637,7 +678,26 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 
 		return false;
 	}
-
+	
+	public static function createBaseNBT(Vector3 $pos, Vector3 $motion = null, $yaw = 0.0, $pitch = 0.0){
+		return new CompoundTag("", [
+			new ListTag("Pos", [
+				new DoubleTag("", $pos->x),
+				new DoubleTag("", $pos->y),
+				new DoubleTag("", $pos->z)
+			]),
+			new ListTag("Motion", [
+				new DoubleTag("", $motion ? $motion->x : 0.0),
+				new DoubleTag("", $motion ? $motion->y : 0.0),
+				new DoubleTag("", $motion ? $motion->z : 0.0)
+			]),
+			new ListTag("Rotation", [
+				new FloatTag("", $yaw),
+				new FloatTag("", $pitch)
+			])
+		]);
+	}
+	
 	/**
 	 * @return string
 	 */
@@ -694,7 +754,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 			}
 
 			$this->namedtag->ActiveEffects = new ListTag("ActiveEffects", $effects);
-		} else {
+		}else{
 			unset($this->namedtag->ActiveEffects);
 		}
 	}
@@ -1045,7 +1105,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		if($this->fireTicks > 0){
 			if($this->fireProof){
 				$this->fireTicks -= 4 * $tickDiff;
-			} else {
+			}else{
 				if(!$this->hasEffect(Effect::FIRE_RESISTANCE) && ($this->fireTicks % 20) === 0 || $tickDiff > 20){
 					$ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_FIRE_TICK, $this->fireDamage);
 					$this->attack($ev->getFinalDamage(), $ev);
@@ -1056,7 +1116,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 
 			if($this->fireTicks <= 0){
 				$this->extinguish();
-			} else {
+			}else{
 				$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_ONFIRE, true);
 				$hasUpdate = true;
 			}
@@ -1148,11 +1208,11 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		}
 		if($rotation < 45){
 			return Entity::DIRECTION_NORTH;
-		} else if($rotation < 135){
+		}elseif($rotation < 135){
 			return Entity::DIRECTION_EAST;
-		} else if($rotation < 225){
+		}elseif($rotation < 225){
 			return Entity::DIRECTION_SOUTH;
-		} else if($rotation < 315){
+		}elseif($rotation < 315){
 			return Entity::DIRECTION_WEST;
 		}
 		return Entity::DIRECTION_NORTH;
@@ -1476,7 +1536,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 				$bb->minY -= 1;
 				if(count($this->level->getCollisionBlocks($bb)) > 0){
 					$this->onGround = true;
-				} else {
+				}else{
 					$this->onGround = false;
 				}
 				
@@ -1711,7 +1771,13 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		
 		$this->dead = true;
 		$this->setHealth(0);
+		$this->removeAllEffects();
 		$this->scheduleUpdate();
+		
+		if($this->getLevel()->getServer()->expEnabled){
+			$exp = mt_rand($this->getDropExpMin(), $this->getDropExpMax());
+			if($exp > 0) $this->getLevel()->spawnXPOrb($this, $exp);
+		}
 	}
 
 	/**
@@ -1737,8 +1803,6 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		
 		$this->ySize = 0;
 		$pos = $ev->getTo();
-
-		//$this->setMotion(new Vector3(0, 0.1, 0));
 		
 		if($this->setPositionAndRotation($pos, $yaw === null ? $this->yaw : $yaw, $pitch === null ? $this->pitch : $pitch, true) !== false){
 			$this->resetFallDistance();

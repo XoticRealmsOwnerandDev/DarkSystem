@@ -56,7 +56,6 @@ namespace{
 
 namespace pocketmine{
 	
-	//use darksystem\Server;
 	use darksystem\ThreadManager;
 	use darksystem\multicore\CoreWorker;
 	use darksystem\multicore\MultiCore;
@@ -67,10 +66,9 @@ namespace pocketmine{
 	use darksystem\setup\Setup;
 	
 	const NAME = "DarkSystem";
-	const VERSION = "5.0.0";
+	const VERSION = "5.1.0";
 	const API_VERSION = "3.0.1";
-	const CURRENT_STATUS = "alpha";
-	const CODENAME = "Chloropyte";
+	const CODENAME = "Skeletonhead";
 	
 	function unlink(){
 		return true;

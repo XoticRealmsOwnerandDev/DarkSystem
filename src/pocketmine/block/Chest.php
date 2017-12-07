@@ -154,7 +154,7 @@ class Chest extends Transparent{
 
 			if(isset($chest->namedtag->Lock) and $chest->namedtag->Lock instanceof StringTag){
 				$chestName = $chest->namedtag->Lock->getValue() ;
-				if (!empty($chestName) && $chestName !== $item->getCustomName()){
+				if(!empty($chestName) && $chestName !== $item->getCustomName()){
 					return true;
 				}
 			}

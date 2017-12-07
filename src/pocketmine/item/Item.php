@@ -1052,9 +1052,6 @@ class Item{
 		$creativeItems = new Config(Server::getInstance()->getFilePath() . "src/darksystem/resources/creativeitems.json", Config::JSON, []);
 		foreach($creativeItems->getAll() as $data){
 			$item = Item::get($data["id"], $data["damage"], $data["count"], $data["nbt"]);
-			/*if($item->getName() === "Bilinmeyen"){
-				continue;
-			}*/
 			Item::addCreativeItem($item);
 		}
 	}

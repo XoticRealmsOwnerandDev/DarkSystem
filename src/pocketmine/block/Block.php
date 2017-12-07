@@ -179,7 +179,7 @@ class Block extends Position implements Metadatable{
 	const NETHER_BRICK_BLOCK = 112;
 	const NETHER_BRICK_FENCE = 113;
 	const NETHER_BRICKS_STAIRS = 114;
-	const NETHER_WART_BLOCK = 115;
+	const NETHER_WART_PLANT = 115;
 	const ENCHANTING_TABLE = 116;
 	const ENCHANT_TABLE = 116;
 	const ENCHANTMENT_TABLE = 116;
@@ -268,6 +268,8 @@ class Block extends Position implements Metadatable{
 	const FENCE_GATE_JUNGLE = 185;
 	const FENCE_GATE_DARK_OAK = 186;
 	const FENCE_GATE_ACACIA = 187;
+	const REPEATING_COMMAND_BLOCK = 188;
+	const CHAIN_COMMAND_BLOCK = 189;
 	const SPRUCE_DOOR_BLOCK = 193;
 	const BIRCH_DOOR_BLOCK = 194;
 	const JUNGLE_DOOR_BLOCK = 195;
@@ -283,7 +285,7 @@ class Block extends Position implements Metadatable{
 	const END_ROD = 208;
 	const END_GATEWAY = 209;
 	const MAGMA = 213;
-	//const NETHER_WART_BLOCK = 214;
+	const NETHER_WART_BLOCK = 214;
 	const RED_NETHER_BRICK = 215;
 	const BONE_BLOCK = 216;
 	const SHULKER_BOX = 218;
@@ -558,14 +560,14 @@ class Block extends Position implements Metadatable{
 			Block::$list[Block::DRAGON_EGG] = DragonEgg::class;
 			Block::$list[Block::CAULDRON_BLOCK] = Cauldron::class;
 			Block::$list[Block::COMMAND_BLOCK] = CommandBlock::class;
+			Block::$list[Block::REPEATING_COMMAND_BLOCK] = RepeatingCommandBlock::class;
+			Block::$list[Block::CHAIN_COMMAND_BLOCK] = ChainCommandBlock::class;
 			
 			Block::$list[Block::MAGMA] = Magma::class;
 			Block::$list[Block::BONE_BLOCK] = BoneBlock::class;
 			
 			Block::$list[Block::REDSTONE_LAMP] = RedstoneLamp::class;
 			Block::$list[Block::REDSTONE_LAMP_ACTIVE] = RedstoneLampActive::class;
-			//Block::$list[Block::POWERED_REPEATER_BLOCK] = PoweredRepeater::class;
-			//Block::$list[Block::UNPOWERED_REPEATER_BLOCK] = UnpoweredRepeater::class;
 			
 			Block::$list[Block::REDSTONE_TORCH] = RedstoneTorch::class;
 			Block::$list[Block::REDSTONE_TORCH_ACTIVE] = RedstoneTorchActive::class;

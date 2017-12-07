@@ -106,10 +106,11 @@ abstract class Tile extends Position{
 		if($level === null || $level->getProvider() === null){
 			throw new ChunkException("Invalid garbage Chunk/Level given to Tile");
 		}
-		//TODO: Remove this
+		
 		$this->timings = Timings::getTileEntityTimings($this);
 		
 		$this->chunk = $level->getChunk($this->namedtag["Pos"][0] >> 4, $this->namedtag["Pos"][2] >> 4);
+		assert($this->chunk !== null);
 		$this->setLevel($level);
 		$this->server = $level->getServer();
 		
@@ -121,14 +122,9 @@ abstract class Tile extends Position{
 		$this->y = (int) $this->namedtag["y"];
 		$this->z = (int) $this->namedtag["z"];
 		
-		try{ //Bad method
-			$this->chunk->addTile($this);
-		}catch(\Exception $e){
-			$this->server->getLogger()->emergency("There was an error about current world. Please control your world of server and try again.");
-			$this->server->getLogger()->critical("If still not fixed, please contant our developers about problem.");
-		}
-		
+		$this->chunk->addTile($this);
 		$level->addTile($this);
+		
 		$this->tickTimer = Timings::getTileEntityTimings($this);
 	}
 

@@ -103,6 +103,10 @@ use pocketmine\level\generator\biome\Biome;
 use pocketmine\level\generator\nether\Nether;
 use pocketmine\level\generator\ender\Ender;
 use pocketmine\level\generator\normal\Normal;
+use pocketmine\level\generator\normal\Normal2;
+use pocketmine\level\generator\Generator;
+use pocketmine\level\generator\Void;
+use pocketmine\level\generator\Flat;
 use pocketmine\entity\animal\walking\{Chicken, Cow, Mooshroom, Ocelot, Pig, Rabbit, Sheep};
 use pocketmine\entity\monster\flying\{Blaze, Ghast};
 use pocketmine\entity\monster\walking\{CaveSpider, Creeper, Enderman, IronGolem, PigZombie, Silverfish, Skeleton, SnowGolem, Spider, Wolf, Zombie, ZombieVillager};
@@ -121,6 +125,9 @@ class Server extends DarkSystem{
 	
 	/** @var BanList */
 	private $banByCID = null;
+	
+	/** @var BanList */
+	private $banByUUID = null;
 	
 	/** @var Config */
 	private $operators = null;
@@ -250,9 +257,12 @@ class Server extends DarkSystem{
 	
 	private $craftList = [];
 	
+	public $advancedConfig = null;
+	
 	public $keepInventory = false;
 	public $netherEnabled = false;
 	public $netherName = "nether";
+	public $netherLevel = null;
 	public $weatherEnabled = false;
 	public $weatherRandomDurationMin = 6000;
 	public $weatherRandomDurationMax = 12000;
@@ -260,6 +270,7 @@ class Server extends DarkSystem{
 	public $lightningFire = false;
 	public $endEnabled = false;
     public $endName = "end";
+    public $endLevel = null;
     public $redstoneEnabled = false;
 	public $checkMovement = true;
 	public $antiFly = true;
@@ -355,10 +366,6 @@ class Server extends DarkSystem{
 	
 	public function getCodename(){
 		return \pocketmine\CODENAME;
-	}
-	
-	public function getCurrentStatus(){
-		return \pocketmine\CURRENT_STATUS;
 	}
 	
 	public function getVersion(){
@@ -1185,6 +1192,10 @@ class Server extends DarkSystem{
 		}
 	}
 	
+	public function getBans(){
+		return $this->banByName;
+	}
+	
 	public function getNameBans(){
 		return $this->banByName;
 	}
@@ -1195,6 +1206,10 @@ class Server extends DarkSystem{
 	
 	public function getCIDBans(){
 		return $this->banByCID;
+	}
+	
+	public function getUUIDBans(){
+		return $this->banByUUID;
 	}
 	
 	public function addOp($name){
@@ -1452,10 +1467,6 @@ class Server extends DarkSystem{
 			$this->softConfig = new Config($this->getDataPath() . "pocketmine-advanced.yml", Config::YAML, []);
 			$this->cmdReader = new CommandReader($knsol);
 			
-			//$this->loadAdvancedConfig();
-			
-			$this->weatherEnabled = false; //A quick fix for a crash
-			
 			if(Translate::checkTurkish() === "yes"){
 			$this->properties = new Config($this->getDataPath() . "sunucu.properties", Config::PROPERTIES, [
 				"motd" => $this->getSoftwareName() . " Sunucusu",
@@ -1536,22 +1547,12 @@ class Server extends DarkSystem{
 			]);
 			}
 			
-			/*if($this->getCurrentStatus() == "alpha" || $this->getCurrentStatus() == "beta"){
-				$this->konsol->directSend("§e<?php>");
-			}else{
-				$this->konsol->directSend("§6》》》");
-			}*/
-			
 			if($this->getMotd() == "schudoz" || $this->getMotd() == "devlrs"){ //Easter egg
 				$random = substr(base64_encode(random_bytes(20)), 3, 10);
 				$this->konsol->directSend("\n" . "§" . mt_rand(1, 9) . "" . $random);
 			}
 			
 			$this->konsol->directSend($this->getLogo());
-			
-			/*if($this->dbot->check() == "✔"){
-				$this->konsol->info($this->dbot->getStartupMessage());
-			}*/
 			
 			//if(count($this->pluginMgr->getPlugins()) > 0){
 				if(Translate::checkTurkish() === "yes"){
@@ -1586,9 +1587,6 @@ class Server extends DarkSystem{
 			$internelConfig = new Config($file, Config::YAML, []);
 			$this->advancedConfig = new Config($this->getDataPath() . "darksystem.yml", Config::YAML, []);
 			
-			$cfgVer = $this->getAdvancedProperty("config.version", 0, $internelConfig);
-			$advVer = $this->getAdvancedProperty("config.version", 0);
-
 			$this->loadAdvancedConfig();
 			
 			$this->forceLanguage = $this->getProperty("settings.force-language", true);
@@ -1658,6 +1656,9 @@ class Server extends DarkSystem{
 			@touch($this->getDataPath() . "engelli-CIDler.txt");
 			$this->banByCID = new BanList($this->getDataPath() . "engelli-CIDler.txt");
 			$this->banByCID->load();
+			@touch($this->getDataPath() . "engelli-UUIDler.txt");
+			$this->banByUUID = new BanList($this->getDataPath() . "engelli-UUIDler.txt");
+			$this->banByUUID->load();
 			}else{
 			$this->operators = new Config($this->getDataPath() . "ops.json", Config::JSON);
 			$this->whitelist = new Config($this->getDataPath() . "white-list.json", Config::JSON);
@@ -1673,6 +1674,9 @@ class Server extends DarkSystem{
 			@touch($this->getDataPath() . "banned-cids.txt");
 			$this->banByCID = new BanList($this->getDataPath() . "banned-cids.txt");
 			$this->banByCID->load();
+			@touch($this->getDataPath() . "banned-uuids.txt");
+			$this->banByUUID = new BanList($this->getDataPath() . "banned-uuids.txt");
+			$this->banByUUID->load();
 			}
 			
 			$this->maxPlayers = $this->getConfigInt("max-players", 25);
@@ -1766,6 +1770,15 @@ class Server extends DarkSystem{
 			//LevelProviderManager::addProvider($this, PMAnvil::class);
 			LevelProviderManager::addProvider($this, McRegion::class);
 			
+			Generator::addGenerator(Flat::class, "flat");
+			Generator::addGenerator(Normal::class, "normal");
+			Generator::addGenerator(Normal::class, "default");
+			Generator::addGenerator(Normal2::class, "normal2");
+			Generator::addGenerator(Void::class, "void");
+			Generator::addGenerator(Nether::class, "hell");
+			Generator::addGenerator(Nether::class, "nether");
+			Generator::addGenerator(Ender::class, "ender");
+			
 			foreach((array) $this->getProperty("worlds", []) as $name => $worldSetting){
 				if($this->loadLevel($name) === false){
 					$seed = $this->getProperty("worlds.$name.seed", time());
@@ -1819,24 +1832,19 @@ class Server extends DarkSystem{
 			}
 			
 			if($this->endEnabled){
-                if(!$this->loadLevel($this->endName)){
-                    $this->generateLevel($this->endName, time(), Generator::getGenerator("ender"));
-                }
-                
-                $this->endName = $this->getLevelByName($this->endName);
-            }
-            
+				if(!$this->loadLevel($this->endName)){
+					$this->generateLevel($this->endName, time(), Generator::getGenerator("ender"));
+				}
+				
+				$this->endLevel = $this->getLevelByName($this->endName);
+			}
+			
 			if($this->getProperty("ticks-per.autosave", 6000) > 0){
 				$this->autoSaveTicks = $this->getProperty("ticks-per.autosave", 6000);
 			}
 
 			$this->enablePlugins(PluginLoadOrder::POSTWORLD);
 			
-			/*if($cfgVer > $advVer){
-				$this->konsol->notice("darksystem.yml Dosyası Güncellenmeli!");
-				$this->konsol->notice("Şimdiki Sürüm: $advVer | Güncel Sürüm: $cfgVer");
-			}*/
-
 			$this->run();
 		}catch(\Throwable $e){
 			$this->exceptionHandler($e);
@@ -1929,12 +1937,11 @@ class Server extends DarkSystem{
 		$this->version = $version;
 		$mcpe = $this->getVersion();
 		$protocol = ProtocolInfo::CURRENT_PROTOCOL;
-		$build = "v1"; //TODO
 		$codename = $this->getCodename();
 		
 		$splash = $this->getSplash();
 		
-		return $this->getThemeManager()->getLogoTheme($version, $mcpe, $protocol, $build, $codename, $splash);
+		return $this->getThemeManager()->getLogoTheme($version, $mcpe, $protocol, $codename, $splash);
 	}
 	
 	protected function getSplash(){
@@ -2222,6 +2229,7 @@ class Server extends DarkSystem{
 		$this->banByName->load();
 		$this->banByIP->load();
 		$this->banByCID->load();
+		$this->banByUUID->load();
 		$this->reloadWhitelist();
 		$this->operators->reload();
 		
@@ -2534,9 +2542,8 @@ class Server extends DarkSystem{
 	public function getAdvancedProperty($variable, $defaultValue = null, Config $cfg = null){
 		$vars = explode(".", $variable);
 		$base = array_shift($vars);
-		if($cfg == null) $cfg = $this->advancedConfig;
-		if($cfg->exists($base)){
-			$base = $cfg->get($base);
+		if($this->advancedConfig->exists($base)){
+			$base = $this->advancedConfig->get($base);
 		}else{
 			return $defaultValue;
 		}
@@ -2651,20 +2658,6 @@ class Server extends DarkSystem{
 				}
 			}
 		}
-		/*if(($this->tickCounter % 6375) === 0){
-			$this->clearChat();
-			$this->broadcastMessage("§b[DarkSystem] §aSohbet Temizlendi!");
-		}*/
-		/*if(($this->tickCounter % 1275) === 0){ //16025
-			$x = $this->getDefaultLevel()->getSafeSpawn()->getX();
-			$y = $this->getDefaultLevel()->getSafeSpawn()->getY();
-			$z = $this->getDefaultLevel()->getSafeSpawn()->getZ();
-			//$skin;
-			$eid = "114514";
-			$item = Item::get(0);
-			$this->dbot->spawn("DarkBot", $eid, $x, $y, $z, $skin, $item);
-			$this->broadcastPopup("§aDarkBot Oyuna Katıldı!");
-		}*/
 		$now = microtime(true);
 		array_shift($this->tickAverage);
 		$tickDiff = $now - $tickTime;

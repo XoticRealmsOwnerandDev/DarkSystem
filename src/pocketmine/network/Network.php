@@ -23,6 +23,7 @@ use pocketmine\network\protocol\ContainerOpenPacket;
 use pocketmine\network\protocol\ContainerSetContentPacket;
 use pocketmine\network\protocol\ContainerSetDataPacket;
 use pocketmine\network\protocol\ContainerSetSlotPacket;
+use pocketmine\network\protocol\CommandBlockUpdatePacket;
 use pocketmine\network\protocol\CraftingDataPacket;
 use pocketmine\network\protocol\CraftingEventPacket;
 use pocketmine\network\protocol\DataPacket;
@@ -471,6 +472,7 @@ class Network{
 		$this->registerPacket105(ProtocolInfo105::CHUNK_RADIUS_UPDATE_PACKET, ChunkRadiusUpdatePacket::class);
 		$this->registerPacket105(ProtocolInfo105::AVAILABLE_COMMANDS_PACKET, AvailableCommandsPacket::class);
 		$this->registerPacket105(ProtocolInfo105::COMMAND_STEP_PACKET, CommandStepPacket::class);
+		$this->registerPacket105(ProtocolInfo105::COMMAND_BLOCK_UPDATE_PACKET, CommandBlockUpdatePacket::class);
 		$this->registerPacket105(ProtocolInfo105::TRANSFER_PACKET, TransferPacket::class);
 		$this->registerPacket105(ProtocolInfo105::RESOURCE_PACK_DATA_INFO_PACKET, ResourcePackDataInfoPacket::class);
 		$this->registerPacket105(ProtocolInfo105::RESOURCE_PACK_INFO_PACKET, ResourcePackInfoPacket::class);
@@ -532,6 +534,7 @@ class Network{
 		$this->registerPacket110(ProtocolInfo110::CHUNK_RADIUS_UPDATE_PACKET, ChunkRadiusUpdatePacket::class);
 		$this->registerPacket110(ProtocolInfo110::AVAILABLE_COMMANDS_PACKET, AvailableCommandsPacket::class);
 		$this->registerPacket110(ProtocolInfo110::COMMAND_STEP_PACKET, CommandStepPacket::class);
+		$this->registerPacket110(ProtocolInfo110::COMMAND_BLOCK_UPDATE_PACKET, CommandBlockUpdatePacket::class);
 		$this->registerPacket110(ProtocolInfo110::TRANSFER_PACKET, TransferPacket::class);
 		$this->registerPacket110(ProtocolInfo110::RESOURCE_PACK_DATA_INFO_PACKET, ResourcePackDataInfoPacket::class);
 		$this->registerPacket110(ProtocolInfo110::RESOURCE_PACK_INFO_PACKET, ResourcePackInfoPacket::class);
@@ -594,6 +597,7 @@ class Network{
 		$this->registerPacket120(ProtocolInfo120::PLAYER_HOTBAR_PACKET, PlayerHotbarPacket::class);
 		$this->registerPacket120(ProtocolInfo120::BOOK_EDIT_PACKET, BookEditPacket::class);
 		$this->registerPacket120(ProtocolInfo120::COMMAND_REQUEST_PACKET, CommandRequestPacket::class);
+		$this->registerPacket120(ProtocolInfo120::COMMAND_BLOCK_UPDATE_PACKET, CommandBlockUpdatePacket::class);
 		$this->registerPacket120(ProtocolInfo120::MODAL_FORM_RESPONSE_PACKET, ModalFormResponsePacket::class);
 		$this->registerPacket120(ProtocolInfo120::SERVER_SETTINGS_REQUEST_PACKET, ServerSettingsRequestPacket::class);
 		$this->registerPacket120(ProtocolInfo120::PURCHASE_RECEIPT_PACKET, PurchaseReceiptPacket::class);
@@ -659,6 +663,7 @@ class Network{
 		$this->registerPacket150(ProtocolInfo150::PLAYER_HOTBAR_PACKET, PlayerHotbarPacket::class);
 		$this->registerPacket150(ProtocolInfo150::BOOK_EDIT_PACKET, BookEditPacket::class);
 		$this->registerPacket150(ProtocolInfo150::COMMAND_REQUEST_PACKET, CommandRequestPacket::class);
+		$this->registerPacket120(ProtocolInfo120::COMMAND_BLOCK_UPDATE_PACKET, CommandBlockUpdatePacket::class);
 		$this->registerPacket150(ProtocolInfo150::MODAL_FORM_RESPONSE_PACKET, ModalFormResponsePacket::class);
 		$this->registerPacket150(ProtocolInfo150::SERVER_SETTINGS_REQUEST_PACKET, ServerSettingsRequestPacket::class);
 		$this->registerPacket150(ProtocolInfo150::PURCHASE_RECEIPT_PACKET, PurchaseReceiptPacket::class);

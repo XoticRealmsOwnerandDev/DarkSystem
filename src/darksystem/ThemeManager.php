@@ -31,11 +31,7 @@ class ThemeManager{
 	}
 	
 	public function getTheme(){
-		return "uranium"; //Force theme for 4.0
 		$configTheme = $this->server->getConfigString("theme", ThemeManager::DEFAULT_THEME);
-		/*if($this->server->getConfigInt("random-theme", "false")){
-		    return $this->availableThemes[array_rand($this->availableThemes)];
-		}*/
 		
 		if($this->server->getConfigInt("colorful-theme", "false")){
 		    return $this->availableThemes[array_rand($this->availableThemes)];
@@ -65,7 +61,7 @@ class ThemeManager{
     }
     
     //ASCII Text Font: Doom
-    public function getLogoTheme($version, $mcpe, $protocol, $build, $codename, $splash){
+    public function getLogoTheme($version, $mcpe, $protocol, $codename, $splash){
     	$name = $this->server->getSoftwareName();
     	if(mt_rand(1, 100) == 1){ //%1 chance
     	    $random = substr(base64_encode(random_bytes(20)), 3, 10);
@@ -96,17 +92,17 @@ class ThemeManager{
 			case "classic":
 			return "
 			
-    §d______           _    _____           _                  
-    §5|  _  \         | |  /  ___|         | |                  
-    §6| | | |__ _ _ __| | _\ `--. _   _ ___| |_ ___ _ __ ___   
-    §5| | | / _` | '__| |/ /`--. \ | | / __| __/ _ \ '_ ` _ \  
-    §d| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
-    §6|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
-                                 §5__/  |      
-                                 §d|___/         §eMCPE: $mcpe §a($protocol)
+    §f______           _    _____           _                  
+    §7|  _  \         | |  /  ___|         | |                  
+    §f| | | |__ _ _ __| | _\ `--. _   _ ___| |_ ___ _ __ ___   
+    §7| | | / _` | '__| |/ /`--. \ | | / __| __/ _ \ '_ ` _ \  
+    §f| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
+    §7|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
+                                 §f__/  |      
+                                 §7|___/         §6MCPE: $mcpe §e($protocol)
       $splash
                                       
-      §b$name $version  *$codename*
+      §a$name $version  *$codename*
       
 			";
 			break;
@@ -198,17 +194,17 @@ class ThemeManager{
 			default;
 			return "
 			
-    §d______           _    _____           _                  
-    §5|  _  \         | |  /  ___|         | |                  
-    §6| | | |__ _ _ __| | _\ `--. _   _ ___| |_ ___ _ __ ___   
-    §5| | | / _` | '__| |/ /`--. \ | | / __| __/ _ \ '_ ` _ \  
-    §d| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
-    §6|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
-                                 §5__/  |      
-                                 §d|___/         §eMCPE: $mcpe §a($protocol)
+    §f______           _    _____           _                  
+    §7|  _  \         | |  /  ___|         | |                  
+    §f| | | |__ _ _ __| | _\ `--. _   _ ___| |_ ___ _ __ ___   
+    §7| | | / _` | '__| |/ /`--. \ | | / __| __/ _ \ '_ ` _ \  
+    §f| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
+    §7|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
+                                 §f__/  |      
+                                 §7|___/         §6MCPE: $mcpe §e($protocol)
       $splash
                                       
-      §b$name $version  *$codename*
+      §a$name $version  *$codename*
       
 			";
 			break;

@@ -11,100 +11,127 @@
 
 namespace pocketmine\block;
 
-use pocketmine\inventory\CommandBlockInventory;
 use pocketmine\item\Item;
-use pocketmine\item\Tool;
+use pocketmine\level\Level;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\Player;
 use pocketmine\tile\Tile;
+use pocketmine\tile\CommandBlock as TileCB;
 
 class CommandBlock extends Solid{
 	
-    protected $id = self::COMMAND_BLOCK;
+	protected $id = self::COMMAND_BLOCK;
 
-    public function __construct($meta = 0){
-        $this->meta = $meta;
-    }
-    
-    public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null) {
-		$this->getLevel()->setBlock($block, $this, true, true);
-		$nbt = new CompoundTag("", [
-			new StringTag("id", Tile::COMMAND_BLOCK),
-			new IntTag("x", $this->x),
-			new IntTag("y", $this->y),
-			new IntTag("z", $this->z),
-			new IntTag("command", $this->getCommand())
-		]);
+	/**
+	 * @param int $meta
+	 */
+	public function __construct($meta = 0){
+		$this->meta = $meta;
+	}
 
-		if ($item->hasCustomName()) {
-			$nbt->CustomName = new StringTag("CustomName", $item->getCustomName());
-		}
-
-		if ($item->hasCustomBlockData()) {
-			foreach ($item->getCustomBlockData() as $key => $v) {
-				$nbt->{$key} = $v;
-			}
-		}
-
-		Tile::createTile(Tile::COMMAND_BLOCK, $this->getLevel(), $nbt);
-
+	/**
+	 * @return bool
+	 */
+	public function canBeActivated(){
 		return true;
 	}
-	
-	public function onActivate(Item $item, Player $player = null) {
-		if ($player instanceof Player) {
-			$tile = $this->getLevel()->getTile($this);
-			$enchantTable = null;
-			if ($tile instanceof CommandBlock) {
-				$enchantTable = $tile;
-			} else {
-				$this->getLevel()->setBlock($this, $this, true, true);
-				$nbt = new CompoundTag("", [
-					new StringTag("id", Tile::COMMAND_BLOCK),
-					new IntTag("x", $this->x),
-					new IntTag("y", $this->y),
-					new IntTag("z", $this->z),
-					new IntTag("command", $this->getCommand())
-				]);
-				if ($item->hasCustomName()) {
-					$nbt->CustomName = new StringTag("CustomName", $item->getCustomName());
-				}
-				if ($item->hasCustomBlockData()) {
-					foreach ($item->getCustomBlockData() as $key => $v) {
-						$nbt->{$key} = $v;
-					}
-				}
-				$commandBlock = Tile::createTile(Tile::COMMAND_BLOCK, $this->getLevel(), $nbt);
-			}
-			//$player->addWindow(new CommandBlockInventory($this));
-		}
-		return true;
-	}
-	
-	/*public function onUpdate($type){
-		if($type === Level::BLOCK_UPDATE_NORMAL){
-			$this->getServer()->dispatchCommand(""); //TODO
-		}
 
-		return false;
-	}*/
-	
-	public function getCommand(){
-        return null; //TODO
+	/**
+	 * @return string
+	 */
+	public function getName(){
+		return "Command Block";
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getHardness(){
+		return -1;
+	}
+
+	public function isBreakable(Item $item){
+        return false;
     }
-    
-    public function canBeActivated(){
+
+    public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+        if(!($player instanceof Player) && !$player->isOp() && !$player->isCreative()){
+            return false;
+        }
+        $pitch = $player->pitch;
+        if(abs($pitch) >= 60){
+            if($pitch < 0){
+                $f = 4;
+            }else{
+                $f = 5;
+            }
+        }else{
+            $f = ($player->getDirection() - 1) & 0x03;
+        }
+        $faces = [
+            0 => 4,
+            1 => 2,
+            2 => 5,
+            3 => 3,
+            4 => 0,
+            5 => 1
+        ];
+        $this->meta = $faces[$f];
+        $this->level->setBlock($this, $this);
+        $nbt = new CompoundTag("", [
+            new StringTag("id", Tile::COMMAND_BLOCK),
+            new IntTag("x", $this->x),
+            new IntTag("y", $this->y),
+            new IntTag("z", $this->z),
+            new IntTag("blockType", $this->getBlockType())
+        ]);
+        Tile::createTile(Tile::COMMAND_BLOCK, $this->level, $nbt);
         return true;
     }
 
-    public function getName(){
-        return "Command Block";
+    public function onActivate(Item $item, Player $player = null){
+        if(!($player instanceof Player) || !$player->isOp() or !$player->isCreative()){
+            return false;
+        }
+        $tile = $this->getTile();
+        if(!$tile instanceof TileCB){
+            $nbt = new CompoundTag("", [
+                new StringTag("id", Tile::COMMAND_BLOCK),
+                new IntTag("x", $this->x),
+                new IntTag("y", $this->y),
+                new IntTag("z", $this->z),
+                new IntTag("blockType", $this->getBlockType())
+            ]);
+            $tile = Tile::createTile(Tile::COMMAND_BLOCK, $this->level, $nbt);
+        }
+        $tile->spawnTo($player);
+        $tile->show($player);
+        return true;
     }
 
-    public function getHardness(){
-        return -1;
+    public function setPowered($powered){
+        if(($tile = $this->getTile()) != null){
+            $tile->setPowered($powered);
+        }
     }
 
+    public function getBlockType(){
+        return TileCB::NORMAL;
+    }
+    
+    public function getTile(){
+        return $this->level->getTile($this);
+    }
+
+    public function getResistance(){
+        return 18000000;
+    }
+
+    public function onUpdate($type){
+        if($type == Level::BLOCK_UPDATE_NORMAL || $type == Level::BLOCK_UPDATE_REDSTONE){
+            $this->setPowered($this->level->isBlockPowered($this));
+        }
+    }
 }
