@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/banner.png" border="0">
+<img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/blob/master/resources/banner.png" border="0">
 
 
 **An Advanced & Feature-rich Server Engine/Software For Minecraft (PE) Bedrock Edition 1.x.x & WIN10**
