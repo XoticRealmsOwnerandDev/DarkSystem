@@ -1032,7 +1032,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		return true;
 	}
 	
-	protected function orderChunks(){
+	protected function orderChunksAdvanced(){
 		if(!$this->connected || $this->viewRadius === -1){
 			return false;
 		}

@@ -1,5 +1,4 @@
-<img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/banner.png" alt="DS logo" title="Aimeos" align="center" height="120">
->>>>>>> branch 'master' of git@github.com:DarkSystem-PE/DarkSystem.git
+<img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/banner.png" alt="DarkSystem Banner" title="Aimeos" align="center" height="105">
 
 
 **An Advanced & Feature-rich Server Engine/Software For Minecraft (PE) Bedrock Edition 1.x.x & WIN10**
