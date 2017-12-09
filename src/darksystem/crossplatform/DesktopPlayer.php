@@ -413,7 +413,7 @@ class DesktopPlayer extends Player{
 		$this->sendAdvancements(true);
 	}
 
-	public function crossplatform_respawn() : void{
+	public function crossplatform_respawn(){
 		$pk = new PlayerPositionAndLookPacket();
 		$pk->x = $this->getX();
 		$pk->y = $this->getY();
@@ -435,7 +435,7 @@ class DesktopPlayer extends Player{
 	 * @param string     $uuid
 	 * @param array|null $onlineModeData
 	 */
-	public function crossplatform_authenticate(string $uuid, ?array $onlineModeData = null) : void{
+	public function crossplatform_authenticate($uuid, $onlineModeData = null){
 		if($this->crossplatform_status === 0){
 			$this->crossplatform_uuid = $uuid;
 			$this->crossplatform_formatedUUID = Binary::UUIDtoString($this->crossplatform_uuid);
@@ -661,7 +661,7 @@ class DesktopPlayer extends Player{
 	/**
 	 * @param Packet $packet
 	 */
-	public function putRawPacket(Packet $packet) : void{
+	public function putRawPacket(Packet $packet){
 		$this->interface->putRawPacket($this, $packet);
 	}
 	

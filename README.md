@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/logo.png" alt="DarkSystem Logo" title="Aimeos" align="center" height="50"> <img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/banner.png" alt="DarkSystem Banner" title="Aimeos" align="center" height="105">
+<img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/logo.png" alt="DarkSystem Logo" title="Aimeos" align="center" height="90"> <img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/banner.png" alt="DarkSystem Banner" title="Aimeos" align="center" height="105"> <img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/turkish_flag.png" alt="Turkish Flag" title="Aimeos" align="center" height="90">
 
 
 **DarkSystem is cross-platform server software for Minecraft with many features**
