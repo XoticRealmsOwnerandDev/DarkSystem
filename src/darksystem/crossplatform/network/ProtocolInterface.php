@@ -66,19 +66,21 @@ class ProtocolInterface implements SourceInterface{
 
 	/** @var int */
 	private $threshold;
+	/** @var CrossPlatform  */
+    protected $handler;
 
-	/**
-	 * @param BigBrother $plugin
-	 * @param Server     $server
-	 * @param Translator $translator
-	 * @param int        $threshold
-	 */
+    /**
+     * @param CrossPlatform $handler
+     * @param Server $server
+     * @param Translator $translator
+     * @param int $threshold
+     */
 	public function __construct(CrossPlatform $handler, Server $server, Translator $translator, $threshold){
 		$this->handler = $handler;
 		$this->server = $server;
 		$this->translator = $translator;
 		$this->threshold = $threshold;
-		$this->thread = new ServerThread($server->getLogger(), $server->getLoader(), $plugin->getPort(), $plugin->getIp(), $plugin->getMotd(), $plugin->getDataFolder()."server-icon.png", false);
+		$this->thread = new ServerThread($server->getLogger(), $server->getLoader(), $handler->getPort(), $handler->getIp(), $handler->getMotd(), $this->server->getDataPath()."server-icon.png", false);
 		$this->sessions = new \SplObjectStorage();
 	}
 

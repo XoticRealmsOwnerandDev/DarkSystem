@@ -127,15 +127,15 @@ class AddUICommand extends VanillaCommand{
 		            $ui->addButton($button);
 				    break;
 				case "slider":
-                    $ui = new CustomForm("TestSlider", "");
+                    $ui = new CustomForm("TestSlider");
 		            $ui->addElement(new Slider("Slider", 5, 10, 0.5));
 				    break;
 				case "input":
-                    $ui = new CustomForm("TestInput", "");
+                    $ui = new CustomForm("TestInput");
 		            $ui->addElement(new Input("Input", "Text"));
 				    break;
 				case "dropdown":
-                    $ui = new CustomForm("TestDropdown", "");
+                    $ui = new CustomForm("TestDropdown");
 		            $ui->addElement(new Dropdown("Dropdown", ["Name1", "Name2"]));
 				    break;
             	    default;

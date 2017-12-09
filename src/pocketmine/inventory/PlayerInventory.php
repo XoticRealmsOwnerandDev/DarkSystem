@@ -15,7 +15,6 @@ use pocketmine\entity\Human;
 use pocketmine\event\entity\EntityArmorChangeEvent;
 use pocketmine\event\entity\EntityInventoryChangeEvent;
 use pocketmine\event\player\PlayerItemHeldEvent;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\ContainerSetContentPacket;
 use pocketmine\network\protocol\ContainerSetSlotPacket;
 use pocketmine\network\protocol\MobArmorEquipmentPacket;
@@ -31,6 +30,8 @@ class PlayerInventory extends BaseInventory{
 
 	protected $itemInHandIndex = 0;
 	protected $hotbar;
+	/** @var Player|Human $holder */
+	protected $holder;
 
 	public function __construct(Human $player){
 		for($i = 0; $i < $this->getHotbarSize(); $i++){
@@ -355,6 +356,7 @@ class PlayerInventory extends BaseInventory{
 		$pk->slot = $this->getHeldItemSlot();
 		$pk->selectedSlot = $this->getHeldItemIndex();
 		$pk->windowId = MobEquipmentPacket::WINDOW_ID_PLAYER_OFFHAND;
+		/** @var Player $player */
 		foreach($target as $player){
 			if($player->getPlayerProtocol() >= Info::PROTOCOL_110){
 				if($player === $this->getHolder()){
@@ -453,14 +455,7 @@ class PlayerInventory extends BaseInventory{
 		$this->getHolder()->dataPacket($pk);
 	}
 	
-	/**
-	 * @return Human|Player
-	 */
-	public function getHolder(){
-		return parent::getHolder();
-	}
-	
-	public function removeItemWithCheckOffHand($searchItem){
+	public function removeItemWithCheckOffHand(Item $searchItem){
 		$offhandSlotId = $this->getSize() + self::OFFHAND_ARMOR_SLOT_ID;
 		$item = $this->getItem($offhandSlotId);
 		if($item->getId() !== Item::AIR && $item->getCount() > 0){
@@ -474,4 +469,11 @@ class PlayerInventory extends BaseInventory{
 		}
 		parent::removeItem($searchItem);
 	}
+
+    /**
+     * @return Player|Human
+     */
+    public function getHolder(){
+        return $this->holder;
+    }
 }

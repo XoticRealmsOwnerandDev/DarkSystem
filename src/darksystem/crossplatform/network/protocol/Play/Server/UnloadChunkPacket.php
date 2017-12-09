@@ -29,7 +29,7 @@ declare(strict_types=1);
 
 namespace shoghicp\BigBrother\network\protocol\Play\Server;
 
-use shoghicp\BigBrother\network\OutboundPacket;
+use darksystem\crossplatform\network\OutboundPacket;
 
 class UnloadChunkPacket extends OutboundPacket{
 

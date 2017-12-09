@@ -2,23 +2,14 @@
 
 namespace darksystem\crossplatform;
 
-use pocketmine\plugin\PluginBase;
 use pocketmine\network\protocol\Info;
 use pocketmine\network\protocol\TextPacket;
-use pocketmine\block\Block;
-use pocketmine\block\Chest;
-use pocketmine\event\player\PlayerRespawnEvent;
-use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\event\block\BlockBreakEvent;
-use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat;
 use pocketmine\Server;
 use phpseclib\Crypt\RSA;
 use darksystem\crossplatform\network\ServerManager;
 use darksystem\crossplatform\network\ProtocolInterface;
 use darksystem\crossplatform\network\Translator;
-use darksystem\crossplatform\network\protocol\Play\Server\RespawnPacket;
-use darksystem\crossplatform\network\protocol\Play\Server\OpenSignEditorPacket;
 use darksystem\crossplatform\utils\ConvertUtils;
 use darksystem\crossplatform\utils\AES;
 
@@ -41,8 +32,9 @@ class CrossPlatform{
 
 	/** @var Translator */
 	protected $translator;
-	
-	public function __construct(Server $server){
+    protected $server;
+
+    public function __construct(Server $server){
 		$this->server = $server;
 		
 		ConvertUtils::init();
@@ -65,7 +57,7 @@ class CrossPlatform{
 		$this->rsa = new RSA();
 		switch(constant("CRYPT_RSA_MODE")){
 			case RSA::MODE_OPENSSL:
-				$this->rsa->configFile = $this->getDataFolder() . "openssl.cnf";
+				$this->rsa->configFile = $this->server->getDataPath() . "openssl.cnf";
 				$this->server->getLogger()->info("Use openssl as RSA encryption engine.");
 			break;
 			case RSA::MODE_INTERNAL:
@@ -105,6 +97,13 @@ class CrossPlatform{
 			return true;
 		}
 	}
+
+    /**
+     * @return Server
+     */
+    public function getServer(): Server{
+        return $this->server;
+    }
 
 	/**
 	 * @return string ip address

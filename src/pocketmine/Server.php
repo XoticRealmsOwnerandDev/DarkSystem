@@ -1361,7 +1361,6 @@ class Server extends DarkSystem{
 		$this->translate->prepareLang();
 		$this->dbot = new DarkBot($this);
 		$this->themeManager = new ThemeManager($this);
-		$this->crossplatform = new CrossPlatform($this);
 		$this->core = new CoreStarter($this);
 		try{
 			if(Translate::checkTurkish() === "yes"){
@@ -1725,8 +1724,8 @@ class Server extends DarkSystem{
 			
 			$this->network = new Network($this);
 			$this->network->setName($this->getMotd());
-			
-			Timings::init();
+
+            Timings::init();
 
 			$this->consoleSender = new ConsoleCommandSender();
 			$this->cmdMap = new SimpleCommandMap($this);
@@ -1767,8 +1766,9 @@ class Server extends DarkSystem{
 			$this->pluginMgr->loadPlugins($this->pluginPath);
 			$this->enablePlugins(PluginLoadOrder::STARTUP);
 			$this->network->registerInterface(new RakLibInterface($this));
-			
-			LevelProviderManager::addProvider($this, Anvil::class);
+            $this->crossplatform = new CrossPlatform($this);
+
+            LevelProviderManager::addProvider($this, Anvil::class);
 			//LevelProviderManager::addProvider($this, PMAnvil::class);
 			LevelProviderManager::addProvider($this, McRegion::class);
 			

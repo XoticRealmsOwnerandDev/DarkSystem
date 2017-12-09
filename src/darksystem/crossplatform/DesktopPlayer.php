@@ -19,6 +19,7 @@ use pocketmine\network\protocol\BatchPacket;
 use pocketmine\network\SourceInterface;
 use pocketmine\level\Level;
 use pocketmine\level\format\Chunk;
+use pocketmine\tile\ItemFrame;
 use pocketmine\utils\Utils;
 use pocketmine\utils\TextFormat;
 use darksystem\crossplatform\network\Packet;
@@ -37,6 +38,7 @@ use darksystem\crossplatform\entity\ItemFrameBlockEntity;
 use darksystem\crossplatform\utils\Binary;
 use darksystem\crossplatform\utils\InventoryUtils;
 use darksystem\crossplatform\utils\RecipeUtils;
+use shoghicp\BigBrother\network\protocol\Play\Server\UnloadChunkPacket;
 
 class DesktopPlayer extends Player{
 
@@ -337,17 +339,19 @@ class DesktopPlayer extends Player{
 		}
 	}
 
-	/**
-	 * @param int $chunkX
-	 * @param int $chunkZ
-	 * @param BatchPacket $payload
-	 * @override
-	 */
-	public function sendChunk($chunkX, $chunkZ, BatchPacket $payload){
+    /**
+     * @param int $chunkX
+     * @param int $chunkZ
+     * @param BatchPacket $payload
+     * @override
+     * @return bool|void
+     */
+	public function sendChunk($chunkX, $chunkZ, $payload){
 		parent::sendChunk($chunkX, $chunkZ, $payload);
 		foreach($this->usedChunks as $index => $c){
 			Level::getXZ($index, $chunkX, $chunkZ);
-			foreach(ItemFrameBlockEntity::getItemFramesInChunk($this->level, $chunkX, $chunkZ) as $frame){
+			/** @var ItemFrame $frame */
+            foreach(ItemFrameBlockEntity::getItemFramesInChunk($this->level, $chunkX, $chunkZ) as $frame){
 				$frame->spawnTo($this);
 			}
 		}
@@ -360,7 +364,7 @@ class DesktopPlayer extends Player{
 	 * @override
 	 */
 	protected function unloadChunk($chunkX, $chunkZ, Level $level = null){
-		parent::unloadChunk($chunkX, $chunkZ, $level);
+		parent::unloadChunk($chunkX, $chunkZ);
 
 		$pk = new UnloadChunkPacket();
 		$pk->chunkX = $chunkX;
@@ -511,18 +515,18 @@ class DesktopPlayer extends Player{
 		}
 	}
 
-	/**
-	 * @param BigBrother $plugin
-	 * @param string $username
-	 * @param bool $onlineMode
-	 */
+    /**
+     * @param CrossPlatform $handler
+     * @param string $username
+     * @param bool $onlineMode
+     */
 	public function crossplatform_handleAuthentication(CrossPlatform $handler, $username, $onlineMode = false){
 		if($this->crossplatform_status === 0){
 			$this->crossplatform_username = $username;
 			if($onlineMode){
 				$pk = new EncryptionRequestPacket();
 				$pk->serverID = "";
-				$pk->publicKey = $plugin->getASN1PublicKey();
+				$pk->publicKey = $handler->getASN1PublicKey();
 				$pk->verifyToken = $this->crossplatform_checkToken = str_repeat("\x00", 4);
 				$this->putRawPacket($pk);
 			}else{

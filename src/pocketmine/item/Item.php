@@ -11,6 +11,8 @@
 
 namespace pocketmine\item;
 
+use pocketmine\block\SpruceDoorBlock;
+use pocketmine\entity\Entity;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\block\Block;
@@ -29,7 +31,8 @@ use pocketmine\utils\Config;
 class Item{
 	
 	const MAX_STACK = 64;
-	
+
+	/** @var NBT|null */
 	private static $cachedParser = null;
 
 	/**
