@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/logo.png" alt="DarkSystem Logo" title="Aimeos" align="center" height="50"> <img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/banner.png" alt="DarkSystem Banner" title="Aimeos" align="center" height="105">
 
 
-**An Advanced & Feature-rich Server Engine/Software For Minecraft (PE) Bedrock Edition 1.x.x & WIN10**
+**DarkSystem is cross-platform server software for Minecraft with many features**
 
 [![License](https://img.shields.io/github/license/DarkSystem-PE/DarkSystem.svg)](https://github.com/DarkSystem-PE/DarkSystem/blob/master/LICENSE)
 [![GitHub contributors](https://img.shields.io/github/contributors/DarkSystem-PE/DarkSystem.svg)](https://github.com/DarkSystem-PE/DarkSystem/graphs/contributors)
@@ -20,6 +20,8 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
 - [x] DarkSystem is **# 1** about speed & no-lag.
   * We think so
 - [x] Based on **old** PocketMine-MP for best performance and stability.
+- [x] MC:PC Support!
+  * PC players can join to PE Server!
 - [x] Loads chunks region-to-region.
   * It uses less CPU resources & loads chunks fast.
 - [x] Cached chunk loading

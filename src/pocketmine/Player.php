@@ -11,6 +11,7 @@
 
 namespace pocketmine;
 
+use darksystem\crossplatform\DesktopPlayer;
 use darksystem\darkbot\DarkBot;
 use darksystem\darkbot\ChatHandler;
 use pocketmine\block\Block;
@@ -945,6 +946,14 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$this->dataPacket($pk);
 			$this->server->updatePlayerListData($this->getUniqueId(), $this->getId(), $this->getName(), $this->skinName, $this->skin, $this->skinGeometryName, $this->skinGeometryData, $this->capeData, $this->getXUID(), [$this]);
 			$pos = $this->level->getSafeSpawn($this);
+			if($player instanceof DesktopPlayer){
+				$pk = new RespawnPacket();
+				$pk->dimension = $player->crossplatform_getDimension();
+				$pk->difficulty = $player->getServer()->getDifficulty();
+				$pk->gamemode = $player->getGamemode();
+				$pk->levelType = "default";
+				$player->crossplatform_respawn();
+			}
 			$this->server->getPluginManager()->callEvent($ev = new PlayerRespawnEvent($this, $pos));
 			$pos = $ev->getRespawnPosition();
 			$chunkX = null;

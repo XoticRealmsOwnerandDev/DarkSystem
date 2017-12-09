@@ -20,6 +20,7 @@ use darksystem\StringTranslator;
 use darksystem\ThemeManager;
 use darksystem\darkbot\DarkBot;
 use darksystem\multicore\CoreStarter;
+use darksystem\crossplatform\CrossPlatform;
 use pocketmine\inventory\customUI\CustomUI;
 use darksystem\darkbot\command\SpawnDarkBotCommand;
 use pocketmine\command\CommandReader;
@@ -1360,6 +1361,7 @@ class Server extends DarkSystem{
 		$this->translate->prepareLang();
 		$this->dbot = new DarkBot($this);
 		$this->themeManager = new ThemeManager($this);
+		$this->crossplatform = new CrossPlatform($this);
 		$this->core = new CoreStarter($this);
 		try{
 			if(Translate::checkTurkish() === "yes"){

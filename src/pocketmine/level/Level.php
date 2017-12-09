@@ -98,6 +98,7 @@ use pocketmine\utils\ReversePriorityQueue;
 use pocketmine\utils\TextFormat;
 use pocketmine\network\protocol\Info;
 use darksystem\ChunkGenerator;
+use darksystem\crossplatform\DesktopPlayer;
 use pocketmine\level\generator\GenerationTask;
 use pocketmine\level\generator\Generator;
 use pocketmine\level\generator\GeneratorRegisterTask;
@@ -1223,6 +1224,9 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 			if(!$ev->getInstaBreak() && ($player->lastBreak + $breakTime) >= microtime(true) - $delta){
 				return false;
 			}
+			if($player instanceof DesktopPlayer){
+				$event->setInstaBreak(true);
+			}
 			$this->server->getPluginManager()->callEvent($ev);
 			if($ev->isCancelled()){
 				return false;
@@ -1375,6 +1379,24 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 					$ev->setCancelled();
 				}
 			}
+			if($player instanceof DesktopPlayer){
+				if($block instanceof Chest){
+					$num_side_chest = 0;
+					for($i = 2; $i <= 5; ++$i){
+						if(($side_chest = $block->getSide($i))->getId() === $block->getId()){
+							++$num_side_chest;
+							for($j = 2; $j <= 5; ++$j){
+								if($side_chest->getSide($j)->getId() === $side_chest->getId()){
+									$event->setCancelled(true);
+								}
+							}
+						}
+					}
+					if($num_side_chest > 1){
+						$event->setCancelled(true);
+					}
+				}
+			}
 			$this->server->getPluginManager()->callEvent($ev);
 			if($ev->isCancelled()){
 				return false;
@@ -1396,6 +1418,12 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 			]));
 			if($player instanceof Player){
 				$tile->namedtag->Creator = new StringTag("Creator", $player->getName());
+			}elseif($player instanceof DesktopPlayer){
+				$pk = new OpenSignEditorPacket();
+				$pk->x = $block->x;
+				$pk->y = $block->y;
+				$pk->z = $block->z;
+				$player->putRawPacket($pk);
 			}
 		}
 		$item->setCount($item->getCount() - 1);
