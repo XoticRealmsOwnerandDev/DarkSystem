@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class CraftingBookDataPacket extends InboundPacket{
 
@@ -42,11 +42,11 @@ class CraftingBookDataPacket extends InboundPacket{
 	/** @var bool */
 	public $isFilteringCraftable = false;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::CRAFTING_BOOK_DATA_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->type = $this->getVarInt();
 		switch($this->type){
 			case 0://Displayed Recipe
