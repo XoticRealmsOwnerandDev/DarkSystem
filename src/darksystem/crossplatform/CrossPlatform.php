@@ -32,8 +32,7 @@ class CrossPlatform{
 
 	/** @var Translator */
 	protected $translator;
-    protected $server;
-
+	
     public function __construct(Server $server){
 		$this->server = $server;
 		

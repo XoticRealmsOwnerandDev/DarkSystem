@@ -941,7 +941,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 				$pk->difficulty = $this->getServer()->getDifficulty();
 				$pk->gamemode = $this->getGamemode();
 				$pk->levelType = "default";
-                $this->crossplatform_respawn();
+				$this->crossplatform_respawn();
 			}
 			$this->server->getPluginManager()->callEvent($ev = new PlayerRespawnEvent($this, $pos));
 			$chunkX = null;

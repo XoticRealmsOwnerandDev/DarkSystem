@@ -38,7 +38,6 @@ use darksystem\crossplatform\entity\ItemFrameBlockEntity;
 use darksystem\crossplatform\utils\Binary;
 use darksystem\crossplatform\utils\InventoryUtils;
 use darksystem\crossplatform\utils\RecipeUtils;
-use shoghicp\BigBrother\network\protocol\Play\Server\UnloadChunkPacket;
 
 class DesktopPlayer extends Player{
 

@@ -79,21 +79,21 @@ class AddUICommand extends VanillaCommand{
 		            $ui->addElement(new Label("Uyarıldınız!"));
             	    break;
             	case "resim":
-                    $ui = new SimpleForm("TestResim", "");
+                    $ui = new SimpleForm("TestResim");
 		            $button = new Button("ResimDüğmesi");
 		            $button->setImage(Button::IMAGE_TYPE_URL, "https://server.wolvesfortress.de/MCPEGUIimages/hd/X.png");
 		            $ui->addButton($button);
 				    break;
 				case "kaydirici":
-                    $ui = new CustomForm("TestKaydirici", "");
+                    $ui = new CustomForm("TestKaydirici");
 		            $ui->addElement(new Slider("Kaydirici", 5, 10, 0.5));
 				    break;
 				case "metinkutusu":
-                    $ui = new CustomForm("TestMetinKutusu", "");
+                    $ui = new CustomForm("TestMetinKutusu");
 		            $ui->addElement(new Input("MetinKutusu", "Metin"));
 				    break;
 				case "liste":
-                    $ui = new CustomForm("TestListe", "");
+                    $ui = new CustomForm("TestListe");
 		            $ui->addElement(new Dropdown("Liste", ["Icerik1", "Icerik2"]));
 				    break;
             	    default;
@@ -121,7 +121,7 @@ class AddUICommand extends VanillaCommand{
 		            $ui->addElement(new Label("You are alerted!"));
             	    break;
                 case "image":
-                    $ui = new SimpleForm("TestImage", "");
+                    $ui = new SimpleForm("TestImage");
 		            $button = new Button("ImageButton");
 		            $button->setImage(Button::IMAGE_TYPE_URL, "https://server.wolvesfortress.de/MCPEGUIimages/hd/X.png");
 		            $ui->addButton($button);

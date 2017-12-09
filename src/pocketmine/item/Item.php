@@ -11,7 +11,6 @@
 
 namespace pocketmine\item;
 
-use pocketmine\block\SpruceDoorBlock;
 use pocketmine\entity\Entity;
 use pocketmine\Player;
 use pocketmine\Server;
@@ -935,7 +934,7 @@ class Item{
 			Item::$list[Item::BEETROOT_SEEDS] = BeetrootSeeds::class;
 			Item::$list[Item::SIGN] = Sign::class;
 			Item::$list[Item::WOODEN_DOOR] = WoodenDoor::class;
-			Item::$list[Item::SPRUCE_DOOR_BLOCK] = SpruceDoorBlock::class;
+			Item::$list[Item::SPRUCE_DOOR] = SpruceDoor::class;
 			Item::$list[Item::BIRCH_DOOR] = BirchDoor::class;
 			Item::$list[Item::JUNGLE_DOOR] = JungleDoor::class;
 			Item::$list[Item::ACACIA_DOOR] = AcaciaDoor::class;
