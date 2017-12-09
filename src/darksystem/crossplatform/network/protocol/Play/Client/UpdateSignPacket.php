@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class UpdateSignPacket extends InboundPacket{
 
@@ -48,11 +48,11 @@ class UpdateSignPacket extends InboundPacket{
 	/** @var string */
 	public $line4;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::UPDATE_SIGN_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->getPosition($this->x, $this->y, $this->z);
 		$this->line1 = $this->getString();
 		$this->line2 = $this->getString();
