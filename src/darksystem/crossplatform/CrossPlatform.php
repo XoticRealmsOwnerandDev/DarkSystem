@@ -6,7 +6,7 @@ use pocketmine\network\protocol\Info;
 use pocketmine\network\protocol\TextPacket;
 use pocketmine\utils\TextFormat;
 use pocketmine\Server;
-use phpseclib\Crypt\RSA;
+use darksystem\phpseclib\Crypt\RSA;
 use darksystem\crossplatform\network\ServerManager;
 use darksystem\crossplatform\network\ProtocolInterface;
 use darksystem\crossplatform\network\Translator;

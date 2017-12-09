@@ -191,6 +191,7 @@ class ServerThread extends \Thread{
 				require($path);
 			}
 		}
+		
 		$this->loader->register();
 
 		register_shutdown_function([$this, "shutdownHandler"]);

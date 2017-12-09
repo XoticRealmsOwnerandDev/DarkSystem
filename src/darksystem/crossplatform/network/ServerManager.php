@@ -136,15 +136,15 @@ class ServerManager{
 		return $this->serverdata;
 	}
 
-	public function shutdown() : void{
+	public function shutdown(){
 		$this->thread->shutdown();
-		usleep(50000); //Sleep for 1 tick
+		usleep(50000);
 	}
 
 	/**
 	 * @return bool false if there is no packet to process else true
 	 */
-	protected function processPacket() : bool{
+	protected function processPacket(){
 		@fread($this->fp, 1);
 		if(is_string($packet = $this->thread->readMainToThreadPacket())){
 			$pid = ord($packet{0});
@@ -225,14 +225,14 @@ class ServerManager{
 	 * @param int    $id
 	 * @param string $buffer
 	 */
-	public function sendPacket(int $id, string $buffer) : void{
+	public function sendPacket($id, $buffer){
 		$this->thread->pushThreadToMainPacket(chr(self::PACKET_SEND_PACKET) . Binary::writeInt($id) . $buffer);
 	}
 
 	/**
 	 * @param Session $session
 	 */
-	public function openSession(Session $session) : void{
+	public function openSession(Session $session){
 		$data = chr(self::PACKET_OPEN_SESSION) . Binary::writeInt($session->getID()) . chr(strlen($session->getAddress())) . $session->getAddress() . Binary::writeShort($session->getPort());
 		$this->thread->pushThreadToMainPacket($data);
 	}
@@ -241,11 +241,11 @@ class ServerManager{
 	 * @param int $id
 	 * @param int $flag
 	 */
-	protected function closeSession(int $id, int $flag) : void{
+	protected function closeSession($id, $flag){
 		$this->thread->pushThreadToMainPacket(chr(self::PACKET_CLOSE_SESSION) . Binary::writeInt($id).Binary::writeInt($flag));
 	}
 
-	private function process() : void{
+	private function process(){
 		while($this->shutdown !== true){
 			$sockets = $this->sockets;
 			$write = null;
@@ -281,7 +281,7 @@ class ServerManager{
 	/**
 	 * @param resource $s
 	 */
-	protected function findSocket($s) : void{
+	protected function findSocket($s){
 		foreach($this->sockets as $identifier => $socket){
 			if($identifier > 0 and $socket === $s){
 				$this->sessions[$identifier]->process();
@@ -293,7 +293,7 @@ class ServerManager{
 	/**
 	 * @param Session $session
 	 */
-	public function close(Session $session) : void{
+	public function close(Session $session){
 		$identifier = $session->getID();
 		fclose($this->sockets[$identifier]);
 		unset($this->sockets[$identifier]);

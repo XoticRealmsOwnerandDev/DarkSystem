@@ -15,7 +15,6 @@ use darksystem\metadata\MetadataValue;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\plugin\Plugin;
 use pocketmine\IPlayer;
-//use darksystem\IPlayer;
 
 class OfflinePlayer implements IPlayer{
 
@@ -125,5 +124,4 @@ class OfflinePlayer implements IPlayer{
 	public function removeMetadata($metadataKey, Plugin $plugin){
 		$this->server->getPlayerMetadata()->removeMetadata($this, $metadataKey, $plugin);
 	}
-	
 }

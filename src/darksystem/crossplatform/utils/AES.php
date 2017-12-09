@@ -2,16 +2,12 @@
 
 namespace darksystem\crossplatform\utils;
 
-use phpseclib\Crypt\Rijndael;
+use darksystem\phpseclib\Crypt\Rijndael;
 
 class AES extends Rijndael{
 
 	const MODE_CFB8 = 38;
-
-	/**
-	 * @param int $mode
-	 * @override
-	 */
+	
 	public function __construct($mode = self::MODE_CFB8){
 		parent::__construct($mode);
 		if($mode === self::MODE_CFB8){
@@ -23,11 +19,7 @@ class AES extends Rijndael{
 			$this->use_inline_crypt = version_compare(PHP_VERSION, '5.3.0', '>=') or function_exists('create_function');
 		}
 	}
-
-	/**
-	 * TODO this method overrides private Base::_setupMcrypt() method
-	 * @override
-	 */
+	
 	function _setupMcrypt(){
 		switch($this->mode){
 			case self::MODE_CFB8:
@@ -45,12 +37,7 @@ class AES extends Rijndael{
 			break;
 		}
 	}
-
-	/**
-	 * TODO this method override private Base::_openssl_translate_mode()
-	 * @return string
-	 * @override
-	 */
+	
 	function _openssl_translate_mode(){
 		switch($this->mode){
 			case self::MODE_CFB8:
@@ -59,13 +46,7 @@ class AES extends Rijndael{
 				return parent::_openssl_translate_mode();
 		}
 	}
-
-	/**
-	 * TODO this method override private Base::_createInlineCryptFunction() method
-	 * @param array $cipher_code
-	 * @return string
-	 * @override
-	 */
+	
 	public function _createInlineCryptFunction($cipher_code){
 		$inline = null;
 
@@ -133,13 +114,7 @@ class AES extends Rijndael{
 
 		return $inline;
 	}
-
-	/**
-	 * TODO this method override internal Base::encrypt() method
-	 * @param string $plain text to encrypt
-	 * @return string encrypted text
-	 * @override
-	 */
+	
 	public function encrypt($plain){
 		switch(true){
 			case $this->engine === self::ENGINE_OPENSSL and $this->mode === self::MODE_CFB8:
@@ -202,13 +177,7 @@ class AES extends Rijndael{
 
 		return $cipher;
 	}
-
-	/**
-	 * TODO this method override internal Base::decrypt() method
-	 * @param string $cipher text to decrypt
-	 * @return string decrypted text
-	 * @override
-	 */
+	
 	public function decrypt($cipher){
 		switch(true){
 			case $this->engine === self::ENGINE_OPENSSL and $this->mode === self::MODE_CFB8:

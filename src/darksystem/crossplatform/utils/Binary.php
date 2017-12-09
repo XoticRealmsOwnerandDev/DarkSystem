@@ -2,7 +2,7 @@
 
 namespace darksystem\crossplatform\utils;
 
-use phpseclib\Math\BigInteger;
+use darksystem\phpseclib\Math\Integer;
 use darksystem\crossplatform\network\Session;
 use pocketmine\nbt\NBT;
 
@@ -13,8 +13,8 @@ class Binary extends \pocketmine\utils\Binary{
 	 * @return string
 	 */
 	public static function sha1($input){
-		$number = new BigInteger(sha1($input, true), -256);
-		$zero = new BigInteger(0);
+		$number = new Integer(sha1($input, true), -256);
+		$zero = new Integer(0);
 		return ($zero->compare($number) <= 0 ? "":"-") . ltrim($number->toHex(), "0");
 	}
 
