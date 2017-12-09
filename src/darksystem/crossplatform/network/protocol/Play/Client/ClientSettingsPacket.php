@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class ClientSettingsPacket extends InboundPacket{
 
@@ -46,11 +46,11 @@ class ClientSettingsPacket extends InboundPacket{
 	/** @var int */
 	public $mainHand;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::CLIENT_SETTINGS_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->lang = $this->getString();
 		$this->view = $this->getSignedByte();
 		$this->chatMode = $this->getVarInt();
