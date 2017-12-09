@@ -27,20 +27,20 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class KeepAlivePacket extends InboundPacket{
 
 	/** @var int */
 	public $id;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::KEEP_ALIVE_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->id = $this->getLong();
 	}
 }
