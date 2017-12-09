@@ -80,7 +80,7 @@ class DesktopPlayer extends Player{
 
 	/** @var ProtocolInterface */
 	protected $interface;
-	/** @var BigBrother */
+	/** @var CrossPlatform */
 	protected $plugin;
 
 	/**
@@ -88,7 +88,7 @@ class DesktopPlayer extends Player{
 	 * @param string          $clientID
 	 * @param string          $address
 	 * @param int             $port
-	 * @param BigBrother      $plugin
+	 * @param CrossPlatform      $handler
 	 */
 	public function __construct(SourceInterface $interface, $clientID, $address, $port, CrossPlatform $handler){
 		$this->handler = $handler;
@@ -273,8 +273,8 @@ class DesktopPlayer extends Player{
 				],
 				[
 					true,
-					BigBrother::toJSON("Welcome to DarkSystem Server!"),
-					BigBrother::toJSON("Join to DarkSystem Server with Minecraft"),
+					CrossPlatform::toJSON("Welcome to DarkSystem Server!"),
+					CrossPlatform::toJSON("Join to DarkSystem Server with Minecraft"),
 					Item::get(Item::GRASS),
 					0,
 					[
@@ -410,7 +410,7 @@ class DesktopPlayer extends Player{
 
 		$pk = new TitlePacket();
 		$pk->actionID = TitlePacket::TYPE_SET_SUB_TITLE;
-		$pk->data = TextFormat::toJSON(TextFormat::YELLOW . TextFormat::BOLD . "This is a beta version of BigBrother.");
+		$pk->data = TextFormat::toJSON(TextFormat::YELLOW . TextFormat::BOLD . "This is a beta version of cross-platform.");
 		$this->putRawPacket($pk);
 
 		$this->sendAdvancements(true);

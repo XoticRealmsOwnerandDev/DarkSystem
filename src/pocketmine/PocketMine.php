@@ -80,95 +80,26 @@ namespace pocketmine{
 		define("pocketmine\\PATH", getcwd() . DIRECTORY_SEPARATOR);
 	}
 	
-	function checkLicense(){
-		$result = "";
-		$issues = 0;
-		/* Do Not Change! */
-		$name = "DarkSystem";
-		if(!strpos(VERSION, ".")){
-			$result = "invalid_ds_ver";
-			++$issues;
-		}
-		
-		if(!strpos(DARKBOT_VERSION, ".")){
-			$result = "invalid_dbot_ver";
-			++$issues;
-		}
-		
-		if(!strpos(API_VERSION, ".")){
-			$result = "invalid_api_ver";
-			++$issues;
-		}
-		
-		if(NAME !== $name){
-			$result = "unofficial";
-			++$issues;
-		}
-		
-		if(count($issues) >= 1){
-			if(strpos($result, "in") || strpos($result, "un")){
-				switch($result){
-					case "invalid_ds_ver":
-					if(Translate::checkTurkish() === "yes"){
-						echo "[HATA] Geçersiz DarkSystem Sürümü!" . PHP_EOL;
-					}else{
-						echo "[ERROR] Invalid DarkSystem Version!" . PHP_EOL;
-					}
-					exit(1);
-					break;
-					case "invalid_dbot_ver":
-					if(Translate::checkTurkish() === "yes"){
-						echo "[HATA] Geçersiz DarkBot Sürümü!" . PHP_EOL;
-					}else{
-						echo "[ERROR] Invalid DarkBot Version!" . PHP_EOL;
-					}
-					exit(1);
-					break;
-					case "invalid_api_ver":
-					if(Translate::checkTurkish() === "yes"){
-						echo "[HATA] Geçersiz API Sürümü!" . PHP_EOL;
-					}else{
-						echo "[ERROR] Invalid API Version!" . PHP_EOL;
-					}
-					exit(1);
-					break;
-					case "unofficial":
-					if(Translate::checkTurkish() === "yes"){
-						echo "[HATA] Orjinal Olmayan DarkSystem Yüklemesi Bulundu!" . PHP_EOL;
-					}else{
-						echo "[ERROR] Un-Official DarkSystem Install Found!" . PHP_EOL;
-					}
-					exit(1);
-					break;
-					default;
-					$result = "";
-					$issues = 0;
-					break;
-				}
-			}
-		}
-	}
-	
 	if(version_compare("7.0", PHP_VERSION) > 0){
-		if(Translate::checkTurkish() === "yes"){
+		/*if(Translate::checkTurkish() === "yes"){
 			echo "[HATA] PHP 7.0 Kullanmalısınız!" . PHP_EOL;
 			echo "[HATA] Yükleyici Kullanarak İndiriniz!" . PHP_EOL;
-		}else{
+		}else{*/
 			echo "[ERROR] You have to use PHP 7.0!" . PHP_EOL;
 			echo "[ERROR] Please Install!" . PHP_EOL;
-		}
+		//}
 		
 		exit(1);
 	}
 
 	if(!extension_loaded("pthreads")){
-		if(Translate::checkTurkish() === "yes"){
+		/*if(Translate::checkTurkish() === "yes"){
 			echo "[HATA] pthreads Bulunamadı!" . PHP_EOL;
 			echo "[HATA] Yükleyici Kullanarak İndiriniz!" . PHP_EOL;
-		}else{
+		}else{*/
 			echo "[ERROR] pthreads Not Found!" . PHP_EOL;
 			echo "[ERROR] Please Install!" . PHP_EOL;
-		}
+		//}
 		
 		exit(1);
 	}
