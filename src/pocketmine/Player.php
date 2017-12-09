@@ -932,7 +932,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$this->inventory->sendContents($this);
 			$this->inventory->sendArmorContents($this);
 			$this->inventory->setHeldItemIndex(0);
-			/&$this->setDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_NOT_IN_WATER, true);
+			/*$this->setDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_NOT_IN_WATER, true);
 			$this->setFlyingFlag(false);
 			$this->setSprinting(false);
 			$this->setMoving(false);*/
