@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class EnchantItemPacket extends InboundPacket{
 
@@ -38,11 +38,11 @@ class EnchantItemPacket extends InboundPacket{
 	/** @var int */
 	public $enchantment;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::ENCHANT_ITEM_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->windowID = $this->getSignedByte();
 		$this->enchantment = $this->getSignedByte();
 	}

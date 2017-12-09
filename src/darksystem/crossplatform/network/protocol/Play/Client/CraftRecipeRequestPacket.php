@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class CraftRecipeRequestPacket extends InboundPacket{
 
@@ -40,11 +40,11 @@ class CraftRecipeRequestPacket extends InboundPacket{
 	/** @var bool */
 	public $isMakeAll = false;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::CRAFT_RECIPE_REQUEST_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->windowID = $this->getSignedByte();
 		$this->recipeId = $this->getVarInt();
 		$this->isMakeAll = $this->getBool();

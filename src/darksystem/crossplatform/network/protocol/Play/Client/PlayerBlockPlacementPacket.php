@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class PlayerBlockPlacementPacket extends InboundPacket{
 
@@ -50,11 +50,11 @@ class PlayerBlockPlacementPacket extends InboundPacket{
 	/** @var float */
 	public $cursorZ;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::PLAYER_BLOCK_PLACEMENT_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->getPosition($this->x, $this->y, $this->z);
 		$this->direction = $this->getVarInt();
 		$this->hand = $this->getVarInt();

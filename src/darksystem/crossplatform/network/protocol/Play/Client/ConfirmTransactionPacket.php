@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class ConfirmTransactionPacket extends InboundPacket{
 
@@ -40,11 +40,11 @@ class ConfirmTransactionPacket extends InboundPacket{
 	/** @var bool */
 	public $accepted;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::CONFIRM_TRANSACTION_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->windowID = $this->getSignedByte();
 		$this->actionNumber = $this->getSignedShort();
 		$this->accepted = $this->getBool();

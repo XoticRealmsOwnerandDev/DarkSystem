@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class PlayerPositionPacket extends InboundPacket{
 
@@ -42,11 +42,11 @@ class PlayerPositionPacket extends InboundPacket{
 	/** @var bool */
 	public $onGround;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::PLAYER_POSITION_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->x = $this->getDouble();
 		$this->y = $this->getDouble();
 		$this->z = $this->getDouble();

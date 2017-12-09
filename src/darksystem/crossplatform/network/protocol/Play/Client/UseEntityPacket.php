@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class UseEntityPacket extends InboundPacket{
 
@@ -52,11 +52,11 @@ class UseEntityPacket extends InboundPacket{
 	/** @var int */
 	public $hand;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::USE_ENTITY_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->target = $this->getVarInt();
 		$this->type = $this->getVarInt();
 		if($this->type === self::INTERACT_AT){

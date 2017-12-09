@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class PlayerLookPacket extends InboundPacket{
 
@@ -40,11 +40,11 @@ class PlayerLookPacket extends InboundPacket{
 	/** @var bool */
 	public $onGround;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::PLAYER_LOOK_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->yaw = $this->getFloat();
 		$this->pitch = $this->getFloat();
 		$this->onGround = $this->getBool();

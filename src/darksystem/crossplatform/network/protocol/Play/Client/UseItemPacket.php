@@ -27,20 +27,20 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class UseItemPacket extends InboundPacket{
 
 	/** @var int */
 	public $hand;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::USE_ITEM_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->hand = $this->getVarInt();
 	}
 }

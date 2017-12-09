@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 
 class EntityActionPacket extends InboundPacket{
 
@@ -40,11 +40,11 @@ class EntityActionPacket extends InboundPacket{
 	/** @var int */
 	public $jumpboost;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::ENTITY_ACTION_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->eid = $this->getVarInt();
 		$this->actionID = $this->getVarInt();
 		$this->jumpboost = $this->getVarInt();
