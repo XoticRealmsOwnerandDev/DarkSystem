@@ -1,7 +1,13 @@
 <img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/banner.png" alt="DS logo" title="Aimeos" align="center" height="120">
+>>>>>>> branch 'master' of git@github.com:DarkSystem-PE/DarkSystem.git
 
 
 **An Advanced & Feature-rich Server Engine/Software For Minecraft (PE) Bedrock Edition 1.x.x & WIN10**
+
+[![License](https://img.shields.io/github/license/DarkSystem-PE/DarkSystem.svg)](https://github.com/DarkSystem-PE/DarkSystem/blob/master/LICENSE)
+[![GitHub contributors](https://img.shields.io/github/contributors/DarkSystem-PE/DarkSystem.svg)](https://github.com/DarkSystem-PE/DarkSystem/graphs/contributors)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/DarkSystem-PE/DarkSystem.svg)](http://isitmaintained.com/project/DarkSystem-PE/DarkSystem "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/DarkSystem-PE/DarkSystem.svg)](http://isitmaintained.com/project/DarkSystem-PE/DarkSystem "Percentage of issues still open")
 
 | Direct Phar Download | Travis CI | Discord Chat Server |
 | :---: | :---: | :---: |

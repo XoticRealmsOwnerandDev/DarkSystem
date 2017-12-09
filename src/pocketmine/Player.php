@@ -665,7 +665,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$this->server->getPluginManager()->unsubscribeFromPermission(Server::BROADCAST_CHANNEL_USERS, $this);
 		$this->server->getPluginManager()->unsubscribeFromPermission(Server::BROADCAST_CHANNEL_ADMINISTRATIVE, $this);
 
-		if($this->perm === null){
+		if(is_null($this->perm)){
 			return false;
 		}
 
@@ -690,7 +690,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$data = new \stdClass();
 		$count = 0;
 		foreach($this->server->getCommandMap()->getCommands() as $command){
-			//if($this->hasPermission($command->getPermission()) || $command->getPermission() == null){
+			//if($this->hasPermission($command->getPermission()) || is_null($command->getPermission())){
 			    if(($cmdData = $command->generateCustomCommandData($this)) !== null){
 				    ++$count;
 				    $data->{$command->getName()}->versions[0] = $cmdData;
@@ -756,7 +756,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	}
 
 	public function getNameTag(){
-		return $this->nameTag;
+		return $this->username;
 	}
 	
 	public function isValidSkin($skin){
@@ -932,10 +932,10 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$this->inventory->sendContents($this);
 			$this->inventory->sendArmorContents($this);
 			$this->inventory->setHeldItemIndex(0);
-			$this->setDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_NOT_IN_WATER, true);
+			/&$this->setDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_NOT_IN_WATER, true);
 			$this->setFlyingFlag(false);
 			$this->setSprinting(false);
-			$this->setMoving(false);
+			$this->setMoving(false);*/
 			$pk = new SetTimePacket();
 			$pk->time = $this->level->getTime();
 			$pk->started = $this->level->stopTime == false;
@@ -971,7 +971,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	}
 
 	protected function orderChunks(){
-		if($this->connected === false || $this->viewRadius === -1){
+		if(!$this->connected || $this->viewRadius === -1){
 			return false;
 		}
 		$this->nextChunkOrderRun = 200;
@@ -1025,6 +1025,63 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		foreach($unloadChunks as $index => $Yndex){
 			$X = null;
 			$Z = null;
+			Level::getXZ($index, $X, $Z);
+			$this->unloadChunk($X, $Z);
+		}
+		$this->loadQueue = $newOrder;
+		return true;
+	}
+	
+	protected function orderChunks(){
+		if(!$this->connected || $this->viewRadius === -1){
+			return false;
+		}
+		$this->nextChunkOrderRun = 200;
+		$viewDistance = $this->viewRadius;
+		$newOrder = [];
+		$lastChunk = $this->usedChunks;
+		$centerX = $this->x >> 4;
+		$centerZ = $this->z >> 4;
+		$layer = 1;
+		$leg = 0;
+		$x = 0;
+		$z = 0;
+		for($i = 0; $i < $viewDistance; ++$i){
+			$chunkX = $x + $centerX;
+			$chunkZ = $z + $centerZ;
+			if(!isset($this->usedChunks[$index = Level::chunkHash($chunkX, $chunkZ)]) or $this->usedChunks[$index] === false){
+				$newOrder[$index] = true;
+			}
+			unset($lastChunk[$index]);
+			switch($leg){
+				case 0:
+					++$x;
+					if($x === $layer){
+						++$leg;
+					}
+					break;
+				case 1:
+					++$z;
+					if($z === $layer){
+						++$leg;
+					}
+					break;
+				case 2:
+					--$x;
+					if(-$x === $layer){
+						++$leg;
+					}
+					break;
+				case 3:
+					--$z;
+					if(-$z === $layer){
+						$leg = 0;
+						++$layer;
+					}
+					break;
+			}
+		}
+		foreach($lastChunk as $index => $bool){
 			Level::getXZ($index, $X, $Z);
 			$this->unloadChunk($X, $Z);
 		}
@@ -1136,7 +1193,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$time = $this->level->getTime() % Level::TIME_FULL;
 			if($time >= Level::TIME_NIGHT && $time < Level::TIME_SUNRISE){
 				foreach($this->level->getPlayers() as $p){
-					if($p->sleeping === null){
+					if(is_null($p->sleeping)){
 						return false;
 					}
 				}
@@ -1703,7 +1760,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			if($this->getFood() <= 0){
 				$this->starvationTick++;
 			}
-			if($this->isMoving() && $this->isSurvival() || $this->isAdventure() && !$this->server->getDifficulty() == 3){
+			if($this->isMoving() && $this->isLiving() && !$this->server->getDifficulty() == 3){
 				if($this->isSprinting()){
 					$this->foodUsageTime += 500;
 				}else{
@@ -1912,7 +1969,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 					//$this->server->getIPBans()->addBan($this->ip);
 					break;
 				}
-				if($this->uuid === null){
+				if(is_null($this->uuid)){
 					if(Translate::checkTurkish() === "yes"){
 						$this->close("Oyununuz Hatalı, Lütfen Tekrar Yüklemeyi Deneyin.");
 					}else{
@@ -3678,7 +3735,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		}else{
 			$this->inventory->setHeldItemSlot($this->inventory->getHotbarSlotIndex(0));
 		}
-		if($this->spawnPosition === null && isset($this->namedtag->SpawnLevel) && ($level = $this->server->getLevelByName($this->namedtag["SpawnLevel"])) instanceof Level){
+		if(is_null($this->spawnPosition) && isset($this->namedtag->SpawnLevel) && ($level = $this->server->getLevelByName($this->namedtag["SpawnLevel"])) instanceof Level){
 			$this->spawnPosition = new Position($this->namedtag["SpawnX"], $this->namedtag["SpawnY"], $this->namedtag["SpawnZ"], $level);
 		}
 		$hub = $this->getSpawn();
@@ -4595,10 +4652,10 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$pk->y = $packet->y + 1;
 		$pk->z = $packet->z;
 		$pk->data = $blockId;
-		foreach($recipients as $recipient){
-			//$recipient->dataPacket($pk);
+		foreach($recipients as $r){
+			//$r->dataPacket($pk);
 			if($isNeedSendSound){
-				$recipient->sendSound(LevelSoundEventPacket::SOUND_HIT, $blockPos, 1, $blockId);
+				$r->sendSound(LevelSoundEventPacket::SOUND_HIT, $blockPos, 1, $blockId);
 			}
 		}
 	}
@@ -4862,7 +4919,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$pk->formId = $formId;
 		$pk->data = json_encode($this->activeModalWindows[$formId]->jsonSerialize());
 		$this->dataPacket($pk);
-		if($data === null){
+		if(is_null($data)){
 			$this->server->getPluginManager()->callEvent($ev = new UICloseEvent($this, $pk));
 			$this->activeModalWindows[$formId]->close($this);
 			return true;
@@ -4934,15 +4991,15 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$pk120->newSkinGeometryName = $this->skinGeometryName;
 		$pk120->newSkinGeometryData = $this->skinGeometryData;
 		
-		$viewers120 = [];
-		$oldViewers = [];
+		$recipients120 = [];
+		$oldRecipients = [];
 		$recipients = $this->getViewers();
 		$recipients[] = $this;
-		foreach($recipients as $viewer){
-			if($viewer->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
-				$viewers120[] = $viewer;
+		foreach($recipients as $r){
+			if($r->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+				$recipients120[] = $r;
 			}else{
-				$oldViewers[] = $viewer;
+				$oldRecipients[] = $r;
 			}
 		}
 		
@@ -4973,7 +5030,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$this->randomClientId = $packet->clientId;
 		$this->loginData = ["clientId" => $packet->clientId, "loginData" => null];
 		$this->uuid = $packet->clientUUID;
-		if($this->uuid === null){
+		if(is_null($this->uuid)){
 			if(Translate::checkTurkish() === "yes"){
 				$this->close("Oyununuz Hatalı, Lütfen Tekrar Yüklemeyi Deneyin.");
 			}else{

@@ -67,7 +67,6 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	protected $enderChestInventory;
 	protected $uuid;
 	protected $rawUUID;
-	protected $nameTag = "TESTIFICATE";
 	
 	public $width = 0.5; //Default: 0.6
 	public $length = 0.5; //and This
