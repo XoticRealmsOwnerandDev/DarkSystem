@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/banner.png" alt="DarkSystem Banner" title="Aimeos" align="center" height="105">
+<img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/logo.png" alt="DarkSystem Logo" title="Aimeos" align="center" height="50"> <img src="https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/banner.png" alt="DarkSystem Banner" title="Aimeos" align="center" height="105">
 
 
 **An Advanced & Feature-rich Server Engine/Software For Minecraft (PE) Bedrock Edition 1.x.x & WIN10**
