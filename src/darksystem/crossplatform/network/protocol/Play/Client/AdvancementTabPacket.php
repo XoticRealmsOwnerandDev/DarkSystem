@@ -27,7 +27,7 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
 use darksystem\crossplatform\network\InboundPacket;
 
