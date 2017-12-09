@@ -27,9 +27,9 @@
 
 declare(strict_types=1);
 
-namespace shoghicp\BigBrother\network\protocol\Play\Client;
+namespace darksystem\crossplatform\network\protocol\Play\Client;
 
-use shoghicp\BigBrother\network\InboundPacket;
+use darksystem\crossplatform\network\InboundPacket;
 use pocketmine\item\Item;
 
 class CreativeInventoryActionPacket extends InboundPacket{
@@ -39,11 +39,11 @@ class CreativeInventoryActionPacket extends InboundPacket{
 	/** @var Item */
 	public $item;
 
-	public function pid() : int{
+	public function pid() : {
 		return self::CREATIVE_INVENTORY_ACTION_PACKET;
 	}
 
-	protected function decode() : void{
+	protected function decode() : {
 		$this->slot = $this->getSignedShort();
 		$this->item = $this->getSlot();
 	}
