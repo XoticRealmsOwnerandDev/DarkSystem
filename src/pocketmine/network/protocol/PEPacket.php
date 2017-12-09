@@ -20,10 +20,6 @@ abstract class PEPacket extends DataPacket{
 	
 	public $targetSubClientID = PEPacket::CLIENT_ID_MAIN_PLAYER;
 	
-	abstract public function encode($playerProtocol);
-
-	abstract public function decode($playerProtocol);
-	
 	protected function checkLength($len){
 		if($this->offset + $len > strlen($this->buffer)){
 			throw new \Exception(get_class($this) . ": Try get {$len} bytes, offset = " . $this->offset . ", bufflen = " . strlen($this->buffer) . ", buffer = " . bin2hex(substr($this->buffer, 0, 250)));

@@ -66,19 +66,25 @@ class ProtocolInterface implements SourceInterface{
 
 	/** @var int */
 	private $threshold;
+	/** @var CrossPlatform  */
+    protected $handler;
 
-	/**
-	 * @param BigBrother $plugin
-	 * @param Server     $server
-	 * @param Translator $translator
-	 * @param int        $threshold
-	 */
+    /**
+     * @param CrossPlatform $handler
+     * @param Server $server
+     * @param Translator $translator
+     * @param int $threshold
+     */
 	public function __construct(CrossPlatform $handler, Server $server, Translator $translator, $threshold){
 		$this->handler = $handler;
 		$this->server = $server;
 		$this->translator = $translator;
 		$this->threshold = $threshold;
+<<<<<<< HEAD
 		$this->thread = new ServerThread($server->getLogger(), $server->getLoader(), $handler->getPort(), $handler->getIp(), $handler->getMotd(), "src\darksystem\crossplatform\server-icon.png", false);
+=======
+		$this->thread = new ServerThread($server->getLogger(), $server->getLoader(), $handler->getPort(), $handler->getIp(), $handler->getMotd(), $this->server->getDataPath()."server-icon.png", false);
+>>>>>>> branch 'master' of git@github.com:DarkSystem-PE/DarkSystem.git
 		$this->sessions = new \SplObjectStorage();
 	}
 

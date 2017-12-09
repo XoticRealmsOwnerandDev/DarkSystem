@@ -1724,8 +1724,8 @@ class Server extends DarkSystem{
 			
 			$this->network = new Network($this);
 			$this->network->setName($this->getMotd());
-			
-			Timings::init();
+
+            Timings::init();
 
 			$this->consoleSender = new ConsoleCommandSender();
 			$this->cmdMap = new SimpleCommandMap($this);
@@ -1768,9 +1768,16 @@ class Server extends DarkSystem{
 			
 			$this->pluginMgr->loadPlugins($this->pluginPath);
 			$this->enablePlugins(PluginLoadOrder::STARTUP);
+<<<<<<< HEAD
 			$this->network->registerInterface(new RakNetInterface($this));
 			
 			LevelProviderManager::addProvider($this, Anvil::class);
+=======
+			$this->network->registerInterface(new RakLibInterface($this));
+            $this->crossplatform = new CrossPlatform($this);
+
+            LevelProviderManager::addProvider($this, Anvil::class);
+>>>>>>> branch 'master' of git@github.com:DarkSystem-PE/DarkSystem.git
 			//LevelProviderManager::addProvider($this, PMAnvil::class);
 			LevelProviderManager::addProvider($this, McRegion::class);
 			

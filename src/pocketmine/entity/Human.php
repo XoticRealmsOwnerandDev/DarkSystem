@@ -11,11 +11,8 @@
 
 namespace pocketmine\entity;
 
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityRegainHealthEvent;
-use pocketmine\event\player\PlayerExhaustEvent;
-use pocketmine\event\player\PlayerExperienceChangeEvent;
 use pocketmine\inventory\EnderChestInventory;
+use pocketmine\inventory\PlayerInventory120;
 use pocketmine\inventory\InventoryHolder;
 use pocketmine\inventory\PlayerInventory;
 use pocketmine\item\Item as ItemItem;
@@ -23,14 +20,8 @@ use pocketmine\utils\UUID;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\ListTag;
-use pocketmine\nbt\tag\FloatTag;
-use pocketmine\nbt\tag\ShortTag;
-use pocketmine\nbt\tag\StringTag;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\AddPlayerPacket;
-use pocketmine\network\protocol\PlayerListPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
 use pocketmine\network\multiversion\Multiversion;
 use pocketmine\level\Level;
@@ -62,10 +53,16 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	
 	const MAX_EXPERIENCE = 2147483648;
 	const MAX_EXPERIENCE_LEVEL = 21863;
-	
+
+	/** @var PlayerInventory120|PlayerInventory|null $inventory */
 	protected $inventory;
+
+	/** @var  EnderChestInventory $enderChestInventory */
 	protected $enderChestInventory;
+
+	/** @var UUID $uuid */
 	protected $uuid;
+
 	protected $rawUUID;
 	
 	public $width = 0.5; //Default: 0.6

@@ -75,5 +75,8 @@ abstract class DataPacket extends BinaryStream{
 		$oClass = new \ReflectionClass('pocketmine\network\protocol\Info150');
 		DataPacket::$packetsIds[Info::PROTOCOL_150] = $oClass->getConstants();
 	}
-	
+
+    abstract public function encode($playerProtocol);
+
+    abstract public function decode($playerProtocol);
 }
