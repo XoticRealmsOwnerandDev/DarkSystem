@@ -59,7 +59,6 @@ while getopts "rxucid:v:t:" opt; do
   esac
 done
 
-
 #Needed to use aliases
 shopt -s expand_aliases
 type wget > /dev/null 2>&1
@@ -92,7 +91,7 @@ if [ "$checkRoot" == "on" ]; then
 fi
 
 if [ "$CHANNEL" == "soft" ]; then
-	NAME="PocketMine-Soft"
+	NAME="DarkSystem"
 fi
 
 ENABLE_GPG="no"
@@ -190,8 +189,6 @@ elif [ "$GPG_SIGNATURE" == "" ]; then
 	fi
 fi
 
-
-
 if [ "$CHANNEL" == "soft" ]; then
 	download_file "https://raw.githubusercontent.com/PocketMine/PocketMine-Soft/${BRANCH}/resources/start.sh" > start.sh
 else
@@ -199,7 +196,6 @@ else
 fi
 
 download_file "https://raw.githubusercontent.com/pmmp/php-build-scripts/${BRANCH}/compile.sh" > compile.sh
-
 
 chmod +x compile.sh
 chmod +x start.sh

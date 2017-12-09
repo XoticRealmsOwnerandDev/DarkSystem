@@ -1,37 +1,10 @@
 <?php
-/**
- *  ______  __         ______               __    __
- * |   __ \|__|.-----.|   __ \.----..-----.|  |_ |  |--..-----..----.
- * |   __ <|  ||  _  ||   __ <|   _||  _  ||   _||     ||  -__||   _|
- * |______/|__||___  ||______/|__|  |_____||____||__|__||_____||__|
- *             |_____|
- *
- * BigBrother plugin for PocketMine-MP
- * Copyright (C) 2014-2015 shoghicp <https://github.com/shoghicp/BigBrother>
- * Copyright (C) 2016- BigBrotherTeam
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * @author BigBrotherTeam
- * @link   https://github.com/BigBrotherTeam/BigBrother
- *
- */
 
-declare(strict_types=1);
+namespace darksystem\crossplatform\network\protocol\Play\Server;
 
-namespace shoghicp\BigBrother\network\protocol\Play\Server;
-
-use shoghicp\BigBrother\network\OutboundPacket;
-use shoghicp\BigBrother\utils\ConvertUtils;
-use shoghicp\BigBrother\BigBrother;
+use darksystem\crossplatform\network\OutboundPacket;
+use darksystem\crossplatform\utils\ConvertUtils;
+use darksystem\crossplatform\CrossPlatform;
 use pocketmine\tile\Tile;
 
 class ChunkDataPacket extends OutboundPacket{
@@ -51,11 +24,11 @@ class ChunkDataPacket extends OutboundPacket{
 	/** @var array */
 	public $blockEntities = [];
 
-	public function pid() : int{
+	public function pid(){
 		return self::CHUNK_DATA_PACKET;
 	}
 
-	protected function encode() : void{
+	protected function encode(){
 		$this->putInt($this->chunkX);
 		$this->putInt($this->chunkZ);
 		$this->putBool($this->groundUp);
@@ -82,23 +55,22 @@ class ChunkDataPacket extends OutboundPacket{
 				break;
 				case Tile::SIGN:
 					$textData = explode("\n", $blockEntity->Text->getValue());
-
-					//blame mojang
+					
 					$blockEntity->Text1 = clone $blockEntity->Text;
 					$blockEntity->Text1->setName("Text1");
-					$blockEntity->Text1->setValue(BigBrother::toJSON($textData[0]));
+					$blockEntity->Text1->setValue(CrossPlatform::toJSON($textData[0]));
 
 					$blockEntity->Text2 = clone $blockEntity->Text;
 					$blockEntity->Text2->setName("Text2");
-					$blockEntity->Text2->setValue(BigBrother::toJSON($textData[1]));
+					$blockEntity->Text2->setValue(CrossPlatform::toJSON($textData[1]));
 
 					$blockEntity->Text3 = clone $blockEntity->Text;
 					$blockEntity->Text3->setName("Text3");
-					$blockEntity->Text3->setValue(BigBrother::toJSON($textData[2]));
+					$blockEntity->Text3->setValue(CrossPlatform::toJSON($textData[2]));
 
 					$blockEntity->Text4 = clone $blockEntity->Text;
 					$blockEntity->Text4->setName("Text4");
-					$blockEntity->Text4->setValue(BigBrother::toJSON($textData[3]));
+					$blockEntity->Text4->setValue(CrossPlatform::toJSON($textData[3]));
 					unset($blockEntity->Text);
 				break;
 			}

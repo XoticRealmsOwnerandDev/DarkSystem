@@ -78,7 +78,7 @@ class ProtocolInterface implements SourceInterface{
 		$this->server = $server;
 		$this->translator = $translator;
 		$this->threshold = $threshold;
-		$this->thread = new ServerThread($server->getLogger(), $server->getLoader(), $plugin->getPort(), $plugin->getIp(), $plugin->getMotd(), $plugin->getDataFolder()."server-icon.png", false);
+		$this->thread = new ServerThread($server->getLogger(), $server->getLoader(), $handler->getPort(), $handler->getIp(), $handler->getMotd(), "src\darksystem\crossplatform\server-icon.png", false);
 		$this->sessions = new \SplObjectStorage();
 	}
 
@@ -108,10 +108,10 @@ class ProtocolInterface implements SourceInterface{
 	 * @override
 	 */
 	public function setName($name){
-		$info = $this->handler->getServer()->getQueryInformation();
+		$info = $this->handler->server->getQueryInformation();
 		$value = [
-			"MaxPlayers" => $info->getMaxPlayerCount(),
-			"OnlinePlayers" => $info->getPlayerCount(),
+			"MaxPlayers" => $this->handler->server->getMaxPlayers(),
+			"OnlinePlayers" => $this->handler->server->getQueryInformation()->getPlayerCount()
 		];
 		$buffer = chr(ServerManager::PACKET_SET_OPTION).chr(strlen("name"))."name".json_encode($value);
 		$this->thread->pushMainToThreadPacket($buffer);
@@ -120,7 +120,7 @@ class ProtocolInterface implements SourceInterface{
 	/**
 	 * @param int $identifier
 	 */
-	public function closeSession(int $identifier){
+	public function closeSession($identifier){
 		if(isset($this->sessionsPlayers[$identifier])){
 			$player = $this->sessionsPlayers[$identifier];
 			unset($this->sessionsPlayers[$identifier]);
@@ -249,7 +249,7 @@ class ProtocolInterface implements SourceInterface{
 	protected function handlePacket(DesktopPlayer $player, $payload){
 		if(\pocketmine\DEBUG > 3){
 			$id = bin2hex(chr(ord($payload{0})));
-			if($id !== "0b"){//KeepAlivePacket
+			if($id !== "0b"){
 				echo "[Receive][Interface] 0x".bin2hex(chr(ord($payload{0})))."\n";
 			}
 		}

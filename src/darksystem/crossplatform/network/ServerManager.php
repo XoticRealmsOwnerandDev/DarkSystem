@@ -100,7 +100,7 @@ class ServerManager{
 	 * @param string       $description
 	 * @param string|null  $favicon
 	 */
-	public function __construct(ServerThread $thread, int $port, string $interface, string $description = "", string $favicon = null){
+	public function __construct(ServerThread $thread, $port, $interface, $description = "", $favicon = null){
 		$this->thread = $thread;
 		$this->description = $description;
 		if($favicon === null or ($image = file_get_contents($favicon)) == ""){

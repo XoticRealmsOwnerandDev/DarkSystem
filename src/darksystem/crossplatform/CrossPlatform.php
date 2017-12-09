@@ -89,17 +89,9 @@ class CrossPlatform{
 			}
 
 			$this->server->getLogger()->info("Starting Minecraft: PC server on ".($this->getIp() === "0.0.0.0" ? "*" : $this->getIp()).":".$this->getPort()." version ".ServerManager::VERSION);
-
-			$disable = true;
-			foreach($this->server->getNetwork()->getInterfaces() as $interface){
-				if($interface instanceof ProtocolInterface){
-					$disable = false;
-				}
-			}
-			if($disable){
-				$this->interface = new ProtocolInterface($this, $this->server, $this->translator, 256);
-				$this->server->getNetwork()->registerInterface($this->interface);
-			}
+			
+			$this->interface = new ProtocolInterface($this, $this->server, $this->translator, 256);
+			$this->server->getNetwork()->registerInterface($this->interface);
 		}else{
 			$this->server->getLogger()->critical("Couldn't find a protocol translator for #".Info::CURRENT_PROTOCOL .", disabling plugin");
 			return true;

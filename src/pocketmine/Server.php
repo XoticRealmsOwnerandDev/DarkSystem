@@ -70,7 +70,7 @@ use pocketmine\network\protocol\CraftingDataPacket;
 use pocketmine\network\protocol\DataPacket;
 use pocketmine\network\protocol\PlayerListPacket;
 use pocketmine\network\query\QueryHandler;
-use pocketmine\network\RakLibInterface;
+use pocketmine\network\RakNetInterface;
 use pocketmine\network\rcon\RCON;
 use pocketmine\network\SourceInterface;
 use pocketmine\permission\BanList;
@@ -1361,7 +1361,6 @@ class Server extends DarkSystem{
 		$this->translate->prepareLang();
 		$this->dbot = new DarkBot($this);
 		$this->themeManager = new ThemeManager($this);
-		$this->crossplatform = new CrossPlatform($this);
 		$this->core = new CoreStarter($this);
 		try{
 			if(Translate::checkTurkish() === "yes"){
@@ -1763,10 +1762,13 @@ class Server extends DarkSystem{
 			
 			register_shutdown_function([$this, "crashReport"]);
 
-			$this->queryRegenerator = new QueryRegenerateEvent($this, 5); //7
+			$this->queryRegenerator = new QueryRegenerateEvent($this, 5);
+			
+			$this->crossplatform = new CrossPlatform($this);
+			
 			$this->pluginMgr->loadPlugins($this->pluginPath);
 			$this->enablePlugins(PluginLoadOrder::STARTUP);
-			$this->network->registerInterface(new RakLibInterface($this));
+			$this->network->registerInterface(new RakNetInterface($this));
 			
 			LevelProviderManager::addProvider($this, Anvil::class);
 			//LevelProviderManager::addProvider($this, PMAnvil::class);
