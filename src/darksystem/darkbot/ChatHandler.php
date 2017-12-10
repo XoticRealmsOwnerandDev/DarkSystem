@@ -24,7 +24,7 @@ class ChatHandler{
 		$server = Server::getInstance();
 		$dbotprefix = $server->getDarkBotPrefix();
 		$msg = "§aSizin İsteğiniz Benim İçin Bir Emirdir!";
-		$operators = ["DarkYusuf13", "calci123", "BluishCoot11", "Kayra_OyunYT"]; //You can add operators of your server here
+		$operators = ["DarkYusuf13", "calci123", "BluishCoot11", "Kayra_OyunYT", "nikoskon20031"]; //You can add operators of your server here
 		if($server->getName() == "DarkSystem"){
 			switch($message){
 				/* English */
