@@ -335,15 +335,6 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->server->addSpawnedEntity($this);
 
 		$this->boundingBox = new AxisAlignedBB(0, 0, 0, 0, 0, 0);
-		$this->setPositionAndRotation(
-			new Vector3(
-				$this->namedtag["Pos"][0],
-				$this->namedtag["Pos"][1],
-				$this->namedtag["Pos"][2]
-			),
-			$this->namedtag["Rotation"][0],
-			$this->namedtag["Rotation"][1]
-		);
 		
 		if(isset($this->namedtag->Motion)){
 			$this->setMotion($this->temporalVector->setComponents($this->namedtag["Motion"][0], $this->namedtag["Motion"][1], $this->namedtag["Motion"][2]));
@@ -354,8 +345,6 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->motionX = $this->namedtag["Motion"][0];
 		$this->motionY = $this->namedtag["Motion"][1];
 		$this->motionZ = $this->namedtag["Motion"][2];
-		
-		assert(!is_nan($this->x) && !is_infinite($this->x) && !is_nan($this->y) && !is_infinite($this->y) && !is_nan($this->z) && !is_infinite($this->z));
 		
 		if(!isset($this->namedtag->FallDistance)){
 			$this->namedtag->FallDistance = new FloatTag("FallDistance", 0);
