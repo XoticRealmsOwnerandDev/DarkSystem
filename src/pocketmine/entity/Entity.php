@@ -441,20 +441,6 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	}
 	
 	/**
-	 * @return int
-	 */
-	public function getDropExpMin(){
-		return $this->dropExp[0];
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getDropExpMax(){
-		return $this->dropExp[1];
-	}
-	
-	/**
 	 * @return string
 	 */
 	public function getNameTag(){
@@ -1063,7 +1049,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	public function entityBaseTick($tickDiff = 1){
 		$this->justCreated = false;
 		$isPlayer = $this instanceof Player;
-		if($this->dead === true){
+		if($this->dead){
 			$this->removeAllEffects();
 			$this->despawnFromAll();
 			if(!$isPlayer){
@@ -1460,7 +1446,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->y = $this->boundingBox->minY - $this->ySize;
 		$this->z = ($this->boundingBox->minZ + $this->boundingBox->maxZ) / 2;
 
-		if(!($this instanceof Player)){
+		if(!$this instanceof Player){
 			$this->checkChunks();
 		}
 
@@ -1637,7 +1623,6 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 				}else{
 					$this->ySize += 0.5;
 				}
-
 			}
 
 			$this->x = ($this->boundingBox->minX + $this->boundingBox->maxX) / 2;
@@ -1774,11 +1759,6 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->setHealth(0);
 		$this->removeAllEffects();
 		$this->scheduleUpdate();
-		
-		if($this->getLevel()->getServer()->expEnabled){
-			$exp = mt_rand($this->getDropExpMin(), $this->getDropExpMax());
-			if($exp > 0) $this->getLevel()->spawnXPOrb($this, $exp);
-		}
 	}
 
 	/**

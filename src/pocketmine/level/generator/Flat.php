@@ -100,8 +100,7 @@ class Flat extends Generator{
 		for(; $y < 0xFF; ++$y){
 			$this->structure[$y] = [0, 0];
 		}
-
-
+		
 		$this->chunk = clone $this->level->getChunk($chunkX, $chunkZ);
 		$this->chunk->setGenerated();
 		$c = Biome::getBiome($biome)->getColor();
@@ -132,6 +131,7 @@ class Flat extends Generator{
 					}
 				}
 			}
+			
 			$this->options[$option] = $params;
 		}
 	}
@@ -139,14 +139,12 @@ class Flat extends Generator{
 	public function init(ChunkManager $level, Random $random){
 		$this->level = $level;
 		$this->random = $random;
-
-		/*
-		if(isset($this->options["preset"]) and $this->options["preset"] != ""){
+		
+		/*if(isset($this->options["preset"]) and $this->options["preset"] != ""){
 			$this->parsePreset($this->options["preset"]);
 		}else{
 			$this->parsePreset($this->preset);
-		}
-		*/
+		}*/
 	}
 
 	public function generateChunk($chunkX, $chunkZ){
@@ -157,6 +155,7 @@ class Flat extends Generator{
 				$this->parsePreset($this->preset, $chunkX, $chunkZ);
 			}
 		}
+		
 		$chunk = clone $this->chunk;
 		$chunk->setX($chunkX);
 		$chunk->setZ($chunkZ);
