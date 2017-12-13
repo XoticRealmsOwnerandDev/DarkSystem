@@ -126,64 +126,64 @@ class CommandBlock extends Spawnable implements Nameable, CommandSender{
     }
 
     public function isRepeating(){
-        return $this->getBlockType() == self::REPEATING;
+        return $this->getBlockType() === self::REPEATING;
     }
 
     public function isChain(){
-        return $this->getBlockType() == self::CHAIN;
+        return $this->getBlockType() === self::CHAIN;
     }
 
     public function getBlockType(){
         return isset($this->namedtag->blockType) ? $this->namedtag->blockType->getValue() : self::NORMAL;
     }
 
-    public function setBlockType(int $blockType){
+    public function setBlockType($blockType){
         return $this->namedtag->blockType = new IntTag("blockType", $blockType > 2 or $blockType < 0 ? self::NORMAL : $blockType);
     }
 
-    public function isConditional() : bool{
+    public function isConditional(){
         return boolval(isset($this->namedtag->conditionalMode) ? $this->namedtag->conditionalMode->getValue() : 0);
     }
 
-    public function getPowered() : bool{
+    public function getPowered(){
         return boolval(isset($this->namedtag->powered) ? $this->namedtag->powered->getValue() : 0);
     }
 
-    public function getAuto() : bool{
+    public function getAuto(){
         return boolval(isset($this->namedtag->auto) ? $this->namedtag->auto->getValue() : 0);
     }
 
-    public function setConditional(bool $condition){
+    public function setConditional($condition){
         $this->namedtag->conditionMet = new IntTag("conditionMet", +$condition);
     }
 
-    public function setPowered(bool $powered){
-        if ($this->getPowered() == $powered) {
+    public function setPowered($powered){
+        if($this->getPowered() == $powered){
             return;
         }
         $this->namedtag->powered = new IntTag("powered", +$powered);
-        if ($this->isNormal() && $powered && !$this->getAuto()) {
+        if($this->isNormal() && $powered && !$this->getAuto()){
             $this->runCommand();
         }
     }
 
-    public function setAuto(bool $auto){
+    public function setAuto($auto){
         $this->namedtag->auto = new IntTag("auto", +$auto);
     }
 
-    public function setLastOutput(string $lastOutput){
+    public function setLastOutput($lastOutput){
         $this->namedtag->LastOutput = new StringTag("LastOutput", $lastOutput);
     }
 
-    public function getTrackOutput() : bool{
+    public function getTrackOutput(){
         return boolval(isset($this->namedtag->TrackOutput) ? $this->namedtag->TrackOutput->getValue() : 0);
     }
 
-    public function setTrackOutput(bool $trackOutput) {
+    public function setTrackOutput($trackOutput) {
         return $this->namedtag->TrackOutput = new IntTag("TrackOutput", $trackOutput);
     }
 
-    public function getLastOutput() : string{
+    public function getLastOutput(){
         return isset($this->namedtag->LastOutput) ? $this->namedtag->LastOutput->getValue() : "";
     }
 

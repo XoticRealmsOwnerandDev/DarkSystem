@@ -254,8 +254,6 @@ class Server extends DarkSystem{
 	private $serverPrivateKey = "";
 	private $serverToken = "hksdYI3has";
 	
-	private $isUseEncrypt = false;
-	
 	private $craftList = [];
 	
 	public $advancedConfig = null;
@@ -681,10 +679,6 @@ class Server extends DarkSystem{
 	
 	public function isCommandBlockEnable(){
 		return $this->isCmdBlockEnable;
-	}
-	
-	public function isUseEncrypt(){
-		return $this->isUseEncrypt;
 	}
 	
 	public function getTheme(){
@@ -1502,7 +1496,6 @@ class Server extends DarkSystem{
 				"save-player-data" => true,
 				"time-update" => true,
 				"online-mode" => false,
-				"use-encrypt" => false,
 				"theme" => "classic",
 				"random-theme" => false,
 				"colorful-theme" => false
@@ -1541,7 +1534,6 @@ class Server extends DarkSystem{
 				"save-player-data" => true,
 				"time-update" => true,
 				"online-mode" => false,
-				"use-encrypt" => false,
 				"theme" => "classic",
 				"random-theme" => false,
 				"colorful-theme" => false
@@ -1689,7 +1681,6 @@ class Server extends DarkSystem{
 			$this->animalLimit = $this->getConfigInt("animals-limit", 0);
 			$this->useMonster = $this->getConfigBoolean("spawn-mobs", false);
 			$this->monsterLimit = $this->getConfigInt("mobs-limit", 0);
-			$this->isUseEncrypt = $this->getConfigBoolean("use-encrypt", false);
 			$this->isCmdBlockEnable = $this->getConfigBoolean("enable-command-block", true);
 			
 			//New properties here
@@ -1857,10 +1848,6 @@ class Server extends DarkSystem{
 	
 	public function run(){
 		DataPacket::initializePackets();
-		
-		if($this->isUseEncrypt){
-			\McpeEncrypter::generateKeyPair($this->serverPrivateKey, $this->serverPublicKey);
-		}
 		
 		if($this->getConfigBoolean("enable-query", true) === true){
 			$this->queryHandler = new QueryHandler();

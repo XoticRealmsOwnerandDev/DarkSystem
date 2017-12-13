@@ -14,7 +14,6 @@ namespace pocketmine\network;
 use pocketmine\event\player\PlayerCreationEvent;
 use pocketmine\event\server\QueryRegenerateEvent;
 use pocketmine\network\protocol\Info as ProtocolInfo;
-use pocketmine\network\protocol\UnknownPacket;
 use pocketmine\network\protocol\DataPacket;
 use pocketmine\Player;
 use pocketmine\Server;
@@ -50,8 +49,6 @@ class RakNetInterface implements ServerInstance, AdvancedSourceInterface{
 
 	/** @var ServerHandler */
 	private $interface;
-	
-	private static $isEncryptAllowed = true;
 	
 	public $count = 0;
 	public $maxcount = 25;
@@ -199,7 +196,7 @@ class RakNetInterface implements ServerInstance, AdvancedSourceInterface{
 	}
 	
 	public function setName($name){
-		//$info = $this->server->getQueryInformation();
+		$info = $this->server->getQueryInformation();
 		//$pc = $info->getMaxPlayerCount();
 		//$poc = $info->getPlayerCount();
 		$pc = $this->server->getMaxPlayers();
@@ -236,12 +233,6 @@ class RakNetInterface implements ServerInstance, AdvancedSourceInterface{
 			$pk = new EncapsulatedPacket();				
 			$pk->buffer = chr(0xfe) . $this->getPacketBuffer($packet, $protocol);
 			$pk->reliability = 3;
-			/*if($needACK === true){
-				$pk->identifierACK = $this->identifiersACK[$identifier]++;
-			}*/
-			if($player->isEncryptEnable() && RakNetInterface::$isEncryptAllowed){
-				$pk->buffer = chr(0xfe) . $player->getEncrypt(substr($pk->buffer, 1));
-			}
 			if($immediate){
 				$pk->reliability = 0;
 			}
@@ -252,9 +243,6 @@ class RakNetInterface implements ServerInstance, AdvancedSourceInterface{
 	
 	private function getPacket($buffer, $player){
 		$playerProtocol = $player->getPlayerProtocol();
-		if($player->isEncryptEnable() && RakNetInterface::$isEncryptAllowed){
-			$buffer = $player->getDecrypt($buffer);			
-		}
 		/*if($playerProtocol >= ProtocolInfo::PROTOCOL_110){
 			$pk = new BatchPacket($buffer);
 			$pk->is110 = true;
@@ -274,9 +262,6 @@ class RakNetInterface implements ServerInstance, AdvancedSourceInterface{
 			$pk = new EncapsulatedPacket();
 			$pk->buffer = chr(0xfe) . $buffer;
 			$pk->reliability = 3;
-			if($player->isEncryptEnable() && RakNetInterface::$isEncryptAllowed){
-				$pk->buffer = chr(0xfe) . $player->getEncrypt(substr($pk->buffer, 1));
-			}
 			$this->interface->sendEncapsulated($player->getIdentifier(), $pk, RakNet::PRIORITY_NORMAL);
 		}
 	}

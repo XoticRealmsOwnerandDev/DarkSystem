@@ -299,12 +299,4 @@ class EntityDamageEvent extends EntityEvent implements Cancellable{
 			return true;
 		}
 	}
-
-	/**
-	 * @return EventName|string
-     */
-	public function getName(){
-		return "EntityDamageEvent";
-	}
-
 }

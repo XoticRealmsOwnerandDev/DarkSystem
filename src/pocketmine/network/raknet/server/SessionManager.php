@@ -372,7 +372,7 @@ class SessionManager{
         return $this->sessions[$id];
     }
 
-    public function removeSession(Session $session, $reason = "unknown"){
+    public function removeSession(Session $session, $reason = "Unknown"){
         $id = $session->getAddress() . ":" . $session->getPort();
         if(isset($this->sessions[$id])){
             $this->sessions[$id]->close();

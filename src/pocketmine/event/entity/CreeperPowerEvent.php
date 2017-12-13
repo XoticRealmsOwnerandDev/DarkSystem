@@ -16,6 +16,7 @@ use pocketmine\event\Cancellable;
 use pocketmine\entity\Lightning;
 
 class CreeperPowerEvent extends EntityEvent implements Cancellable{
+	
 	public static $handlerList = null;
 
 	const CAUSE_SET_ON = 0;

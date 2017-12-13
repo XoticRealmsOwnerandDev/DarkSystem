@@ -41,7 +41,7 @@ class RakNetServer extends \Thread{
     public function __construct(\ThreadedLogger $logger, \ClassLoader $loader, $port, $interface = "0.0.0.0"){
         $this->port = (int) $port;
         if($port < 1 or $port > 65536){
-            throw new \Exception("Invalid port range");
+            throw new \Exception("Invalid port");
         }
 
         $this->interface = $interface;

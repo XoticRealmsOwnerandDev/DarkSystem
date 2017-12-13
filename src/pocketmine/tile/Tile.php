@@ -30,7 +30,6 @@ abstract class Tile extends Position{
 	const BANNER = "Banner";
 	const FURNACE = "Furnace";
 	const FLOWER_POT = "FlowerPot";
-	const ARMOR_STAND = "ArmorStand";
 	const MOB_SPAWNER = "MobSpawner";
 	const ITEM_FRAME = "ItemFrame";
 	const DISPENSER = "Dispenser";
@@ -109,7 +108,7 @@ abstract class Tile extends Position{
 		
 		$this->timings = Timings::getTileEntityTimings($this);
 		
-		$this->chunk = $level->getChunk($this->namedtag["Pos"][0] >> 4, $this->namedtag["Pos"][2] >> 4);
+		$this->chunk = $level->getChunk($this->namedtag["Pos"][0] >> 4, $this->namedtag["Pos"][2] >> 4, true);
 		assert($this->chunk !== null);
 		$this->setLevel($level);
 		$this->server = $level->getServer();

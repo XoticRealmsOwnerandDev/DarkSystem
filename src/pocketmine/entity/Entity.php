@@ -377,8 +377,8 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_NOT_IN_WATER, true);
 		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_SHOW_NAMETAG, true);
 		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG, true);
-		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_CAN_CLIMBING, true);
-		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_CAN_FLY, true);
+		//$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_CAN_CLIMBING, true);
+		//$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_CAN_FLY, true);
 		
 		if(!isset($this->namedtag->OnGround)){
 			$this->namedtag->OnGround = new ByteTag("OnGround", 0);

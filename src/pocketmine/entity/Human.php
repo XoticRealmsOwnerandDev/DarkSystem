@@ -198,9 +198,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		parent::saveNBT();
 		
 		$this->namedtag->Inventory = new ListTag("Inventory", []);
-		$this->namedtag->EnderChestInventory = new ListTag("EnderChestInventory", []);
 		$this->namedtag->Inventory->setTagType(NBT::TAG_Compound);
-		$this->namedtag->EnderChestInventory->setTagType(NBT::TAG_Compound);
 		
 		if($this->inventory !== null){
 			for($slot = 0; $slot < 9; ++$slot){
@@ -231,6 +229,8 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 				}
 			}
 			
+			$this->namedtag->EnderChestInventory = new ListTag("EnderChestInventory", []);
+			$this->namedtag->EnderChestInventory->setTagType(NBT::TAG_Compound);
 			if($this->enderChestInventory !== null){
 				for($slot = 0; $slot < $this->enderChestInventory->getSize(); $slot++){
 					if(($item = $this->enderChestInventory->getItem($slot)) instanceof ItemItem){
@@ -268,7 +268,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			$this->inventory->sendArmorContents($player);
 			$this->level->addPlayerHandItem($this, $player);
 
-			if(!($this instanceof Player)){
+			if(!$this instanceof Player){
 				$this->server->removePlayerListData($this->getUniqueId(), [$player]);
 			}
 		}

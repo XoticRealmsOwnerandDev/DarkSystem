@@ -21,22 +21,20 @@
 
 namespace pocketmine\network\protocol;
 
-#include <rules/DataPacket.h>
-
-
-class ServerToClientHandshakePacket extends DataPacket{
+class ServerToClientHandshakePacket extends PEPacket{
 	
 	const NETWORK_ID = Info::SERVER_TO_CLIENT_HANDSHAKE_PACKET;
-
+	const PACKET_NAME = "SERVER_TO_CLIENT_HANDSHAKE_PACKET";
+	
 	public $string1;
 	public $string2;
 
-	public function decode(){
+	public function decode($playerProtocol){
 		$this->getHeader($playerProtocol);
 	}
 
-	public function encode(){
-		$this->reset();
+	public function encode($playerProtocol){
+		$this->reset($playerProtocol);
 		$this->putString($this->string1);
 		$this->putString($this->string2);
 	}

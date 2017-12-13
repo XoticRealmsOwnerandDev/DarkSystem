@@ -23,6 +23,7 @@ use pocketmine\entity\Human;
 use pocketmine\entity\Item as DroppedItem;
 use pocketmine\entity\Living;
 use pocketmine\entity\Projectile;
+use pocketmine\entity\bossbar\BossBar;
 use pocketmine\entity\morph\MorphManager;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\entity\EntityDamageByBlockEvent;
@@ -813,10 +814,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		return $this->expLevel;
 	}
 	
-	public function needEncrypt(){
-		return $this->is120();
-	}
-	
 	public function sendGamemode(){
 		$pk = new SetPlayerGameTypePacket();
 		$pk->gamemode = $this->gamemode;
@@ -1298,7 +1295,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	}
 	
 	public function getDrops(){
-		if(!$this->isCreative() || !$this->isSpectator()){
+		if(!$this->isNotLiving()){
 			return parent::getDrops();
 		}
 		return [];
@@ -1353,7 +1350,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 				if($entity->getPickupDelay() <= 0){
 					$item = $entity->getItem();
 					if($item instanceof Item){
-						if($this->isSurvival() && !$this->inventory->canAddItem($item)){
+						if($this->isLiving() && !$this->inventory->canAddItem($item)){
 							continue;
 						}
 
@@ -1501,7 +1498,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 				}else{
 					$this->setFlying(true);
 				}
-				if($downBlock->isTransparent() && $this->isLiving() && !$this->isFlying() && $this->y < 5 && !$this->y > 6){
+				if($downBlock->isTransparent() && $this->isLiving() && !$this->isFlying() && $this->y < 5){
 					$this->setJumping(true);
 				}else{
 					$this->setJumping(false);
@@ -1642,7 +1639,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			if(!$this->isSpectator()){
 				$this->checkNearEntities($tickDiff);
 			}
-			if($distanceSquared == 0){
+			if($distanceSquared === 0){
 				$this->speed = new Vector3(0, 0, 0);
 				$this->setMoving(false);
 			}else{
@@ -2597,8 +2594,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 				break;
 			case "CONTAINER_SET_SLOT_PACKET":
 				//Timings::$timerConteinerSetSlotPacket->startTiming();
-				$isPlayerNotNormal = !$this->spawned || $this->blocked || !$this->isAlive();
-				if($isPlayerNotNormal || $packet->slot < 0){
+				if(!$this->spawned || $this->blocked || !$this->isAlive() || $packet->slot < 0){
 					//Timings::$timerConteinerSetSlotPacket->stopTiming();
 					break;
 				}
@@ -2614,7 +2610,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 						break;
 					}
 					
-					//if($this->isCreative() && !$this->isSpectator() && !$this->isSurvival() && !$this->isAdventure() && Item::getCreativeItemIndex($packet->item) !== -1){
 					if($this->isCreative() && Item::getCreativeItemIndex($packet->item) !== -1){
 						$this->inventory->setItem($packet->slot, $packet->item);
 						$this->inventory->setHotbarSlotIndex($packet->slot, $packet->slot);
@@ -2660,10 +2655,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 				}
 				
 				$pos = new Vector3($packet->x, $packet->y, $packet->z);
-				if($pos->distanceSquared($this) > 10000){
-					break;
-				}
-
+				
 				$t = $this->level->getTile($pos);
 				if($t instanceof Sign){
 					$nbt = new NBT(NBT::LITTLE_ENDIAN);
@@ -2683,8 +2675,8 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 				}
 				break;
 			case "REQUEST_CHUNK_RADIUS_PACKET":
-				if($packet->radius > 20){
-					$packet->radius = 20;
+				if($packet->radius > 18){
+					$packet->radius = 18;
 				}elseif($packet->radius < 4){
 					$packet->radius = 4;
 				}
@@ -3021,6 +3013,24 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
         $this->prepareTitle($title, $subtitle, $fadein, $fadeout, $duration);
 	}
 	
+	public function sendAnimatedTitle($title = "Test", $fadein = -1, $fadeout = -1, $duration = -1){
+		$left = "<";
+		$right = ">";
+		$first = $title[0];
+		$second = $title[1];
+		$third = $title[2];
+		$fourth = $title[3];
+		//TODO: Animated subtitle
+		$this->addTitle($left . $first . $right);
+		$this->addTitle($left . $first . $second . $right);
+		$this->addTitle($left . $first . $second . $third . $right);
+		$this->addTitle($left . $first . $second . $third . $fourth . $right);
+		$this->addTitle($left . $first . $second . $third . $fourth . $right);
+		$this->addTitle($left . $first . $second . $third . $right);
+		$this->addTitle($left . $first . $second . $right);
+		$this->addTitle($left . $first . $right);
+	}
+	
  	private function prepareTitle($title, $subtitle = "", $fadein = -1, $fadeout = -1, $duration = -1){
 		$pk = new SetTitlePacket();
 		$pk->type = SetTitlePacket::TITLE_TYPE_TITLE;
@@ -3074,6 +3084,26 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$pk->source = $sender;
 		$pk->message = $message;
 		$this->dataPacket($pk);
+	}
+	
+	public $bossBarId = null;
+	
+	/**
+	* Usage for plugin developers;
+	* Create a bossbar with this,
+	* To remove, use removeBossBar()
+	*/
+	public function sendBossBar($message, $percentage = 1, $ticks = null){
+		$percentage /= 100;
+		$this->bossBarId = BossBar::addBossBar([$this], $message, $ticks); //Creates a bossbar with variable $this->bossBarId
+		BossBar::setPercentage($percentage, $this->bossBarId); //Sets the health percent
+		BossBar::addBossBarToPlayer($this, $this->bossBarId, $message, $ticks); //Shows the bossbar
+	}
+	
+	public function removeBossBar(){
+		if(!is_null($this->bossBarId)){
+			BossBar::removeBossBar([$this], $this->bossBarId);
+		}
 	}
 	
 	public function close($reason = "Unknown Reason"){
@@ -3583,7 +3613,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	}
 	
 	public function processLogin(){
-		if($this->server->isUseEncrypt() && $this->needEncrypt()){
+		/*if($this->is120()){
 			$privateKey = $this->server->getServerPrivateKey();
 			$token = $this->server->getServerToken();
 			$pk = new ServerToClientHandshakePacket();
@@ -3591,7 +3621,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$pk->serverToken = $token;
 			$pk->privateKey = $privateKey;
 			$this->dataPacket($pk);
-		}
+		}*/
 		
 		$this->continueLogin();
 	}

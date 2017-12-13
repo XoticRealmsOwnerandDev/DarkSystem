@@ -13,19 +13,20 @@ namespace darksystem;
 
 use pocketmine\Server;
 use darksystem\darkbot\entity\NPC;
-use pocketmine\entity\{Entity, BlazeFireball, BlueWitherSkull, Boat, Camera, Car, Chalkboard, Item as DroppedItem, EnderCrystal, EnderPearl, FallingSand, FireworksRocket, FishingHook, FloatingText, GhastFireball, LeashKnot, Lightning, Minecart, MinecartChest, MinecartCommandBlock, MinecartHopper, MinecartTNT, NPCHuman, Painting, PrimedTNT, ShulkerBullet, ThrownExpBottle, ThrownPotion, XPOrb, Herobrine, Human, Dragon, ElderGuardian, EnderDragon, Endermite, EvocationFangs, Giant, Guardian, Illusioner, LavaSlime, LearnToCodeMascot, Llama, PolarBear, Shulker, Slime, SkeletonHorse, Squid, Vindicator, Witch, Wither, WitherSkeleton, ZombieHorse};
+use pocketmine\entity\{Entity, ArmorStand, BlazeFireball, BlueWitherSkull, Boat, Camera, Car, Chalkboard, Item as DroppedItem, EnderCrystal, EnderPearl, FallingSand, FishingHook, FloatingText, GhastFireball, LeashKnot, Lightning, Minecart, MinecartChest, MinecartCommandBlock, MinecartHopper, MinecartTNT, NPCHuman, Painting, PrimedTNT, ShulkerBullet, ThrownExpBottle, ThrownPotion, XPOrb, Herobrine, Human, Dragon, ElderGuardian, EnderDragon, Endermite, EvocationFangs, Giant, Guardian, Illusioner, LavaSlime, LearnToCodeMascot, Llama, PolarBear, Shulker, Slime, SkeletonHorse, Squid, Vindicator, Witch, Wither, WitherSkeleton, ZombieHorse};
 use pocketmine\entity\animal\walking\{Chicken, Cow, Donkey, Horse, Mooshroom, Mule, Ocelot, Pig, Rabbit, Sheep, Villager};
 use pocketmine\entity\animal\flying\{Bat, Parrot};
 use pocketmine\entity\monster\flying\{Blaze, Ghast, Vex};
 use pocketmine\entity\monster\jumping\{MagmaCube/*, Slime*/};
 use pocketmine\entity\monster\walking\{CaveSpider, Creeper, Enderman, Husk, IronGolem, PigZombie, Silverfish, Skeleton, SnowGolem, Spider, Stray, Wolf, Zombie, ZombieVillager};
-use pocketmine\entity\projectile\{Arrow, Egg, FireBall, Snowball};
+use pocketmine\entity\projectile\{Arrow, Egg, FireBall, FireworksRocket, Snowball};
 use pocketmine\inventory\customInventory\CustomChest;
-use pocketmine\tile\{Tile, ArmorStand, Banner, Beacon, Bed, BrewingStand, Cauldron, Chest, CommandBlock, Dispenser, DLDetector, Dropper, EnchantTable, EnderChest, FlowerPot, Furnace, Hopper, ItemFrame, Jukebox, MobSpawner, Sign, Skull};
+use pocketmine\tile\{Tile, Banner, Beacon, Bed, BrewingStand, Cauldron, Chest, CommandBlock, Dispenser, DLDetector, Dropper, EnchantTable, EnderChest, FlowerPot, Furnace, Hopper, ItemFrame, Jukebox, MobSpawner, Sign, Skull};
 
 class Registerer{
 	
 	public static function registerAll(){
+		//Entities
 		Entity::registerEntity(Arrow::class);
 		Entity::registerEntity(BlazeFireball::class);
 		Entity::registerEntity(Camera::class);
@@ -55,6 +56,7 @@ class Registerer{
 		Entity::registerEntity(ThrownPotion::class);
 		Entity::registerEntity(XPOrb::class);
 		Entity::registerEntity(Human::class, true);
+		Entity::registerEntity(ArmorStand::class);
 		Entity::registerEntity(Bat::class);
 		Entity::registerEntity(Blaze::class);
 		Entity::registerEntity(BlueWitherSkull::class);
@@ -114,7 +116,7 @@ class Registerer{
 		Entity::registerEntity(ZombieHorse::class);
 		Entity::registerEntity(ZombieVillager::class);
 		
-		Tile::registerTile(ArmorStand::class);
+		//Tiles
 		Tile::registerTile(Banner::class);
 		Tile::registerTile(Beacon::class);
 		Tile::registerTile(Bed::class);
