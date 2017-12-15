@@ -3106,14 +3106,20 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		}
 	}
 	
-	public function close($reason = "Unknown Reason"){
+	public function close($message = "", $reason = "Unknown Reason"){
 		$this->server->saveEverything();
 		
-		if($reason == ""){
+		//$message is not used for anything, just for compatibility.
+		
+		if($message !== "" && $reason !== ""){
+			$reason = $message;
+		}
+		
+		if($reason === ""){
 			$reason = "Unknown Reason";
 		}
 		
-		if($reason == "Unknown Reason" && Translate::checkTurkish() === "yes"){
+		if($reason === "Unknown Reason" && Translate::checkTurkish() === "yes"){
 			$reason = "Bilinmeyen Neden";
 		}
 		

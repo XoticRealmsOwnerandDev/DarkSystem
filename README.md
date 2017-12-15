@@ -42,6 +42,7 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
 - [x] Anti-BOT (Bot Protection)
   * Blocks MCPE Bots joining from same ips. (Ex. MineBot)
 - [x] Anti-COOP Play
+- [x] Advanced RakNet
   * Like bot protection
 - [x] Themes!
   * You can change theme in **server.properties**.

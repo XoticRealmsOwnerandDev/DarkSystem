@@ -315,7 +315,7 @@ class Server extends DarkSystem{
 	}
 	
 	public function getName(){
-		$class = $this->getCallingClass();
+		/*$class = $this->getCallingClass();
 		if(strchr($class, "SpoonDetector")){
 			if(Translate::checkTurkish() === "yes"){
 				$this->konsol->debug($class . " İsimli Spoon Detektörü Engellendi!");
@@ -324,12 +324,12 @@ class Server extends DarkSystem{
 			}
 			
 			return "PocketMine-MP";
-		}
+		}*/
 		
 		return "DarkSystem";
 	}
 	
-	private function getCallingClass(){
+	/*private function getCallingClass(){
 		$trace = debug_backtrace();
 		$class = $trace[1]["class"];
 		for($i=1; $i < count($trace); $i++){
@@ -341,7 +341,7 @@ class Server extends DarkSystem{
 		}
 		
 		return "null";
-	}
+	}*/
 	
 	public function isRunning(){
 		return $this->isRunning === true;
@@ -1775,8 +1775,10 @@ class Server extends DarkSystem{
 			Generator::addGenerator(Ender::class, "ender");
 			
 			foreach((array) $this->getProperty("worlds", []) as $name => $worldSetting){
-				if($this->loadLevel($name) === false){
-					$seed = $this->getProperty("worlds.$name.seed", time());
+				if(!$this->loadLevel($name)){
+					$seed = $options["seed"] ?? time();
+					$options = explode(":", $this->getProperty("worlds.$name.generator", Generator::getGenerator("default")));
+					$generator = Generator::getGenerator(array_shift($options));
 					if(count($options) > 0){
 						$options = [
 							"preset" => implode(":", $options),
@@ -1802,7 +1804,7 @@ class Server extends DarkSystem{
 					$this->setConfigString("level-name", "world");
 				}
 				
-				if($this->loadLevel($default) === false){
+				if(!$this->loadLevel($default)){
 					$seed = $this->getConfigInt("level-seed", time());
 					$this->generateLevel($default, $seed === 0 ? time() : $seed);
 				}

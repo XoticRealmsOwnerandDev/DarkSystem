@@ -472,6 +472,7 @@ class Item{
 	const GOLDEN_CARROT = 396;
 	const MOB_HEAD = 397;
 	const CARROT_ON_STICK = 398;
+	const NETHER_STAR = 399;
 	const PUMPKIN_PIE = 400;
 	const FIREWORK = 401;
 	const FIREWORK_STAR = 402;
@@ -497,7 +498,7 @@ class Item{
 	const PRISMARINE_CRYSTAL = 422;
 	const RAW_MUTTON = 423;
 	const COOKED_MUTTON = 424;
-	const BANNER = 425;
+	const ARMOR_STAND = 425;
 	const END_CRYSTAL = 426;
 	const SPRUCE_DOOR = 427;
 	const BIRCH_DOOR = 428;
@@ -511,6 +512,7 @@ class Item{
 	const LINGERING_POTION = 441;
 	const ELYTRA = 444;
 	const SHULKER_SHELL = 445;
+	const BANNER = 446;
 	const TOTEM = 450;
 	const BEETROOT = 457;
 	const BEETROOT_SEEDS = 458;
@@ -850,6 +852,7 @@ class Item{
 		396 => "Golden Carrot",
 		397 => "Mob Head",
 		398 => "Carrot on a Stick",
+		399 => "Nether Star",
 		400 => "Pumpkin Pie",
 		401 => "Firework",
 		402 => "Firework Star",
@@ -873,7 +876,7 @@ class Item{
 		422 => "Prismarine Crystals",
 		423 => "Raw Mutton",
 		424 => "Cooked Mutton",
-		425 => "Banner",
+		425 => "Armor Stand",
 		426 => "End Crystal",
 		427 => "Spruce Door",
 		428 => "Birch Door",
@@ -884,6 +887,7 @@ class Item{
 		437 => "Dragon's Breath",
 		438 => "Splash Potion",
 		444 => "Elytra",
+		446 => "Banner",
 		457 => "Beetroot",
 		458 => "Beetroot Seed",
 		459 => "Beetroot Soup",
@@ -1012,6 +1016,7 @@ class Item{
 			Item::$list[Item::MOB_HEAD] = MobHead::class;
 			Item::$list[Item::GUNPOWDER] = Gunpowder::class;
 			Item::$list[Item::BLAZE_POWDER] = BlazePowder::class;
+			Item::$list[Item::NETHER_STAR] = NetherStar::class;
 			Item::$list[Item::FLOWER_POT] = FlowerPot::class;
 			Item::$list[Item::ITEM_FRAME] = ItemFrame::class;
 			Item::$list[Item::ELYTRA] = Elytra::class;
@@ -1035,6 +1040,7 @@ class Item{
 			Item::$list[Item::MUSIC_DISC_CHIRP] = MusicDiscChirp::class;
 			Item::$list[Item::MUSIC_DISC_MELLOHI] = MusicDiscMellohi::class;
 			Item::$list[Item::MUSIC_DISC_FAR] = MusicDiscFar::class;
+			Item::$list[Item::ARMOR_STAND] = ArmorStand::class;
 			
 			for($i = 0; $i < 256; ++$i){
 				if(Block::$list[$i] !== null){
