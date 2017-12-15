@@ -205,7 +205,9 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	protected $effects = [];
 
 	protected $id;
-	
+
+	private $temporalVector;
+
 	protected $dataFlags = 0;
 	protected $dataProperties = [	
 		Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, 0],
@@ -224,6 +226,8 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	public $chunkZ;
 	
 	public $chunk;
+
+	private $isPlayer;
 
 	protected $lastDamageCause = null;
 
@@ -1203,22 +1207,15 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	}
 
 	protected function updateFallState($distanceThisTick, $onGround){
-		if($onGround === true){
-			if($this->fallDistance > 0){
-				if ($this instanceof Living){
-					//TODO
-				}
-
-				if(!$this->isCollideWithWater()){
-					$this->fall($this->fallDistance);
-				}
-				
-				$this->resetFallDistance();
-			}
-		}elseif($distanceThisTick < 0){
-			$this->fallDistance -= $distanceThisTick;
-		}
-	}
+        if($onGround){
+            if($this->fallDistance > 0){
+                $this->fall($this->fallDistance);
+                $this->resetFallDistance();
+            }
+        }elseif($distanceThisTick < 0){
+            $this->fallDistance -= $distanceThisTick;
+        }
+    }
 
 	public function getBoundingBox(){
 		return $this->boundingBox;
@@ -1948,12 +1945,13 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	public function getLinkedType(){
 		return $this->linkedType;
 	}
-	
-	/**
-	 * @param int   $id
-	 * @param int   $type
-	 * @param mixed $value
-	 */
+
+    /**
+     * @param $id
+     * @param $type
+     * @param $value
+     * @param bool $send
+     */
 	public function setDataProperty($id, $type, $value, $send = true){
 		if($this->getDataProperty($id) !== $value){
 			$this->dataProperties[$id] = [$type, $value];
@@ -1999,11 +1997,13 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		return isset($this->dataProperties[$id]) ? $this->dataProperties[$id][0] : null;
 	}
 
-	/**
-	 * @param int  $propertyId;
-	 * @param int  $id
-	 * @param bool $value
-	 */
+    /**
+     * @param $propertyId
+     * @param $id
+     * @param bool $value
+     * @param int $type
+     * @param bool $send
+     */
 	public function setDataFlag($propertyId, $id, $value = true, $type = Entity::DATA_TYPE_LONG, $send = true){
 		if($this->getDataFlag($propertyId, $id) !== $value){
 			$flags = (int) $this->getDataProperty($propertyId);
