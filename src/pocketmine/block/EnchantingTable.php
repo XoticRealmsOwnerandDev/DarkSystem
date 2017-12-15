@@ -18,6 +18,7 @@ use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
+use pocketmine\tile\EnchantTable;
 use pocketmine\tile\Tile;
 
 class EnchantingTable extends Transparent{
@@ -25,7 +26,6 @@ class EnchantingTable extends Transparent{
 	protected $id = self::ENCHANTING_TABLE;
 
 	public function __construct() {
-		
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null) {
