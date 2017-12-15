@@ -11,26 +11,18 @@
 
 namespace pocketmine\level;
 
+use darksystem\crossplatform\network\protocol\Play\Server\OpenSignEditorPacket;
 use pocketmine\block\Air;
-use pocketmine\block\Beetroot;
 use pocketmine\block\Block;
-use pocketmine\block\BrownMushroom;
 use pocketmine\block\Cactus;
-use pocketmine\block\Carrot;
 use pocketmine\block\Farmland;
 use pocketmine\block\Grass;
 use pocketmine\block\Ice;
 use pocketmine\block\Leaves;
-use pocketmine\block\Leaves2;
-use pocketmine\block\MelonStem;
 use pocketmine\block\Mycelium;
-use pocketmine\block\Potato;
-use pocketmine\block\PumpkinStem;
-use pocketmine\block\RedMushroom;
 use pocketmine\block\Sapling;
 use pocketmine\block\SnowLayer;
 use pocketmine\block\Sugarcane;
-use pocketmine\block\Wheat;
 use pocketmine\entity\Arrow;
 use pocketmine\entity\Entity;
 use pocketmine\entity\XPOrb;
@@ -48,12 +40,10 @@ use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\level\SpawnChangeEvent;
 use pocketmine\event\LevelTimings;
 use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\event\Timings;
 use pocketmine\inventory\InventoryHolder;
 use pocketmine\item\Item;
 use pocketmine\level\format\Chunk;
 use pocketmine\level\format\FullChunk;
-use pocketmine\level\format\generic\BaseFullChunk;
 use pocketmine\level\format\generic\BaseLevelProvider;
 use pocketmine\level\format\generic\EmptyChunkSection;
 use pocketmine\level\format\LevelProvider;
@@ -67,7 +57,6 @@ use pocketmine\math\Vector3;
 use darksystem\metadata\BlockMetadataStore;
 use darksystem\metadata\Metadatable;
 use darksystem\metadata\MetadataValue;
-use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\ListTag;
@@ -76,11 +65,8 @@ use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\LongTag;
 use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\StringTag;
-use pocketmine\network\Network;
-use pocketmine\network\protocol\FullChunkDataPacket;
+use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\network\protocol\LevelSoundEventPacket;
-use pocketmine\network\protocol\MoveEntityPacket;
-use pocketmine\network\protocol\SetEntityMotionPacket;
 use pocketmine\network\protocol\SetTimePacket;
 use pocketmine\network\protocol\UpdateBlockPacket;
 use pocketmine\Player;
@@ -88,15 +74,11 @@ use pocketmine\plugin\Plugin;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 use pocketmine\tile\Chest;
-use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
-use pocketmine\utils\BinaryStream;
 use pocketmine\utils\Cache;
 use pocketmine\utils\LevelException;
 use pocketmine\utils\MainLogger;
 use pocketmine\utils\ReversePriorityQueue;
-use pocketmine\utils\TextFormat;
-use pocketmine\network\protocol\Info;
 use darksystem\ChunkGenerator;
 use darksystem\crossplatform\DesktopPlayer;
 use pocketmine\level\generator\GenerationTask;
@@ -111,6 +93,11 @@ use pocketmine\entity\animal\Animal;
 use pocketmine\nbt\NBT;
 
 class Level extends TimeValues implements ChunkManager, Metadatable{
+
+    /** @var Generator */
+	private $generatorInstance;
+
+    private static $chunkLoaderCounter = 1;
 
 	private static $levelIdCounter = 1;
 	
@@ -277,14 +264,14 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 			$z = (int) $hash[1];
 		}
 	}
-	
-	public static function generateChunkLoaderId(ChunkLoader $loader){
-		if($loader->getLoaderId() === 0 || $loader->getLoaderId() === null || $loader->getLoaderId() === null){
-			return Level::$chunkLoaderCounter++;
-		}else{
-			throw new \InvalidStateException("ChunkLoader has a loader id already assigned: " . $loader->getLoaderId());
-		}
-	}
+
+    public static function generateChunkLoaderId(ChunkLoader $loader): int {
+        if ($loader->getLoaderId() === 0 or $loader->getLoaderId() === null or $loader->getLoaderId() === null) {
+            return self::$chunkLoaderCounter++;
+        } else {
+            throw new \InvalidStateException("ChunkLoader has a loader id already assigned: " . $loader->getLoaderId());
+        }
+    }
 	
 	/**
 	 * @param Server $server
@@ -1387,13 +1374,13 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 							++$num_side_chest;
 							for($j = 2; $j <= 5; ++$j){
 								if($side_chest->getSide($j)->getId() === $side_chest->getId()){
-									$event->setCancelled(true);
+									$ev->setCancelled(true);
 								}
 							}
 						}
 					}
 					if($num_side_chest > 1){
-						$event->setCancelled(true);
+						$ev->setCancelled(true);
 					}
 				}
 			}
@@ -2326,7 +2313,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 	public function unregisterGenerator(){
 		$size = $this->server->getScheduler()->getAsyncTaskPoolSize();
 		for($i = 0; $i < $size; ++$i){
-			$this->server->getScheduler()->scheduleAsyncTaskToWorker(new GeneratorUnregisterTask($this, $this->generatorInstance), $i);
+			$this->server->getScheduler()->scheduleAsyncTaskToWorker(new GeneratorUnregisterTask($this), $i);
 		}
 	}
 
@@ -2512,7 +2499,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 				$subClientsId[$subClientId] = $subClientId;
 			}
 		}
-		$this->provider->requestChunkTask($x, $z, $protocols, $subClientsId);
+		$this->provider->requestChunkTask($x, $z);
 	}
 	
 	public function getYMask(){
