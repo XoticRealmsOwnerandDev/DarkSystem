@@ -27,7 +27,6 @@ use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\nbt\tag\Tag;
 use pocketmine\utils\Binary;
-use pocketmine\utils\Utils;
 
 class NBT{
 
@@ -320,7 +319,7 @@ class NBT{
 				}
 				++$offset;
 				$value = NBT::parseCompoundTag($data, $offset);
-				$type = NBT::TAG_CompoundTag;
+				$type = NBT::TAG_Compound;
 				break;
 			}elseif($c === "[" && !$inQuotes){
 				if($value !== ""){
@@ -328,7 +327,7 @@ class NBT{
 				}
 				++$offset;
 				$value = NBT::parseList($data, $offset);
-				$type = NBT::TAG_ListTag;
+				$type = NBT::TAG_List;
 				break;
 			}else{
 				$value .= $c;
@@ -450,9 +449,10 @@ class NBT{
 		$this->read(zlib_decode($buffer));
 	}
 
-	/**
-	 * @return string|bool
-	 */
+    /**
+     * @param bool $old
+     * @return bool|string
+     */
 	public function write($old = false){
 		$this->offset = 0;
 		$this->buffer = "";
@@ -549,7 +549,7 @@ class NBT{
 				$this->putString($tag->getName());
 			}
 		}
-		$tag->write($this, $old);
+		$tag->write($this);
 	}
 
 	public function getByte(){
