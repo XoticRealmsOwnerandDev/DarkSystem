@@ -1225,7 +1225,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 				return false;
 			}
 			if($player instanceof DesktopPlayer){
-				$event->setInstaBreak(true);
+				$ev->setInstaBreak(true);
 			}
 			$this->server->getPluginManager()->callEvent($ev);
 			if($ev->isCancelled()){
