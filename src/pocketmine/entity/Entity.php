@@ -24,8 +24,7 @@ use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\Timings;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\Tool;
-use pocketmine\level\format\Chunk;
-use pocketmine\level\format\FullChunk;
+
 use pocketmine\level\Level;
 use pocketmine\level\Location;
 use pocketmine\level\Position;
@@ -42,17 +41,13 @@ use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\StringTag;
-use pocketmine\network\Network;
-use pocketmine\network\protocol\AddPlayerPacket;
 use pocketmine\network\protocol\MobEffectPacket;
-use pocketmine\network\protocol\MoveEntityPacket;
-use pocketmine\network\protocol\MovePlayerPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
 use pocketmine\network\protocol\SetEntityDataPacket;
+use pocketmine\network\protocol\SetEntityLinkPacket;
 use pocketmine\network\protocol\SetTimePacket;
 use pocketmine\plugin\Plugin;
 use pocketmine\Player;
-use pocketmine\Server;
 use pocketmine\utils\ChunkException;
 use pocketmine\block\Liquid;
 use pocketmine\block\Cobweb;
@@ -621,14 +616,13 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		}
 	}
 
-	/**
-	 * @param int|string $type
-	 * @param FullChunk  $chunk
-	 * @param CompoundTag   $nbt
-	 * @param            $args
-	 *
-	 * @return Entity
-	 */
+    /**
+     * @param $type
+     * @param Level $level
+     * @param CompoundTag $nbt
+     * @param array ...$args
+     * @return null
+     */
 	public static function createEntity($type, Level $level, CompoundTag $nbt, ...$args){
 		if(isset(Entity::$knownEntities[$type])){
 			$class = Entity::$knownEntities[$type];
@@ -798,9 +792,9 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		}
 	}
 
-	/**
-	 * @deprecated
-	 */
+    /**
+     * @param $player
+     */
 	public function sendMetadata($player){
 		$this->sendData($player);
 	}
@@ -1211,8 +1205,8 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	protected function updateFallState($distanceThisTick, $onGround){
 		if($onGround === true){
 			if($this->fallDistance > 0){
-				if($this instanceof Living){
-					
+				if ($this instanceof Living){
+					//TODO
 				}
 
 				if(!$this->isCollideWithWater()){
@@ -1716,6 +1710,11 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		return new Vector3($this->motionX, $this->motionY, $this->motionZ);
 	}
 
+
+    /**
+     * @param Vector3 $motion
+     * @return bool
+     */
 	public function setMotion(Vector3 $motion){
 		if(!$this->justCreated){
 			$this->server->getPluginManager()->callEvent($ev = new EntityMotionEvent($this, $motion));
@@ -1738,6 +1737,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	public function isOnGround(){
 		return $this->onGround === true;
 	}
+
 
 	public function kill(){
 		if($this->dead){
@@ -1774,7 +1774,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->ySize = 0;
 		$pos = $ev->getTo();
 		
-		if($this->setPositionAndRotation($pos, $yaw === null ? $this->yaw : $yaw, $pitch === null ? $this->pitch : $pitch, true) !== false){
+		if($this->setPositionAndRotation($pos, $yaw === null ? $this->yaw : $yaw, $pitch === null ? $this->pitch : $pitch) !== false){
 			$this->resetFallDistance();
 			
 			$this->onGround = true;
