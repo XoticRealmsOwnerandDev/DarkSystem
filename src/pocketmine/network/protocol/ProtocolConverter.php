@@ -37,6 +37,6 @@ interface ProtocolConverter{
 	const PROTOCOL_150 = 150;
 	const PROTOCOL_160 = 160;
 	const PROTOCOL_170 = 170;
-	const PROTOCOL_414 = 414; //Who sit on into keyboard? #blamemojang
+	const PROTOCOL_414 = 414; //Who sit on keyboard? #blamemojang
 	
 }

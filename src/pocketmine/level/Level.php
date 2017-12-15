@@ -264,11 +264,11 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 			$z = (int) $hash[1];
 		}
 	}
-
-    public static function generateChunkLoaderId(ChunkLoader $loader): int {
-        if ($loader->getLoaderId() === 0 or $loader->getLoaderId() === null or $loader->getLoaderId() === null) {
-            return self::$chunkLoaderCounter++;
-        } else {
+	
+    public static function generateChunkLoaderId(ChunkLoader $loader){
+        if($loader->getLoaderId() === 0 or $loader->getLoaderId() === null or $loader->getLoaderId() === null){
+            return Level::$chunkLoaderCounter++;
+        }else{
             throw new \InvalidStateException("ChunkLoader has a loader id already assigned: " . $loader->getLoaderId());
         }
     }
