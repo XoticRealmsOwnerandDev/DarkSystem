@@ -13,7 +13,6 @@ namespace pocketmine\entity;
 
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\level\Level;
-use pocketmine\level\particle\CriticalParticle;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
@@ -67,7 +66,7 @@ class BlazeFireball extends Projectile
 
         if ($this->age > 1200 or $this->isCollided) {
             if ($this->isCollided and $this->canExplode) {
-                $this->server->getPluginManager()->callEvent($ev = new ExplosionPrimeEvent($this, 2.6, $dropItem = false));
+                $this->server->getPluginManager()->callEvent($ev = new ExplosionPrimeEvent($this, 2.6));
                 if (!$ev->isCancelled()) {
                     $explosion = new Explosion($this, $ev->getForce(), $this->shootingEntity);
                     if ($ev->isBlockBreaking()) {

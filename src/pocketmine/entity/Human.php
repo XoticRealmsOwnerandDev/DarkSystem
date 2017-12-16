@@ -121,11 +121,14 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	public function getRightShoulderEntity(){
 		return 0; //Parrot? (30)
 	}
-	
-	/**
-	 * @param string $str
-	 * @param bool   $skinName
-	 */
+
+    /**
+     * @param $str
+     * @param $skinName
+     * @param string $skinGeometryName
+     * @param string $skinGeometryData
+     * @param string $capeData
+     */
 	public function setSkin($str, $skinName, $skinGeometryName = "", $skinGeometryData = "", $capeData = ""){
 		$this->skin = $str;
 		if(is_string($skinName)){
