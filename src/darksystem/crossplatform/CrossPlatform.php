@@ -41,7 +41,7 @@ class CrossPlatform{
 		$this->onlineMode = false;
 
 		$aes = new AES();
-		switch($aes->getEngine()){
+		itch($aes->getEngine()){
 			case AES::ENGINE_OPENSSL:
 				$this->server->getLogger()->info("Use openssl as AES encryption engine.");
 			break;
