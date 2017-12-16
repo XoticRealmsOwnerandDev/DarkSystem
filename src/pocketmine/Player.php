@@ -148,7 +148,6 @@ use pocketmine\network\protocol\ResourcePackChunkDataPacket;
 use pocketmine\network\protocol\ResourcePackInfoPacket;
 use pocketmine\network\protocol\ResourcePackStackPacket;
 use pocketmine\network\protocol\SetTitlePacket;
-use pocketmine\network\protocol\ServerToClientHandshakePacket;
 use pocketmine\network\protocol\ResourcePackClientResponsePacket;
 use pocketmine\network\protocol\LevelSoundEventPacket;
 use pocketmine\network\protocol\LevelEventPacket;
@@ -179,9 +178,12 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	
 	protected $interface;
 
+
+    private $lastSentVitals;
+    
+    
     /** @var UUID $uuid */
     protected $uuid;
-
 	public $spawned = false;
 	public $loggedIn = false;
 	public $dead = false;
@@ -257,6 +259,8 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 
 	protected $inAirTicks = 0;
 	protected $startAirTicks = 5;
+	
+	private $foodDepletion;
 
 	protected $autoJump = true;
 
