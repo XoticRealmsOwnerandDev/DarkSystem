@@ -21,7 +21,7 @@ use pocketmine\Player;
 
 class Blaze extends FlyingMonster implements ProjectileSource{
 	
-	const NETWORK_ID = 43;
+	const NETWORK_ID = self::BLAZE;
 
 	public $width = 0.72;
 	public $height = 1.8;
@@ -218,5 +218,4 @@ class Blaze extends FlyingMonster implements ProjectileSource{
 		}
 		return [];
 	}
-
 }

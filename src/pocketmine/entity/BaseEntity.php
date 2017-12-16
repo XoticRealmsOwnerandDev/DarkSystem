@@ -12,8 +12,11 @@
 namespace pocketmine\entity;
 
 use pocketmine\entity\monster\Monster;
+use pocketmine\entity\Creature;
+use pocketmine\entity\Entity;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\Timings;
 use pocketmine\level\Level;
 use pocketmine\math\Math;
 use pocketmine\math\Vector3;
@@ -26,6 +29,7 @@ use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\FloatTag;
+use pocketmine\entity\monster\walking\Wolf;
 
 abstract class BaseEntity extends Creature{
 
@@ -244,9 +248,4 @@ abstract class BaseEntity extends Creature{
 		]);
 		return Entity::createEntity($type, $source->getLevel(), $nbt, ...$args);
 	}
-	
-	public function isNeedSaveOnChunkUnload(){
-		return true;
-	}
-	
 }

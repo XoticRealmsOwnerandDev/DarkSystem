@@ -9,7 +9,7 @@
 
 main:
  #Server lobby world name (Folder name)
- lobi-dunyasi: world
+ lobby-level: world
  
 messages:
  #Message to display when an unknown command is written

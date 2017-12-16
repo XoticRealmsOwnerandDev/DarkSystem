@@ -1197,13 +1197,13 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 			}
 			$ev = new BlockBreakEvent($player, $target, $item, ($player->getGamemode() & 0x01) === 1 ? true : false, $drops);
 			if($player->isLiving() && $item instanceof Item && !$target->isBreakable($item)){
-				$ev->setCancelled();
+				$ev->setCancelled(true);
 			}
 			if(!$player->isOp() && ($distance = $this->server->getConfigInt("spawn-protection", 16)) > -1){
 				$t = new Vector2($target->x, $target->z);
 				$s = new Vector2($this->getSpawnLocation()->x, $this->getSpawnLocation()->z);
 				if($t->distance($s) <= $distance){
-					$ev->setCancelled();
+					$ev->setCancelled(true);
 				}
 			}
 			$breakTime = $player->isCreative() ? 0.15 : $target->getBreakTime($item);
@@ -1363,7 +1363,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 				$t = new Vector2($target->x, $target->z);
 				$s = new Vector2($this->getSpawnLocation()->x, $this->getSpawnLocation()->z);
 				if($t->distance($s) <= $distance){
-					$ev->setCancelled();
+					$ev->setCancelled(true);
 				}
 			}
 			if($player instanceof DesktopPlayer){
@@ -2136,25 +2136,8 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 				return false;
 			}
 		}
-		/*try{
-			if($chunk !== null){
-				foreach($chunk->getEntities() as $entity){
-					if($entity instanceof Player){
-						continue;
-					}
-					if(!$entity->isNeedSaveOnChunkUnload()){
-						$entity->close();
-					}
-				}*/
 		try{
 			if($chunk !== null){
-				if($this->server->isUseAnimal() || $this->server->isUseMonster()){
-					foreach($chunk->getEntities() as $entity){
-						if($entity instanceof Monster || $entity instanceof Animal){
-							$entity->close();
-						}
-					}
-				}
 				if($this->getAutoSave()){
 					$this->provider->setChunk($x, $z, $chunk);
 					$this->provider->saveChunk($x, $z);

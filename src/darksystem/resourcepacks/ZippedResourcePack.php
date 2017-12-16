@@ -1,23 +1,13 @@
 <?php
 
-/*
- *
- *  ____            _        _   __  __ _                  __  __ ____
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
- * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * @author PocketMine Team
- * @link http://www.pocketmine.net/
- *
- *
-*/
+#______           _    _____           _                  
+#|  _  \         | |  /  ___|         | |                 
+#| | | |__ _ _ __| | _\ `--. _   _ ___| |_ ___ _ __ ___   
+#| | | / _` | '__| |/ /`--. \ | | / __| __/ _ \ '_ ` _ \  
+#| |/ / (_| | |  |   </\__/ / |_| \__ \ ||  __/ | | | | | 
+#|___/ \__,_|_|  |_|\_\____/ \__, |___/\__\___|_| |_| |_| 
+#                             __/ |                       
+#                            |___/
 
 namespace darksystem\resourcepacks;
 
@@ -55,7 +45,7 @@ class ZippedResourcePack implements ResourcePack{
 	/**
 	 * @param string $zipPath Path to the resource pack zip
 	 */
-	public function __construct(string $zipPath){
+	public function __construct($zipPath){
 		$this->path = $zipPath;
 
 		if(!file_exists($zipPath)){
@@ -87,30 +77,30 @@ class ZippedResourcePack implements ResourcePack{
 		fclose($this->fileResource);
 	}
 
-	public function getPackName() : string{
+	public function getPackName(){
 		return $this->manifest->header->name;
 	}
 
-	public function getPackVersion() : string{
+	public function getPackVersion(){
 		return implode(".", $this->manifest->header->version);
 	}
 
-	public function getPackId() : string{
+	public function getPackId(){
 		return $this->manifest->header->uuid;
 	}
 
-	public function getPackSize() : int{
+	public function getPackSize(){
 		return filesize($this->path);
 	}
 
-	public function getSha256(bool $cached = true) : string{
+	public function getSha256($cached = true){
 		if($this->sha256 === null or !$cached){
 			$this->sha256 = hash_file("sha256", $this->path, true);
 		}
 		return $this->sha256;
 	}
 
-	public function getPackChunk(int $start, int $length) : string{
+	public function getPackChunk($start, $length){
 		fseek($this->fileResource, $start);
 		if(feof($this->fileResource)){
 			throw new \RuntimeException("Requested a resource pack chunk with invalid start offset");

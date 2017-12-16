@@ -9,7 +9,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 
 class Silverfish extends WalkingMonster{
 	
-	const NETWORK_ID = 39;
+	const NETWORK_ID = self::SILVERFISH;
 
 	public $width = 0.4;
 	public $height = 0.2;

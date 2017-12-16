@@ -164,7 +164,7 @@ class NBT{
 			$c = $data{$offset};
 			if($c === "{"){
 				++$offset;
-				$data = NBT::parseCompoundTag($data, $offset);
+				$data = NBT::parseCompound($data, $offset);
 				return new CompoundTag("", $data);
 			}elseif($c !== " " && $c !== "\r" && $c !== "\n" && $c !== "\t"){
 				throw new \Exception("Sözdizimi Hatası: unexpected '$c' at offset $offset");
@@ -234,7 +234,7 @@ class NBT{
 		return $data;
 	}
 
-	private static function parseCompoundTag($str, &$offset = 0){
+	private static function parseCompound($str, &$offset = 0){
 		$len = strlen($str);
 
 		$data = [];
@@ -318,7 +318,7 @@ class NBT{
 					throw new \Exception("Sözdizimi Hatası: invalid CompoundTag start at offset $offset");
 				}
 				++$offset;
-				$value = NBT::parseCompoundTag($data, $offset);
+				$value = NBT::parseCompound($data, $offset);
 				$type = NBT::TAG_Compound;
 				break;
 			}elseif($c === "[" && !$inQuotes){
@@ -549,7 +549,7 @@ class NBT{
 				$this->putString($tag->getName());
 			}
 		}
-		$tag->write($this);
+		$tag->write($this, $old);
 	}
 
 	public function getByte(){

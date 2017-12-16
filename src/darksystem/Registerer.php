@@ -21,7 +21,7 @@ use pocketmine\entity\monster\jumping\{MagmaCube/*, Slime*/};
 use pocketmine\entity\monster\walking\{CaveSpider, Creeper, Enderman, Husk, IronGolem, PigZombie, Silverfish, Skeleton, SnowGolem, Spider, Stray, Wolf, Zombie, ZombieVillager};
 use pocketmine\entity\projectile\{Arrow, Egg, FireBall, FireworksRocket, Snowball};
 use pocketmine\inventory\customInventory\CustomChest;
-use pocketmine\tile\{Tile, Banner, Beacon, Bed, BrewingStand, Cauldron, Chest, CommandBlock, Dispenser, DLDetector, Dropper, EnchantTable, EnderChest, FlowerPot, Furnace, Hopper, ItemFrame, Jukebox, MobSpawner, Sign, Skull};
+use pocketmine\tile\{Tile, Banner, Beacon, Bed, BrewingStand, Cauldron, Chest, CommandBlock, Dispenser, DLDetector, Dropper, EnchantTable, EnderChest, FlowerPot, Furnace, Hopper, ItemFrame, Jukebox, MobSpawner, Sign, ShulkerBox, Skull};
 
 class Registerer{
 	
@@ -136,6 +136,7 @@ class Registerer{
 		Tile::registerTile(Jukebox::class);
 		Tile::registerTile(MobSpawner::class);
 		Tile::registerTile(Sign::class);
+		Tile::registerTile(ShulkerBox::class);
 		Tile::registerTile(Skull::class);
 		
 		Tile::registerTile(CustomChest::class);

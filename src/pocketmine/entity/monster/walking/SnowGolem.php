@@ -19,7 +19,7 @@ use pocketmine\entity\Creature;
 
 class SnowGolem extends WalkingMonster implements ProjectileSource{
 	
-	const NETWORK_ID = 21;
+	const NETWORK_ID = self::SNOW_GOLEM;
 
 	public $width = 0.6;
 	public $height = 1.8;
@@ -81,5 +81,4 @@ class SnowGolem extends WalkingMonster implements ProjectileSource{
 		}
 		return [];
 	}
-
 }

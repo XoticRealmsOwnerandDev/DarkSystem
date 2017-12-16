@@ -11,7 +11,7 @@ use pocketmine\entity\Creature;
 
 class Pig extends WalkingAnimal implements Rideable{
 	
-	const NETWORK_ID = 12;
+	const NETWORK_ID = self::PIG;
 
 	public $width = 1.45;
 	public $height = 1.12;

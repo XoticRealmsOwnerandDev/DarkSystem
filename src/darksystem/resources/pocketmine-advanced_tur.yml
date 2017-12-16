@@ -9,7 +9,7 @@
 
 main:
  #Sunucu Lobi Dünya İsmi (Klasör İsmi)
- lobi-dunyasi: world
+ lobby-level: world
  
 messages:
  #Bilinmeyen Bir Komut Yazıldığında Gösterilecek Mesaj

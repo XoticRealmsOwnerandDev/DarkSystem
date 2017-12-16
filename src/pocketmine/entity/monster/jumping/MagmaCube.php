@@ -10,7 +10,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 
 class MagmaCube extends JumpingMonster{
 	
-    const NETWORK_ID = 42;
+    const NETWORK_ID = self::MAGMA_CUBE;
 
     public $width = 1.2;
     public $height = 1.2;

@@ -13,8 +13,11 @@ namespace pocketmine\entity;
 
 use pocketmine\block\Block;
 use pocketmine\block\Rail;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\math\Math;
 use pocketmine\math\Vector3;
 
@@ -43,6 +46,7 @@ class Car extends Vehicle{
 	private $state = Car::STATE_INITIAL;
 	private $direction = -1;
 	private $moveVector = [];
+	private $requestedPosition = null;
 
 	public function initEntity(){
 		$this->setMaxHealth(15);

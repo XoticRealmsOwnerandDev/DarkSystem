@@ -1,5 +1,3 @@
-#!/bin/bash
-
 CHANNEL="stable"
 BRANCH="master"
 NAME="DarkSystem"

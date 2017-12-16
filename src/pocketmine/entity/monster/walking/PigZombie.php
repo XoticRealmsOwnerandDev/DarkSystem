@@ -4,7 +4,7 @@ namespace pocketmine\entity\monster\walking;
 
 use pocketmine\entity\monster\WalkingMonster;
 use pocketmine\entity\Entity;
-use pocketmine\item\DiamondSword;
+use pocketmine\item\GoldSword;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -15,7 +15,7 @@ use pocketmine\Player;
 
 class PigZombie extends WalkingMonster{
 	
-	const NETWORK_ID = 36;
+	const NETWORK_ID = self::PIG_ZOMBIE;
 
 	private $angry = 0;
 
@@ -72,7 +72,7 @@ class PigZombie extends WalkingMonster{
 
 		$pk = new MobEquipmentPacket();
 		$pk->eid = $this->getId();
-		$pk->item = new DiamondSword();
+		$pk->item = new GoldSword();
 		$pk->slot = 10;
 		$pk->selectedSlot = 10;
 		$player->dataPacket($pk);

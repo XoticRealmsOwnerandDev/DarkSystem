@@ -1014,13 +1014,21 @@ class Server extends DarkSystem{
 		return true;
 	}
 	
-	public function generateLevel($name, $seed = null, $options = []){
+	public function generateLevel($name, $seed = null, $generator = null, $options = []){
 		if(trim($name) === "" || $this->isLevelGenerated($name)){
 			return false;
 		}
 
 		$seed = $seed === null ? Binary::readInt(@Utils::getRandomBytes(4, false)) : (int) $seed;
+		
+		if(!isset($options["preset"])){
+			$options["preset"] = $this->getConfigString("generator-settings", "");
+		}
 
+		if(!($generator !== null && class_exists($generator, true) && is_subclass_of($generator, Generator::class))){
+			$generator = Generator::getGenerator($this->getLevelType());
+		}
+		
 		if(($provider = LevelProviderManager::getProviderByName($providerName = $this->getProperty("level-settings.default-format", "anvil"))) === null){
 			$provider = LevelProviderManager::getProviderByName($providerName = "anvil");
 		}
@@ -1032,7 +1040,7 @@ class Server extends DarkSystem{
 				$path = $this->getDataPath() . "worlds/" . $name . "/";
 			}
 			
-			$provider::generate($path, $name, $seed, $options);
+			$provider::generate($path, $name, $seed, $generator, $options);
 
 			$level = new Level($this, $name, $path, $provider);
 			$this->levels[$level->getId()] = $level;
@@ -1788,7 +1796,7 @@ class Server extends DarkSystem{
 					}
 				}
 				
-				$this->generateLevel($name, $seed, $options);
+				$this->generateLevel($name, $seed, $generator, $options);
 			}
 			
 			if($this->getDefaultLevel() === null){

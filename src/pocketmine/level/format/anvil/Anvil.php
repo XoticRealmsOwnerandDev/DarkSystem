@@ -74,12 +74,6 @@ class Anvil extends McRegion{
 		$data['chunkX'] = $x;
 		$data['chunkZ'] = $z;
 		$data['tiles'] = $tiles;
-		/*$data['blocks'] = $chunk->getBlockIdArray();
-		$data['data'] = $chunk->getBlockDataArray();
-		$data['blockLight'] = $chunk->getBlockLightArray();
-		$data['skyLight'] = $chunk->getBlockSkyLightArray();
-		$data['heightMap'] = pack("v*", ...$chunk->getHeightMapArray());
-		$data['biomeColor'] = $this->convertBiomeColors($chunk->getBiomeColorArray());*/
 		$data['isAnvil'] = true;
 		$data['chunk'] = $this->getChunkData($chunk);
 		

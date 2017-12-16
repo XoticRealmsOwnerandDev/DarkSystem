@@ -121,14 +121,11 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	public function getRightShoulderEntity(){
 		return 0; //Parrot? (30)
 	}
-
-    /**
-     * @param $str
-     * @param $skinName
-     * @param string $skinGeometryName
-     * @param string $skinGeometryData
-     * @param string $capeData
-     */
+	
+	/**
+	 * @param string $str
+	 * @param bool   $skinName
+	 */
 	public function setSkin($str, $skinName, $skinGeometryName = "", $skinGeometryData = "", $capeData = ""){
 		$this->skin = $str;
 		if(is_string($skinName)){
@@ -297,9 +294,4 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			parent::close();
 		}
 	}
-	
-	public function isNeedSaveOnChunkUnload(){
-		return true;
-	}
-	
 }

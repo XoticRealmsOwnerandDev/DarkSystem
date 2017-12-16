@@ -12,7 +12,7 @@ use pocketmine\item\Item;
 
 class Husk extends WalkingMonster implements Ageable{
 	
-    const NETWORK_ID = 47;
+    const NETWORK_ID = self::HUSK;
 
     public $width = 1.031;
     public $length = 0.891;

@@ -17,7 +17,7 @@ use pocketmine\item\Item;
 
 class Creeper extends WalkingMonster implements Explosive{
 	
-	const NETWORK_ID = 33;
+	const NETWORK_ID = self::CREEPER;
 
 	public $width = 0.72;
 	public $height = 1.8;

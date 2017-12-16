@@ -148,6 +148,7 @@ use pocketmine\network\protocol\ResourcePackChunkDataPacket;
 use pocketmine\network\protocol\ResourcePackInfoPacket;
 use pocketmine\network\protocol\ResourcePackStackPacket;
 use pocketmine\network\protocol\SetTitlePacket;
+use pocketmine\network\protocol\ServerToClientHandshakePacket;
 use pocketmine\network\protocol\ResourcePackClientResponsePacket;
 use pocketmine\network\protocol\LevelSoundEventPacket;
 use pocketmine\network\protocol\LevelEventPacket;
@@ -160,6 +161,7 @@ use pocketmine\network\protocol\v120\InventoryTransactionPacket;
 use pocketmine\network\protocol\v120\Protocol120;
 use pocketmine\network\multiversion\Multiversion;
 use pocketmine\network\multiversion\MultiversionTags;
+use darksystem\crossplatform\network\protocol\Play\Server\RespawnPacket as RespawnPacketPC;
 use pocketmine\utils\UUID;
 
 class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
@@ -178,12 +180,9 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	
 	protected $interface;
 
-
-    private $lastSentVitals;
-    
-    
     /** @var UUID $uuid */
     protected $uuid;
+
 	public $spawned = false;
 	public $loggedIn = false;
 	public $dead = false;
@@ -259,8 +258,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 
 	protected $inAirTicks = 0;
 	protected $startAirTicks = 5;
-	
-	private $foodDepletion;
 
 	protected $autoJump = true;
 
@@ -857,19 +854,18 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		if($this->spawnPosition instanceof Position && $this->spawnPosition->getLevel() instanceof Level){
 			return $this->spawnPosition;
 		}else{
-			$level = $this->server->getDefaultLevel();
-			return $level->getSafeSpawn();
+			return $this->server->getDefaultLevel()->getSafeSpawn();
 		}
 	}
 
-	public function sendChunk($x, $z, $data){
+	public function sendChunk($x, $z, $payload){
 		if(!$this->connected){
 			return false;
 		}
 		$this->usedChunks[Level::chunkHash($x, $z)] = true;
 		$this->chunkLoadCount++;
 		$pk = new BatchPacket();
-		$pk->payload = $data;
+		$pk->payload = $payload;
 		$this->dataPacket($pk);
 		$this->server->getDefaultLevel()->useChunk($x, $z, $this);
 		if($this->spawned){
@@ -937,11 +933,12 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$this->server->updatePlayerListData($this->getUniqueId(), $this->getId(), $this->getName(), $this->skinName, $this->skin, $this->skinGeometryName, $this->skinGeometryData, $this->capeData, $this->getXUID(), [$this]);
 			$pos = $this->level->getSafeSpawn($this);
 			if($this instanceof DesktopPlayer){
-				$pk = new RespawnPacket();
+				$pk = new RespawnPacketPC();
 				$pk->dimension = $this->crossplatform_getDimension();
-				$pk->difficulty = $this->getServer()->getDifficulty();
+				$pk->difficulty = $this->server->getDifficulty();
 				$pk->gamemode = $this->getGamemode();
-				$pk->levelType = "default";
+				$pk->levelType = $this->level->getType();
+				//TODO: Sending
 				$this->crossplatform_respawn();
 			}
 			$this->server->getPluginManager()->callEvent($ev = new PlayerRespawnEvent($this, $pos));
@@ -1393,7 +1390,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		}
 		$advancedMove = false;
 		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120 && Utils::getOS() == "android"){
-			$advancedMove = false;
+			$advancedMove = true;
 		}
 		/*if($advancedMove){
 			if(Translate::checkTurkish() === "yes"){
@@ -4758,7 +4755,8 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			}
 		}
 		$this->server->getPluginManager()->callEvent(new PlayerJumpEvent($this));
-		$this->jumping = false;
+		$this->onJump();
+		//$this->jumping = false;
 	}
 	
 	protected function onJump(){

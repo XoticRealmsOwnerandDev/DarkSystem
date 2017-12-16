@@ -3,11 +3,10 @@
 namespace pocketmine\entity\animal\walking;
 
 use pocketmine\entity\animal\WalkingAnimal;
-use pocketmine\nbt\tag\IntTag;
 
 class Villager extends WalkingAnimal{
 	
-    const NETWORK_ID = 15;
+    const NETWORK_ID = self::VILLAGER;
     
     const PROFESSION_FARMER = 0;
 	const PROFESSION_LIBRARIAN = 1;

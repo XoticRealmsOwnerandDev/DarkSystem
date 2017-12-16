@@ -11,7 +11,7 @@ use pocketmine\entity\Creature;
 
 class Wolf extends WalkingMonster{
 	
-	const NETWORK_ID = 14;
+	const NETWORK_ID = self::WOLF;
 
 	private $angry = 0;
 

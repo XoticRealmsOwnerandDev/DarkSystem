@@ -91,7 +91,7 @@ class ChunkGenerator extends Thread{
 
 	protected function doChunk($data){
 		$chunkData120 = "";
-		if(isset($data["isAnvil"]) && $data["isAnvil"] == true){
+		if(isset($data["isAnvil"]) && $data["isAnvil"] === true){
 			$chunkData = chr(count($data["chunk"]["sections"]));
 			$chunkData120 = chr(count($data["chunk"]["sections"]));
 			foreach($data["chunk"]["sections"] as $y => $sections){
@@ -101,7 +101,7 @@ class ChunkGenerator extends Thread{
 					$chunkData .= str_repeat("\x00", 10240);
 					$chunkData120 .= str_repeat("\x00", 6144);
 				}else{
-					if(isset($data["isSorted"]) && $data["isSorted"] == true){
+					if(isset($data["isSorted"]) && $data["isSorted"] === true){
 						$blockData = $sections["blocks"] . $sections["data"];
 						$lightData = $sections["skyLight"] . $sections["blockLight"];
 					}else{

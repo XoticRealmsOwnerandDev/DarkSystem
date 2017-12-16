@@ -11,9 +11,6 @@
 
 namespace darksystem;
 
-use raklib\RakLib;
-use raklib\protocol\EncapsulatedPacket;
-use pocketmine\network\CachedEncapsulatedPacket;
 use pocketmine\network\protocol\DataPacket;
 use pocketmine\network\protocol\BatchPacket;
 use pocketmine\network\protocol\MoveEntityPacket;

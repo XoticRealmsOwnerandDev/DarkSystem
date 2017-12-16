@@ -45,7 +45,7 @@ class ZippedBehaviorPack implements BehaviorPack{
 	/**
 	 * @param string $zipPath Path to the behavior pack zip
 	 */
-	public function __construct(string $zipPath){
+	public function __construct($zipPath){
 		$this->path = $zipPath;
 
 		if(!file_exists($zipPath)){
@@ -77,30 +77,30 @@ class ZippedBehaviorPack implements BehaviorPack{
 		fclose($this->fileResource);
 	}
 
-	public function getPackName() : string{
+	public function getPackName(){
 		return $this->manifest->header->name;
 	}
 
-	public function getPackVersion() : string{
+	public function getPackVersion(){
 		return implode(".", $this->manifest->header->version);
 	}
 
-	public function getPackId() : string{
+	public function getPackId(){
 		return $this->manifest->header->uuid;
 	}
 
-	public function getPackSize() : int{
+	public function getPackSize(){
 		return filesize($this->path);
 	}
 
-	public function getSha256(bool $cached = true) : string{
+	public function getSha256($cached = true){
 		if($this->sha256 === null or !$cached){
 			$this->sha256 = hash_file("sha256", $this->path, true);
 		}
 		return $this->sha256;
 	}
 
-	public function getPackChunk(int $start, int $length) : string{
+	public function getPackChunk($start, $length){
 		fseek($this->fileResource, $start);
 		if(feof($this->fileResource)){
 			throw new \RuntimeException("Requested a behavior pack chunk with invalid start offset");

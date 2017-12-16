@@ -9,7 +9,7 @@ use pocketmine\entity\Creature;
 
 class Ocelot extends WalkingAnimal{
 	
-	const NETWORK_ID = 22;
+	const NETWORK_ID = self::OCELOT;
 
 	public $width = 0.72;
 	public $height = 0.9;

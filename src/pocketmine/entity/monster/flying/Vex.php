@@ -22,7 +22,7 @@ use pocketmine\Player;
 
 class Vex extends FlyingMonster implements ProjectileSource{
 	
-	const NETWORK_ID = 105;
+	const NETWORK_ID = self::VEX;
 
 	public $width = 0.72;
 	public $height = 1.8;
@@ -190,5 +190,4 @@ class Vex extends FlyingMonster implements ProjectileSource{
 		}
 		return [];
 	}
-
 }

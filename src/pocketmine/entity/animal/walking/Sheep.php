@@ -11,7 +11,7 @@ use pocketmine\entity\Creature;
 
 class Sheep extends WalkingAnimal implements Colorable{
 	
-	const NETWORK_ID = 13;
+	const NETWORK_ID = self::SHEEP;
 
 	public $width = 1.45;
 	public $height = 1.12;

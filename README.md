@@ -85,7 +85,6 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
     * /cave
     * /summon
     * /chunkinfo
-    
 - [x] Custom 1.2 and WIN10 Inventories
 - [x] More Mobs/Entities 
    * Parrot,
@@ -134,14 +133,13 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
     * progress 10%
 - [x] MultiVersion® support: **What is this?**
   * We support:
-    * **1.0.x
-    * 1.1.x
-    * 1.2.x**
+    * **1.0.x**
+    * **1.1.x**
+    * **1.2.x**
 - [x] Always up-to-date.
   * We always add new blocks and items to DarkSystem.
   * You can always find new things here when they are out!
 - [x] No junk tasks/threads on background. Anything cannot occupy the CPU resources and performance.
-
 - [x] TextUtils
   * Idea from MiNET
   * Code taken from Turanic.
@@ -152,12 +150,11 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
   * How to use? - It is fully automatic.
 - [x] Code is clean, FAST and SAFE, coded in PHP.
 - [x] Advanced Config **(pocketmine_advanced.yml)**
-- [x] DarkBot
+- [x] DarkBot (Uncontinued)
   * Virtual Intelligent Bot;
     * It can talk,
     * move,
     * etc.
-    
 - Other features:
  * [ ] Piston (indev)
  * [x] Banner (1.2 only)
@@ -176,8 +173,8 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
 - [ ] **Experience System (working)**
 - [ ] **Map**
 - [x] **Horse**
-- [x] **Fireworks (%60)**
-- [ ] **Armor Stand (progress %10)**
+- [ ] **Fireworks (%60)**
+- [x] **Armor Stand**
 - [x] **Throwing Potions**
 - [x] **Writable & Written Books**
 - [x] **Fully Working CustomUI**
@@ -192,12 +189,12 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
 - [x] **Auto lag cleaner**
 
 # Known Bugs:
-- When DarkSystem crash, server does not stop. (Solved 90%)
+- Respawn & Movement bug on 1.2
 - DarkSystem's experience system does not work correctly. (Well its not a HUGE problem :D)
 
 # Known Bugs in 1.2:
 - Moving is glitchy. (Seen on Android OS & 32-bit machines)
-- AvailableCommandsPacket problems
+- AvailableCommandsPacket issues
 
 # Notes:
 - DarkSystem does not support PMAnvil map format, it only supports Anvil and McRegion.
@@ -211,7 +208,7 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
 - **COMING SOON**
 
 # Get DarkSystem:
-- Download the latest build from [Jenkins](http://jenkins.haniokasai.com/job/DarkSystem-PMMP_12/lastSuccessfulBuild/artifact/artifacts/DarkSystem_PMMP1-2.phar).
+- Download the latest build from [Jenkins](http://jenkins.haniokasai.com/job/DarkSystem-PMMP_12).
 - PHP Binaries [here](https://github.com/LeverylTeam/PHP7-Binaries).
 <!--* Installation instructions can be found in the [wiki](https://github.com/iTXTech/Genisys/wiki).-->
 NOTE: **The master branch is the only officially supported.**
@@ -262,3 +259,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 * __[Source RCON Protocol](https://developer.valvesoftware.com/wiki/Source_RCON_Protocol)__
 * __[UT3 Query Protocol](http://wiki.unrealadmin.org/UT3_query_protocol)__
 * __[PHP OpenSSL](http://php.net/manual/en/book.openssl.php)__: Cryptography and SSL/TLS Toolkit
+
+DarkSystem is not affiliated with Mojang. All brands and trademarks belong to their respectfull owners DarkSystem is not a Mojang-approved software.

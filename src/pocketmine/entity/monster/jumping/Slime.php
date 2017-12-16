@@ -12,7 +12,7 @@ use pocketmine\entity\Creature;
 
 class Slime extends JumpingMonster{
 	
-    const NETWORK_ID = 37;
+    const NETWORK_ID = self::SLIME;
 
     public $width = 1.2;
     public $height = 1.2;

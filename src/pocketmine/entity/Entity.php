@@ -24,7 +24,6 @@ use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\Timings;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\Tool;
-
 use pocketmine\level\Level;
 use pocketmine\level\Location;
 use pocketmine\level\Position;
@@ -425,7 +424,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	 * @return mixed
 	 */
 	public function getScale(){
-		return $this->getDataProperty(Entity::DATA_SCALE);
+		return $this->getDataProperty(Entity::DATA_SCALE, Entity::DATA_TYPE_FLOAT);
 	}
 	
 	/**
@@ -2048,10 +2047,6 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	
 	public function setAirTick($val){
 		$this->setDataProperty(Entity::DATA_AIR, Entity::DATA_TYPE_SHORT, $val, false);
-	}
-	
-	public function isNeedSaveOnChunkUnload(){
-		return true;
 	}
 	
 }

@@ -1582,7 +1582,14 @@ class Item{
 	public function isTool(){
 		return false;
 	}
-
+	
+	/**
+	 * @return bool
+	 */
+	public function isAir(){
+		return $this->getId() === Item::AIR;
+	}
+	
 	/**
 	 * @return int|bool
 	 */

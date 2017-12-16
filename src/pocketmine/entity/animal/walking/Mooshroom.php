@@ -10,7 +10,7 @@ use pocketmine\entity\Creature;
 
 class Mooshroom extends WalkingAnimal{
 	
-	const NETWORK_ID = 16;
+	const NETWORK_ID = self::MOOSHROOM;
 
 	public $width = 1.45;
 	public $height = 1.12;

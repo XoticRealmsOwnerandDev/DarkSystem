@@ -16,7 +16,7 @@ use pocketmine\Player;
 
 class Ghast extends FlyingMonster implements ProjectileSource{
 	
-	const NETWORK_ID = 41;
+	const NETWORK_ID = self::GHAST;
 
 	public $width = 4;
 	public $height = 4;
@@ -81,5 +81,5 @@ class Ghast extends FlyingMonster implements ProjectileSource{
 	public function getDrops(){
 		return [];
 	}
-
+	
 }

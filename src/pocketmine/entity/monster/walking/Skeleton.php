@@ -23,7 +23,7 @@ use pocketmine\Player;
 
 class Skeleton extends WalkingMonster implements ProjectileSource{
 	
-	const NETWORK_ID = 34;
+	const NETWORK_ID = self::SKELETON;
 
 	public $width = 0.65;
 	public $height = 1.8;
@@ -113,5 +113,4 @@ class Skeleton extends WalkingMonster implements ProjectileSource{
 		}
 		return [];
 	}
-
 }

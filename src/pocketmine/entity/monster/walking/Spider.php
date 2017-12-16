@@ -15,7 +15,7 @@ use pocketmine\Player;
 
 class Spider extends WalkingMonster{
 	
-	const NETWORK_ID = 35;
+	const NETWORK_ID = self::SPIDER;
 
 	public $width = 1.3;
 	public $height = 1.12;

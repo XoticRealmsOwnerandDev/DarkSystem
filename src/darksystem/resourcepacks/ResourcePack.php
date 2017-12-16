@@ -17,31 +17,31 @@ interface ResourcePack{
 	 * Returns the human-readable name of the resource pack
 	 * @return string
 	 */
-	public function getPackName() : string;
+	public function getPackName();
 
 	/**
 	 * Returns the pack's UUID as a human-readable string
 	 * @return string
 	 */
-	public function getPackId() : string;
+	public function getPackId();
 
 	/**
 	 * Returns the size of the pack on disk in bytes.
 	 * @return int
 	 */
-	public function getPackSize() : int;
+	public function getPackSize();
 
 	/**
 	 * Returns a version number for the pack in the format major.minor.patch
 	 * @return string
 	 */
-	public function getPackVersion() : string;
+	public function getPackVersion();
 
 	/**
 	 * Returns the raw SHA256 sum of the compressed resource pack zip. This is used by clients to validate pack downloads.
 	 * @return string byte-array length 32 bytes
 	 */
-	public function getSha256() : string;
+	public function getSha256();
 
 	/**
 	 * Returns a chunk of the resource pack zip as a byte-array for sending to clients.
@@ -54,6 +54,6 @@ interface ResourcePack{
 	 *
 	 * @return string byte-array
 	 */
-	public function getPackChunk(int $start, int $length) : string;
+	public function getPackChunk($start, $length);
 	
 }

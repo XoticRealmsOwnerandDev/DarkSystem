@@ -13,7 +13,7 @@ use pocketmine\Player;
 
 class IronGolem extends WalkingMonster{
 	
-	const NETWORK_ID = 20;
+	const NETWORK_ID = self::IRON_GOLEM;
 
 	public $width = 1.9;
 	public $height = 2.1;
@@ -41,7 +41,7 @@ class IronGolem extends WalkingMonster{
 
 			$ev = new EntityDamageByEntityEvent($this, $player, EntityDamageEvent::CAUSE_ENTITY_ATTACK, $this->getDamage());
 			$player->attack($ev->getFinalDamage(), $ev);
-			$player->setMotion(new Vector3(0, 0.6, 0));
+			$player->setMotion(new Vector3(0, 0.6, 0)); //Woohoo!
 		}
 	}
 

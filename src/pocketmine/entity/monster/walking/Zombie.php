@@ -13,7 +13,7 @@ use pocketmine\level\Level;
 
 class Zombie extends WalkingMonster implements Ageable{
 	
-	const NETWORK_ID = 32;
+	const NETWORK_ID = self::ZOMBIE;
 
 	public $width = 0.72;
 	public $height = 1.8;

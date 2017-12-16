@@ -12,7 +12,7 @@ use pocketmine\entity\Creature;
 
 class Donkey extends WalkingAnimal implements Rideable{
 	
-    const NETWORK_ID = 24;
+    const NETWORK_ID = self::DONKEY;
 
     public $width = 0.75;
     public $height = 1.562;

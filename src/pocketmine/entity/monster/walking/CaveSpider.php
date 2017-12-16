@@ -10,7 +10,7 @@ use pocketmine\item\Item;
 
 class CaveSpider extends WalkingMonster{
 	
-	const NETWORK_ID = 40;
+	const NETWORK_ID = self::CAVE_SPIDER;
 
 	public $width = 0.9;
 	public $height = 0.8;

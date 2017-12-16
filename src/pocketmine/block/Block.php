@@ -59,6 +59,7 @@ class Block extends Position implements Metadatable{
 	const LAPIS_BLOCK = 22;
 	const DISPENSER = 23;
 	const SANDSTONE = 24;
+	const NOTEBLOCK = 25;
 	const NOTE_BLOCK = 25;
 	const BED_BLOCK = 26;
 	const POWERED_RAIL = 27;
@@ -553,6 +554,7 @@ class Block extends Position implements Metadatable{
 			Block::$list[Block::STAINED_GLASS_PANE] = StainedGlassPane::class;
 			
 			Block::$list[Block::JUKEBOX] = Jukebox::class;
+			Block::$list[Block::NOTE_BLOCK] = NoteBlock::class;
 			Block::$list[Block::DISPENSER] = Dispenser::class;
 			Block::$list[Block::DROPPER] = Dropper::class;
 			Block::$list[Block::BEACON] = Beacon::class;
@@ -571,7 +573,10 @@ class Block extends Position implements Metadatable{
 			
 			Block::$list[Block::REDSTONE_TORCH] = RedstoneTorch::class;
 			Block::$list[Block::REDSTONE_TORCH_ACTIVE] = RedstoneTorchActive::class;
-            
+			
+			Block::$list[Block::SHULKER_BOX] = ShulkerBox::class;
+			Block::$list[Block::UNDYED_SHULKER_BOX] = UndyedShulkerBox::class;
+			
 			foreach(Block::$list as $id => $class){
 				if($class !== null){
 					$block = new $class();

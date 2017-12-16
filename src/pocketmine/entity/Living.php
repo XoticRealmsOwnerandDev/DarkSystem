@@ -19,6 +19,7 @@ use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\ShortTag;
+use pocketmine\network\Network;
 use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\utils\BlockIterator;
 use pocketmine\Player;
@@ -40,7 +41,7 @@ abstract class Living extends Entity implements Damageable{
 			unset($this->namedtag->HealF);
 		}
 
-		if(!isset($this->namedtag->Health) or !($this->namedtag->Health instanceof ShortTag)){
+		if(!isset($this->namedtag->Health) or !($this->namedtag->Health instanceof Short)){
 			$this->namedtag->Health = new ShortTag("Health", $this->getMaxHealth());
 		}
 

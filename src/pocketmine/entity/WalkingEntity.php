@@ -19,7 +19,7 @@ use pocketmine\Player;
 use pocketmine\entity\monster\Monster;
 use pocketmine\block\Water;
 
-abstract class WalkingEntity extends BaseEntity {
+abstract class WalkingEntity extends BaseEntity{
 
 	protected $agrDistance = 16;
 

@@ -3,21 +3,17 @@
 namespace pocketmine\entity\animal\walking;
 
 use pocketmine\entity\animal\WalkingAnimal;
-use pocketmine\entity\Attribute;
 use pocketmine\entity\Rideable;
 use pocketmine\entity\Entity;
 use pocketmine\item\Item;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\item\Item as ItemItem;
-use pocketmine\math\Vector3;
-use pocketmine\network\protocol\MobArmorEquipmentPacket;
-use pocketmine\network\protocol\UpdateAttributesPacket;
+use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\Player;
 use pocketmine\entity\Creature;
 
 class Horse extends WalkingAnimal implements Rideable{
 	
-    const NETWORK_ID = 23;
+    const NETWORK_ID = self::HORSE;
 
 	const DATA_HORSE_TYPE = 19;
 
@@ -160,13 +156,8 @@ class Horse extends WalkingAnimal implements Rideable{
 	public function createChild($ageable){
 		
 	}
-
-    /**
-     * @param Creature $creature
-     * @param float $distance
-     * @return bool
-     */
-    public function targetOption(Creature $creature, $distance){
+	
+    public function targetOption(Creature $creature, float $distance){
         if($creature instanceof Player){
             return $creature->spawned && $creature->isAlive() && !$creature->closed && $creature->getInventory()->getItemInHand()->getId() == Item::APPLE && $distance <= 49;
         }

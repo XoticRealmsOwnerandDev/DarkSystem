@@ -10,7 +10,7 @@ use pocketmine\entity\Creature;
 
 class Mule extends WalkingAnimal implements Rideable{
 	
-    const NETWORK_ID = 25;
+    const NETWORK_ID = self::MULE;
 
     public $width = 0.75;
     public $height = 1.562;

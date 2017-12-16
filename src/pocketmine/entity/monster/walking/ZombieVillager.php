@@ -10,7 +10,7 @@ use pocketmine\item\Item;
 
 class ZombieVillager extends WalkingMonster{
 	
-	const NETWORK_ID = 44;
+	const NETWORK_ID = self::ZOMBIE_VILLAGER;
 
 	public $width = 0.72;
 	public $height = 1.8;

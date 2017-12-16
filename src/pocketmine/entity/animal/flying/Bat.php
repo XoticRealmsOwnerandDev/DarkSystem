@@ -7,7 +7,7 @@ use pocketmine\entity\Creature;
 
 class Bat extends FlyingAnimal{
 	
-    const NETWORK_ID = 19;
+    const NETWORK_ID = self::BAT;
 
     public $width = 0.469;
     public $length = 0.484;

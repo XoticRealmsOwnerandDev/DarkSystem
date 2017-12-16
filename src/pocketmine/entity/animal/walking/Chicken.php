@@ -10,7 +10,7 @@ use pocketmine\entity\Creature;
 
 class Chicken extends WalkingAnimal{
 	
-	const NETWORK_ID = 10;
+	const NETWORK_ID = self::CHICKEN;
 
 	public $width = 0.4;
 	public $height = 0.75;

@@ -260,9 +260,8 @@ class MainLogger extends \AttachableThreadedLogger{
 		}
 		$name = \pocketmine\NAME;
 		$easter = "LOL";
-		$message = TF::toANSI("§" . mt_rand(1, 9) . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§" . mt_rand(1, 9) . "》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
-		//Not works correctly
-		/*switch(Server::getInstance()->getTheme()){
+		//$message = TF::toANSI("§" . mt_rand(1, 9) . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§" . mt_rand(1, 9) . "》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
+		switch(Server::getInstance()->getTheme()){
 			case "darkness":
 			//Server::getInstance()->getThemeManager()->setTheme(Server::getInstance()->getThemeManager()->getDefaultTheme());
 			$message = TF::toANSI(TF::GREEN . "<" . date("H:i:s", $now) . "> " . TF::AQUA . $easter . " §l§6》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
@@ -288,7 +287,7 @@ class MainLogger extends \AttachableThreadedLogger{
 			default;
 			$message = TF::toANSI(TF::AQUA . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§6》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 			break;
-		}*/
+		}
 		$cleanMessage = TF::clean($message);
 		if(!Terminal::hasFormattingCodes()){
 			echo $cleanMessage . PHP_EOL;
@@ -319,7 +318,7 @@ class MainLogger extends \AttachableThreadedLogger{
 	}
 	
 	public static function clear(){
-		//echo chr(27) . chr(91) . "H" . chr(27) . chr(91) . "J";
+		echo chr(27) . chr(91) . "H" . chr(27) . chr(91) . "J";
 		//echo str_repeat(" \n", 40);
 	}
 	

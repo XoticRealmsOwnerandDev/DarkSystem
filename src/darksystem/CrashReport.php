@@ -19,7 +19,6 @@ use pocketmine\utils\VersionString;
 use pocketmine\utils\Utils;
 use pocketmine\Translate;
 use pocketmine\Server;
-use raklib\RakLib;
 
 class CrashReport{
 	
@@ -279,7 +278,7 @@ class CrashReport{
 			$this->addLine("Type: " . $error["type"]);
 		}
 		
-		if(strpos($error["file"], "src/pocketmine/") === false and strpos($error["file"], "src/raklib/") === false and file_exists($error["fullFile"])){
+		if(strpos($error["file"], "src/pocketmine/") === false && file_exists($error["fullFile"])){
 			$this->addLine();
 			
 			if(Translate::checkTurkish() === "yes"){
@@ -350,7 +349,6 @@ class CrashReport{
 		$this->data["general"]["build"] = $version->getBuild();
 		$this->data["general"]["protocol"] = ProtocolInfo::CURRENT_PROTOCOL;
 		$this->data["general"]["api"] = \pocketmine\API_VERSION;
-		$this->data["general"]["raklib"] = RakLib::VERSION;
 		$this->data["general"]["uname"] = php_uname("a");
 		$this->data["general"]["php"] = phpversion();
 		$this->data["general"]["zend"] = zend_version();

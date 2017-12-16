@@ -22,7 +22,7 @@ use pocketmine\Player;
 
 class Stray extends WalkingMonster implements ProjectileSource{
 	
-    const NETWORK_ID = 46;
+    const NETWORK_ID = self::STRAY;
 
     public $height = 2;
     public $width = 0.781;

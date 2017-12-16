@@ -1,24 +1,5 @@
 <?php
 
-/*
- *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
- * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * @author PocketMine Team
- * @link http://www.pocketmine.net/
- * 
- *
-*/
-
 namespace pocketmine\network\protocol;
 
 class LevelEventPacket extends PEPacket{
@@ -71,11 +52,13 @@ class LevelEventPacket extends PEPacket{
 	
 	const EVENT_PARTICLE_PORTAL_2 = 2013;
 	const EVENT_PARTICLE_CRACK_BLOCK = 2014;
+	const EVENT_PARTICLE_PUNCH_BLOCK = 2014;
 	
 	const EVENT_START_RAIN = 3001;
 	const EVENT_START_THUNDER = 3002;
 	const EVENT_STOP_RAIN = 3003;
 	const EVENT_STOP_THUNDER = 3004;
+	const EVENT_PAUSE_GAME = 3005;
 	
 	const EVENT_REDSTONE_TRIGGER = 3500;
 	const EVENT_CAULDRON_EXPLODE = 3501;
