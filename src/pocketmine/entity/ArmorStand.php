@@ -17,6 +17,7 @@ use pocketmine\item\Item as ItemItem;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\network\protocol\MobEquipmentPacket;
+use pocketmine\network\protocol\MobArmorEquipmentPacket;
 use pocketmine\Player;
 
 class ArmorStand extends Entity{
@@ -146,7 +147,7 @@ class ArmorStand extends Entity{
     }
 
     public function sendArmorItems(Player $player){
-        $pk = new MobEquipmentPacket();
+        $pk = new MobArmorEquipmentPacket();
 		$pk->eid = $this->getId();
 		$pk->slots = [$this->getHelmet(), $this->getChestplate(), $this->getLeggings(), $this->getBoots()];
 		$player->dataPacket($pk);

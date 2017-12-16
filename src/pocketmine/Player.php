@@ -148,7 +148,6 @@ use pocketmine\network\protocol\ResourcePackChunkDataPacket;
 use pocketmine\network\protocol\ResourcePackInfoPacket;
 use pocketmine\network\protocol\ResourcePackStackPacket;
 use pocketmine\network\protocol\SetTitlePacket;
-use pocketmine\network\protocol\ServerToClientHandshakePacket;
 use pocketmine\network\protocol\ResourcePackClientResponsePacket;
 use pocketmine\network\protocol\LevelSoundEventPacket;
 use pocketmine\network\protocol\LevelEventPacket;
@@ -198,10 +197,11 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	protected $sendIndex = 0;
 
 	private $clientSecret;
-
+	private $lastSentVitals;
+	
 	/** @var Vector3|null */
 	public $speed = null;
-
+	
 	public $blocked = false;
 	public $lastCorrect;
 	
@@ -260,8 +260,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	protected $startAirTicks = 5;
 
 	protected $autoJump = true;
-
-	//private $checkMovement;
 	
 	protected $allowFlight = false;
 	
@@ -1390,7 +1388,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		}
 		$advancedMove = false;
 		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120 && Utils::getOS() == "android"){
-			$advancedMove = true;
+			$advancedMove = false;
 		}
 		/*if($advancedMove){
 			if(Translate::checkTurkish() === "yes"){
@@ -4755,7 +4753,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			}
 		}
 		$this->server->getPluginManager()->callEvent(new PlayerJumpEvent($this));
-		$this->onJump();
 		//$this->jumping = false;
 	}
 	

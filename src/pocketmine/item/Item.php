@@ -520,7 +520,9 @@ class Item{
 	const BEETROOT_SOUP = 459;
 	const RAW_SALMON = 460;
 	const CLOWNFISH = 461;
+	const CLOWN_FISH = 461;
 	const PUFFERFISH = 462;
+	const PUFFER_FISH = 462;
 	const COOKED_SALMON = 463;
 	const ENCHANTED_GOLDEN_APPLE = 466;
 	const END_PEARL = 468;

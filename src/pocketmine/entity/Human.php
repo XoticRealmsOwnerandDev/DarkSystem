@@ -123,11 +123,15 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	}
 	
 	/**
-	 * @param string $str
-	 * @param bool   $skinName
-	 */
+     * @param $str
+     * @param $skinName
+     * @param string $skinGeometryName
+     * @param string $skinGeometryData
+     * @param string $capeData
+     */
 	public function setSkin($str, $skinName, $skinGeometryName = "", $skinGeometryData = "", $capeData = ""){
 		$this->skin = $str;
+		
 		if(is_string($skinName)){
 			$this->skinName = $skinName;
 		}

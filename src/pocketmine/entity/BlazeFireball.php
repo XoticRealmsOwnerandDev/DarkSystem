@@ -67,7 +67,7 @@ class BlazeFireball extends Projectile
 
         if ($this->age > 1200 or $this->isCollided) {
             if ($this->isCollided and $this->canExplode) {
-                $this->server->getPluginManager()->callEvent($ev = new ExplosionPrimeEvent($this, 2.6, $dropItem = false));
+                $this->server->getPluginManager()->callEvent($ev = new ExplosionPrimeEvent($this, 2.6));
                 if (!$ev->isCancelled()) {
                     $explosion = new Explosion($this, $ev->getForce(), $this->shootingEntity);
                     if ($ev->isBlockBreaking()) {

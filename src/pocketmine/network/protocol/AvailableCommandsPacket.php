@@ -11,7 +11,6 @@
 
 namespace pocketmine\network\protocol;
 
-use pocketmine\utils\Binary;
 use pocketmine\utils\BinaryStream;
 use pocketmine\command\Command;
 use pocketmine\command\overload\{CommandParameter, CommandOverload, CommandEnum};

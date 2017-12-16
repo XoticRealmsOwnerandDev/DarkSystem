@@ -14,7 +14,7 @@ namespace pocketmine\entity;
 use pocketmine\level\Level;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\network\protocol\AddEntityPacket;
-use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
 
 class Ocelot extends Animal
@@ -39,7 +39,7 @@ class Ocelot extends Animal
         return "Ocelot";
     }
 
-    public function __construct(Level $level, Compound $nbt)
+    public function __construct(Level $level, CompoundTag $nbt)
     {
         if(!isset($nbt->CatType)){
             $nbt->CatType = new ByteTag("CatType", mt_rand(0, 3));

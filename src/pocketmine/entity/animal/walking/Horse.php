@@ -3,11 +3,15 @@
 namespace pocketmine\entity\animal\walking;
 
 use pocketmine\entity\animal\WalkingAnimal;
+use pocketmine\entity\Attribute;
 use pocketmine\entity\Rideable;
 use pocketmine\entity\Entity;
 use pocketmine\item\Item;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\item\Item as ItemItem;
+use pocketmine\math\Vector3;
+use pocketmine\network\protocol\MobArmorEquipmentPacket;
+use pocketmine\network\protocol\UpdateAttributesPacket;
 use pocketmine\Player;
 use pocketmine\entity\Creature;
 
