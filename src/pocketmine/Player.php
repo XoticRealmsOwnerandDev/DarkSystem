@@ -4758,8 +4758,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			}
 		}
 		$this->server->getPluginManager()->callEvent(new PlayerJumpEvent($this));
-		$this->onJump();
-		//$this->jumping = false;
+		$this->jumping = false;
 	}
 	
 	protected function onJump(){
