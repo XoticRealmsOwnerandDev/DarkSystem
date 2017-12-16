@@ -259,6 +259,8 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	protected $inAirTicks = 0;
 	protected $startAirTicks = 5;
 
+    private $foodDepletion;
+
 	protected $autoJump = true;
 	
 	protected $allowFlight = false;
