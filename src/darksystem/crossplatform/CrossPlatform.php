@@ -41,15 +41,15 @@ class CrossPlatform{
 		$this->onlineMode = false;
 
 		$aes = new AES();
-		itch($aes->getEngine()){
+		switch($aes->getEngine()){
 			case AES::ENGINE_OPENSSL:
-				$this->server->getLogger()->info("Use openssl as AES encryption engine.");
+				//$this->server->getLogger()->info("Use openssl as AES encryption engine.");
 			break;
 			case AES::ENGINE_MCRYPT:
-				$this->server->getLogger()->warning("Use obsolete mcrypt for AES encryption. Try to install openssl extension instead!!");
+				//$this->server->getLogger()->warning("Use obsolete mcrypt for AES encryption. Try to install openssl extension instead!!");
 			break;
 			case AES::ENGINE_INTERNAL:
-				$this->server->getLogger()->warning("Use phpseclib internal engine for AES encryption, this may impact on performance. To improve them, try to install openssl extension.");
+				//$this->server->getLogger()->warning("Use phpseclib internal engine for AES encryption, this may impact on performance. To improve them, try to install openssl extension.");
 			break;
 		}
 
@@ -57,10 +57,10 @@ class CrossPlatform{
 		switch(constant("CRYPT_RSA_MODE")){
 			case RSA::MODE_OPENSSL:
 				$this->rsa->configFile = $this->server->getDataPath() . "openssl.cnf";
-				$this->server->getLogger()->info("Use openssl as RSA encryption engine.");
+				//$this->server->getLogger()->info("Use openssl as RSA encryption engine.");
 			break;
 			case RSA::MODE_INTERNAL:
-				$this->server->getLogger()->info("Use phpseclib internal engine for RSA encryption.");
+				//$this->server->getLogger()->info("Use phpseclib internal engine for RSA encryption.");
 			break;
 		}
 		
@@ -79,7 +79,7 @@ class CrossPlatform{
 				$this->rsa->loadKey($this->privateKey);
 			}
 
-			$this->server->getLogger()->info("Starting Minecraft: PC server on ".($this->getIp() === "0.0.0.0" ? "*" : $this->getIp()).":".$this->getPort()." version ".ServerManager::VERSION);
+			//$this->server->getLogger()->info("Starting Minecraft: PC server on ".($this->getIp() === "0.0.0.0" ? "*" : $this->getIp()).":".$this->getPort()." version ".ServerManager::VERSION);
 			
 			$this->interface = new ProtocolInterface($this, $this->server, $this->translator, 256);
 			$this->server->getNetwork()->registerInterface($this->interface);
