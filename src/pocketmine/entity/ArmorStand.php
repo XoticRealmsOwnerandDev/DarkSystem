@@ -78,6 +78,7 @@ class ArmorStand extends Entity{
             $this->sendArmorItems($player);
             $player->getInventory()->sendContents($player);
         }
+        /**
         if($item->isArmor()){
             if($item->isHelmet()){
                 $change = $this->getHelmet();
@@ -108,6 +109,7 @@ class ArmorStand extends Entity{
         }
         $player->getInventory()->setItemInHand($change);
         return false;
+         */
     }
 
     public function kill(){
