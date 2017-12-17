@@ -717,7 +717,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$this->creationTime = microtime(true);
 		
 		//Hack for null inventory
-		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+		if($this->is120()){
 			$this->inventory = new PlayerInventory120($this);
 		}else{
 			$this->inventory = new PlayerInventory($this);
@@ -1095,7 +1095,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
             $this->parent->dataPacket($packet);
 			return;
 		}
-		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+		if($this->is120()){
 			$disallowedPackets = Protocol120::getDisallowedPackets();
 			if(in_array(get_class($packet), $disallowedPackets)){
 				$packet->senderSubClientID = 0;
@@ -1115,7 +1115,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		if(!$this->connected){
 			return;
 		}
-		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+		if($this->is120()){
 			$disallowedPackets = Protocol120::getDisallowedPackets();
 			if(in_array(get_class($packet), $disallowedPackets)){
 				return;
@@ -1390,7 +1390,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			return false;
 		}
 		$advancedMove = false;
-		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120 && Utils::getOS() === "android"){
+		if($this->is120() && Utils::getOS() === "android"){
 			$advancedMove = false;
 		}
 		/*if($advancedMove){
@@ -1490,7 +1490,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$dy = $to->y - $from->y;
 			$dz = $to->z - $from->z;
 			$this->fastMove($dx, $dy, $dz);
-			if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120 && $this->isLiving() && $advancedMove){
+			if($this->is120() && $this->isLiving() && $advancedMove){
 				$downBlock = $this->level->getBlock(new Vector3($this->x, $this->y - 1, $this->z));
 				$this->setMayMove(true);
 				//$this->speed = new Vector3(0.1, 0.1, 0.1);
@@ -2018,7 +2018,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 				}
 				
 				if($packet->windowId === Win10InvLogic::WINDOW_ID_PLAYER_OFFHAND){
-					if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+					if($this->is120()){
 						break;
 					}
 					
@@ -2352,7 +2352,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 						if($this->currentWindow instanceof EnchantInventory){
 							if($this->expLevel > 0){
 								$enchantLevel = abs($packet->theThing);
-								if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+								if($this->is120()){
 									$this->currentWindow->setEnchantingLevel($enchantLevel);
 									break;
 								}
@@ -2496,7 +2496,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 					}
 				}
 
-				if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+				if($this->is120()){
 					$craftSlots = $this->inventory->getCraftContents();
 					try{
 						$this->tryApplyCraft($craftSlots, $recipe);
@@ -3406,7 +3406,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			return false;
 		}
 		
-		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+		if($this->is120()){
 			$this->respawn120();
 		}else{
 			$pk = new RespawnPacket();
@@ -3771,7 +3771,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$this->spawnPosition = new Position($this->namedtag["SpawnX"], $this->namedtag["SpawnY"], $this->namedtag["SpawnZ"], $level);
 		}
 		$hub = $this->getSpawn();
-		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+		if($this->is120()){
 			$hub->y += 1.1;
 		}
 		$pk = new StartGamePacket();
@@ -4724,7 +4724,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	}
 	
 	private function setMayMove($value){
-		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+		if($this->is120()){
 			$this->setDataFlag(Player::DATA_FLAGS, 46, $value);
 			$this->mayMove = $value;
 		}else{
@@ -4748,7 +4748,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	
 	protected function advancedJump(){
 		$this->jumping = true;
-		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+		if($this->is120()){
 			if($this->isMoving() && $this->isJumping()){
 				//$this->speed = new Vector3(0.1, 0.1, 0.1);
 				//$this->setMotion(new Vector3(0.2, 0.4, 0));
@@ -4944,7 +4944,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	}
 	
 	public function showModal(CustomUI $modalWindow){
-		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+		if($this->is120()){
 			$pk = new ShowModalFormPacket();
 			$pk->formId = $this->lastModalId++;
 			$pk->data = json_encode($modalWindow->jsonSerialize());
@@ -4977,7 +4977,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	}
 	
 	protected function sendServerSettingsModal(CustomUI $modalWindow){
-		if($this->getPlayerProtocol() >= ProtocolInfo::PROTOCOL_120){
+		if($this->is120()){
 			$pk = new ServerSettingsResponsePacket();
 			$pk->formId = $this->lastModalId++;
 			$pk->data = json_encode($modalWindow->jsonSerialize());
