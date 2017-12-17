@@ -522,7 +522,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	}
 	
 	public function setFlying($value){
-		$this->flying = $value;
+		$this->flying = (bool) $value;
 		$this->sendSettings();
 	}
 	
