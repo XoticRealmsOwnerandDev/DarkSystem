@@ -31,6 +31,7 @@ class ThemeManager{
 	}
 	
 	public function getTheme(){
+		return "classic";
 		$configTheme = $this->server->getConfigString("theme", ThemeManager::DEFAULT_THEME);
 		
 		if($this->server->getConfigInt("colorful-theme", "false")){

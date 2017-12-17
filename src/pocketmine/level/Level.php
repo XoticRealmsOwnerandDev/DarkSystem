@@ -11,7 +11,6 @@
 
 namespace pocketmine\level;
 
-use darksystem\crossplatform\network\protocol\Play\Server\OpenSignEditorPacket;
 use pocketmine\block\Air;
 use pocketmine\block\Block;
 use pocketmine\block\Cactus;
@@ -86,6 +85,7 @@ use pocketmine\level\generator\Generator;
 use pocketmine\level\generator\GeneratorRegisterTask;
 use pocketmine\level\generator\GeneratorUnregisterTask;
 use pocketmine\utils\Random;
+use darksystem\crossplatform\network\protocol\Play\Server\OpenSignEditorPacket;
 use pocketmine\level\generator\LightPopulationTask;
 use pocketmine\level\generator\PopulationTask;
 use pocketmine\entity\monster\Monster;
@@ -108,6 +108,16 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 	const BLOCK_UPDATE_SCHEDULED = 3;
 	const BLOCK_UPDATE_WEAK = 4;
 	const BLOCK_UPDATE_TOUCH = 5;
+	const BLOCK_UPDATE_REDSTONE = 6;
+	
+	const DIMENSION_NORMAL = 0;
+	const DIMENSION_NETHER = 1;
+	const DIMENSION_END = 2;
+	
+	const DIFFICULTY_PEACEFUL = 0;
+	const DIFFICULTY_EASY = 1;
+	const DIFFICULTY_NORMAL = 2;
+	const DIFFICULTY_HARD = 3;
 	
 	/** @var Tile[] */
 	protected $tiles = [];
@@ -230,6 +240,8 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 	/** @var Weather */
 	private $weather;
 	
+	private $dimension = self::DIMENSION_NORMAL;
+	
 	protected $yMask;
 	protected $maxY;
 	
@@ -319,6 +331,17 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 		$this->weather = new Weather($this, 0);
 		
 		$this->initWeather();
+		
+		$this->setDimension(Level::DIMENSION_NORMAL);
+		//TODO: Add nether & end
+	}
+	
+	public function setDimension($dimension){
+		$this->dimension = $dimension;
+	}
+
+	public function getDimension(){
+		return $this->dimension;
 	}
 	
 	public function getWeather(){
