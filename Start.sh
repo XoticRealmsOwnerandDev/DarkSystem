@@ -9,7 +9,7 @@ while getopts "p:f:l" OPTION 2> /dev/null; do
 			PHP_BINARY="$OPTARG"
 			;;
 		f)
-			POCKETMINE_FILE="$OPTARG"
+			DARKSYSTEM_FILE="$OPTARG"
 			;;
 		l)
 			DO_LOOP="yes"
@@ -32,13 +32,15 @@ if [ "$PHP_BINARY" == "" ]; then
 	fi
 fi
 
-if [ "$POCKETMINE_FILE" == "" ]; then
-	if [ -f ./PocketMine-MP.phar ]; then
-		POCKETMINE_FILE="./PocketMine-MP.phar"
+if [ "$DARKSYSTEM_FILE" == "" ]; then
+	if [ -f ./DarkSystem.phar ]; then
+		DARKSYSTEM_FILE="./DarkSystem.phar"
 	elif [ -f ./DarkSystem*.phar ]; then
-		POCKETMINE_FILE="./DarkSystem*.phar"
+		DARKSYSTEM_FILE="./DarkSystem*.phar"
+	elif [ -f ./PocketMine-MP.phar ]; then
+		DARKSYSTEM_FILE="./PocketMine-MP.phar"
 	elif [ -f ./src/pocketmine/PocketMine.php ]; then
-		POCKETMINE_FILE="./src/pocketmine/PocketMine.php"
+		DARKSYSTEM_FILE="./src/pocketmine/PocketMine.php"
 	else
 		echo "Couldn't find a valid DarkSystem installation"
 		exit 1
@@ -50,9 +52,9 @@ LOOPS=0
 set +e
 while [ "$LOOPS" -eq 0 ] || [ "$DO_LOOP" == "yes" ]; do
 	if [ "$DO_LOOP" == "yes" ]; then
-		"$PHP_BINARY" "$POCKETMINE_FILE" $@
+		"$PHP_BINARY" "$DARKSYSTEM_FILE" $@
 	else
-		exec "$PHP_BINARY" "$POCKETMINE_FILE" $@
+		exec "$PHP_BINARY" "$DARKSYSTEM_FILE" $@
 	fi
 	if [ "$DO_LOOP" == "yes" ]; then
 		if [ ${LOOPS} -gt 0 ]; then

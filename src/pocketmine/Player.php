@@ -2440,14 +2440,17 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 						if(trim($message) !== "" && strlen($message) <= 255 && $this->messageCounter-- > 0 && /*!strpos($message, $externalIP) && !strpos($message, $internalIP) && */!strpos($message, $leetcc) && !strpos($message, $playmcpe)){
 							$this->server->getPluginManager()->callEvent($ev = new PlayerChatEvent($this, $message));
 							if(!$ev->isCancelled()){
-								/*$this->chatPlayer($format = $this->server->getLanguage()->translateString($ev->getFormat(), [
-									$ev->getPlayer()->getDisplayName(),
-									$ev->getMessage()
-								]), $ev->getRecipients());*/
-								$this->server->broadcastMessage($format = $this->server->getLanguage()->translateString($ev->getFormat(), [
-									$ev->getPlayer()->getDisplayName(),
-									$ev->getMessage()
-								]), $ev->getRecipients());
+								if($this->is120()){
+									$this->server->broadcastMessage($format = $this->server->getLanguage()->translateString($ev->getFormat(), [
+										$ev->getPlayer()->getDisplayName(),
+										$ev->getMessage()
+									]), $ev->getRecipients());
+								}else{
+									$this->chatPlayer($format = $this->server->getLanguage()->translateString($ev->getFormat(), [
+										$ev->getPlayer()->getDisplayName(),
+										$ev->getMessage()
+									]), $ev->getRecipients());
+								}
 							}
 						}
 					}

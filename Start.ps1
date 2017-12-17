@@ -9,10 +9,12 @@ if(Test-Path "bin\php\php.exe"){
 	$binary = "php"
 }
 
-if(Test-Path "PocketMine-MP.phar"){
-	$file = "PocketMine-MP.phar"
+if(Test-Path "DarkSystem.phar"){
+	$file = "DarkSystem.phar"
 }elseif(Test-Path "DarkSystem*.phar"){
 	$file = "DarkSystem*.phar"
+}elseif(Test-Path "PocketMine-MP.phar"){
+	$file = "PocketMine-MP.phar"
 }elseif(Test-Path ".\src\pocketmine\PocketMine.php"){
 	$file = ".\src\pocketmine\PocketMine.php"
 }else{
@@ -34,6 +36,7 @@ while($Loop){
 	if($loops -ne 0){
 		echo ("Restarted " + $loops + " times")
 	}
+	
 	$loops++
 	echo "To escape the loop, press CTRL+C now."
 	StartServer
