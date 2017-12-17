@@ -253,13 +253,11 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 
 	protected $chunksPerTick = 4;
 	protected $spawnThreshold = 16 * M_PI;
-	
+
 	private $spawnPosition = null;
 
 	protected $inAirTicks = 0;
 	protected $startAirTicks = 5;
-
-    private $foodDepletion;
 
 	protected $autoJump = true;
 	
@@ -270,6 +268,8 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	protected $jumping = false;
 	
 	protected $tasks = [];
+
+	private $foodDepletion;
 	
 	private $perm = null;
 	
