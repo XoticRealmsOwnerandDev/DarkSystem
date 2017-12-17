@@ -16,7 +16,7 @@ settings:
  #서버가 종료되면 플레이어에게 뜨는 화면에 표시됩니다.
  shutdown-message: "Server closed"
  #쿼리를 통해 플러그인 나오는거 허용
- query-plugins: true
+ query-plugins: false
  # 플러그인에서 사용되지 않는 API 메소드를 사용할 때 # 콘솔 메시지 표시
  deprecated-verbose: true
  #기본적으로 네이블 플러그인 및 코어 프로파일 링
