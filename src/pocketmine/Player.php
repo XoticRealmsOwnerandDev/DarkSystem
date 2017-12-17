@@ -3771,9 +3771,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$this->spawnPosition = new Position($this->namedtag["SpawnX"], $this->namedtag["SpawnY"], $this->namedtag["SpawnZ"], $level);
 		}
 		$hub = $this->getSpawn();
-		if($this->is120()){
-			$hub->y += 1.1;
-		}
 		$pk = new StartGamePacket();
 		$pk->seed = -1;
 		$pk->dimension = 0;
@@ -4125,7 +4122,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
     }
 	
 	public function setPing($ping){
-		$this->ping = $ping;
+		$this->ping = (int) $ping;
 	}
 	
 	public function getPing(){
