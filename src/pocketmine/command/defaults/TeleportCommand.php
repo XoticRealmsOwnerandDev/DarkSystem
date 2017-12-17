@@ -96,7 +96,8 @@ class TeleportCommand extends VanillaCommand{
 				$pitch = $args[$pos++];
 			}
 
-			$target->teleport(new Vector3($x, $y + 0.1, $z), $yaw, $pitch);
+			$target->teleport(new Vector3($x, $y, $z), $yaw, $pitch);
+			
 			Command::broadcastCommandMessage($sender, new TranslationContainer("commands.tp.success.coordinates", [$target->getName(), round($x, 2), round($y, 2), round($z, 2)]));
 			return true;
 		}

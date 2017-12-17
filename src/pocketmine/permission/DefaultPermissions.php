@@ -132,9 +132,8 @@ abstract class DefaultPermissions{
 		DefaultPermissions::registerPermission(new Permission(DefaultPermissions::ROOT . ".command.clearchat", "Allows clear public chat", Permission::DEFAULT_OP), $commands);
 		DefaultPermissions::registerPermission(new Permission(DefaultPermissions::ROOT . ".command.spawndarkbot", "Allows spawn DarkBot", Permission::DEFAULT_OP), $commands);
 		DefaultPermissions::registerPermission(new Permission(DefaultPermissions::ROOT . ".command.chatdarkbot", "Allows chat DarkBot", Permission::DEFAULT_OP), $commands);
-		DefaultPermissions::registerPermission(new Permission(DefaultPermissions::ROOT . ".command.tpall", "Allows teleport everybody to user", Permission::DEFAULT_OP), $commands);
+		DefaultPermissions::registerPermission(new Permission(DefaultPermissions::ROOT . ".command.teleportall", "Allows teleport everybody to user", Permission::DEFAULT_OP), $commands);
 		DefaultPermissions::registerPermission(new Permission(DefaultPermissions::ROOT . ".command.givepizza", "Allows chat DarkBot", Permission::DEFAULT_OP), $commands);
-		DefaultPermissions::registerPermission(new Permission(DefaultPermissions::ROOT . ".command.hack", "Allows hack server", Permission::DEFAULT_TRUE), $commands);
 		DefaultPermissions::registerPermission(new Permission(DefaultPermissions::ROOT . ".command.zoom", "Allows zoom", Permission::DEFAULT_OP), $commands);
 		DefaultPermissions::registerPermission(new Permission(DefaultPermissions::ROOT . ".command.addui", "Allows showing customUI to player", Permission::DEFAULT_OP), $commands);
 		DefaultPermissions::registerPermission(new Permission(DefaultPermissions::ROOT . ".command.createinv", "Allows open virtual inventory", Permission::DEFAULT_OP), $commands);

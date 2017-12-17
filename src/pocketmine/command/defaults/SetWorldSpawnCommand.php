@@ -42,9 +42,12 @@ class SetWorldSpawnCommand extends VanillaCommand{
 				$sender->sendMessage(TextFormat::RED . "You can only perform this command as a player");
 				return true;
 			}
-		}elseif(count($args) === 3){
+		}elseif(count($args) === 3 && !strpos($args[1], "-")){
 			$level = $sender->getServer()->getDefaultLevel();
 			$pos = new Vector3($this->getInteger($sender, $args[0]), $this->getInteger($sender, $args[1]), $this->getInteger($sender, $args[2]));
+		}elseif(strpos($args[1], "-")){
+			$sender->sendMessage(TextFormat::RED . "Y cannot have a negative value");
+			return true;
 		}else{
 			$sender->sendMessage(new TranslationContainer("commands.generic.usage", [$this->usageMessage]));
 			return true;
