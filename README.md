@@ -17,9 +17,9 @@ You can download it [here](http://bit.do/darksystem_apk).<br>
 **NOTE:** Language of app is Turkish, does not support English. Will be added soon.<br>
 
 ### DarkSystem Test Server
-You can test DarkSystem before download.
-IP: **dts.kro.kr**
-PORT: **19130**
+You can test DarkSystem before download.<br>
+IP: **dts.kro.kr**<br>
+PORT: **19130**<br>
 
 # Features:
 - [x] DarkSystem is **# 1** about speed & no-lag.

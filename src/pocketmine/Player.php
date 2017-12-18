@@ -345,7 +345,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	protected $moving = false;
 
     protected $identityPublicKey;
-    protected $achievements;
     protected $morphManager;
 
     /** @var Vector3 */
@@ -1319,59 +1318,33 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 
 	}
 
-	protected function checkNearEntities($tickDiff){
+	protected function checkItemPickingUp($tickDiff){
 		if($this->isSpectator()){
 			return false;
 		}
 		
 		foreach($this->level->getNearbyEntities($this->boundingBox->grow(1, 0.5, 1), $this) as $entity){
 			$entity->scheduleUpdate();
-			if(!$entity->isAlive()){
-				continue;
-			}
-
-			if($entity instanceof Arrow && $entity->hadCollision){
-				$item = Item::get(Item::ARROW, 0, 1);
-				if($this->isSurvival() && !$this->inventory->canAddItem($item)){
-					continue;
+			
+			if($entity instanceof DroppedItem){
+				if($item->getId() === Item::ARROW){
+					$this->server->getPluginManager()->callEvent($ev1 = new InventoryPickupItemEvent($this->inventory, $entity));
+				}elseif($entity->getId() !== Item::AIR){
+					$this->server->getPluginManager()->callEvent($ev2 = new InventoryPickupArrowEvent($this->inventory, $entity));
 				}
-
-				$this->server->getPluginManager()->callEvent($ev = new InventoryPickupArrowEvent($this->inventory, $entity));
-				if($ev->isCancelled()){
-					continue;
-				}
-
-				$pk = new TakeItemEntityPacket();
-				$pk->eid = $this->getId();
-				$pk->target = $entity->getId();
-				Server::broadcastPacket($entity->getViewers(), $pk);
 				
-				$this->inventory->addItem(clone $item);
-				$entity->kill();
-			}elseif($entity instanceof DroppedItem){
-				if($entity->getPickupDelay() <= 0){
-					$item = $entity->getItem();
-					if($item instanceof Item){
-						if($this->isLiving() && !$this->inventory->canAddItem($item)){
-							continue;
-						}
-
-						$this->server->getPluginManager()->callEvent($ev = new InventoryPickupItemEvent($this->inventory, $entity));
-						if($ev->isCancelled()){
-							continue;
-						}
-						
-						$pk = new TakeItemEntityPacket();
-						$pk->eid = $this->getId();
-						$pk->target = $entity->getId();
-						Server::broadcastPacket($entity->getViewers(), $pk);
-						
-						$this->inventory->addItem(clone $item);
-						$entity->kill();
-						
-						if($this->inventoryType === Player::INVENTORY_CLASSIC && $this->getPlayerProtocol() < ProtocolInfo::PROTOCOL_120){
-							Win10InvLogic::playerPickUpItem($this, $item);
-						}
+				if(!$ev1->isCancelled() || !$ev2->isCancelled()){ //Hmm...
+					$pk = new TakeItemEntityPacket();
+					$pk->eid = $this->getId();
+					$pk->target = $entity->getId();
+					Server::broadcastPacket($entity->getViewers(), $pk);
+					
+					$this->inventory->addItem(clone $entity->getItem());
+					$this->inventory->sendContents($this);
+					$entity->kill();
+					
+					if($this->inventoryType === Player::INVENTORY_CLASSIC && $this->getPlayerProtocol() < ProtocolInfo::PROTOCOL_120 && $entity->getId() === Item::ARROW){
+						Win10InvLogic::playerPickUpItem($this, $entity->getItem());
 					}
 				}
 			}
@@ -1639,7 +1612,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$this->lastPitch = $to->pitch;
 			$this->level->addEntityMovement($this->getViewers(), $this->getId(), $this->x, $this->y + $this->getVisibleEyeHeight(), $this->z, $this->yaw, $this->pitch, $this->yaw, true);
 			if(!$this->isSpectator()){
-				$this->checkNearEntities($tickDiff);
+				$this->checkItemPickingUp($tickDiff);
 			}
 			if($distanceSquared === 0){
 				$this->speed = new Vector3(0, 0, 0);
@@ -1655,8 +1628,8 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		return true;
 	}
 	
-	public function setMoving($value){
-		$this->moving = $value;
+	public function setMoving($value = true){
+		$this->moving = (bool) $value;
 		$this->sendSettings();
 	}
 
@@ -1664,12 +1637,12 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		return $this->moving;
 	}
 
-	public function setMotion(Vector3 $mot){
-		if(parent::setMotion($mot)){
+	public function setMotion(Vector3 $motion){
+		if(parent::setMotion($motion)){
 			if($this->chunk !== null){
 				$this->level->addEntityMotion($this->getViewers(), $this->getId(), $this->motionX, $this->motionY, $this->motionZ);
 				$pk = new SetEntityMotionPacket();
-				$pk->entities[] = [$this->id, $mot->x, $mot->y, $mot->z];
+				$pk->entities[] = [$this->id, $motion->x, $motion->y, $motion->z];
 				$this->dataPacket($pk);
 			}
 			
@@ -3760,10 +3733,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		if(!$nbt instanceof CompoundTag){
 			$this->close("Corrupt joining data, check your connection.");
 			return false;
-		}
-		$this->achievements = [];
-		foreach($nbt->Achievements as $achievement){
-			$this->achievements[$achievement->getName()] = $achievement->getValue() > 0 ? true : false;
 		}
 		$nbt->lastPlayed = new LongTag("lastPlayed", floor(microtime(true) * 1000));
 		parent::__construct($this->level, $nbt);

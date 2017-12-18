@@ -1378,10 +1378,6 @@ class Server extends DarkSystem{
 				mkdir($dataPath . "cokme-arsivleri/", 0777);
 			}
 			
-			if(!file_exists($dataPath . "oyuncu-basarimlari/")){
-				mkdir($dataPath . "oyuncu-basarimlari/", 0777);
-			}
-			
 			if(!file_exists($pluginPath)){
 				mkdir($pluginPath, 0777);
 			}
@@ -1396,10 +1392,6 @@ class Server extends DarkSystem{
 			
 			if(!file_exists($dataPath . "crashdumps/")){
 				mkdir($dataPath . "crashdumps/", 0777);
-			}
-			
-			if(!file_exists($dataPath . "achievements/")){
-				mkdir($dataPath . "achievements/", 0777);
 			}
 			
 			if(!file_exists($pluginPath)){
@@ -1477,7 +1469,6 @@ class Server extends DarkSystem{
 				"server-port" => 19132,
 				"memory-limit" => "256M",
 				"white-list" => false,
-				"announce-player-achievements" => false,
 				"spawn-protection" => 16,
 				"max-players" => 25,
 				"allow-flight" => false,
@@ -1515,7 +1506,6 @@ class Server extends DarkSystem{
 				"server-port" => 19132,
 				"memory-limit" => "256M",
 				"white-list" => false,
-				"announce-player-achievements" => false,
 				"spawn-protection" => 16,
 				"max-players" => 25,
 				"allow-flight" => false,

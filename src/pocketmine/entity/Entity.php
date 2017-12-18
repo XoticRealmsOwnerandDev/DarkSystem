@@ -336,11 +336,9 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 
 		$this->boundingBox = new AxisAlignedBB(0, 0, 0, 0, 0, 0);
 		
-		if(isset($this->namedtag->Motion)){
-			$this->setMotion($this->temporalVector->setComponents($this->namedtag["Motion"][0], $this->namedtag["Motion"][1], $this->namedtag["Motion"][2]));
-		}else{
-			$this->setMotion($this->temporalVector->setComponents(0, 0, 0));
-		}
+		assert(!is_nan($this->x) and !is_infinite($this->x) and !is_nan($this->y) and !is_infinite($this->y) and !is_nan($this->z) and !is_infinite($this->z));
+		
+		$this->setMotion($this->temporalVector->setComponents($this->namedtag["Motion"][0], $this->namedtag["Motion"][1], $this->namedtag["Motion"][2]));
 		
 		$this->motionX = $this->namedtag["Motion"][0];
 		$this->motionY = $this->namedtag["Motion"][1];
@@ -366,8 +364,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_NOT_IN_WATER, true);
 		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_SHOW_NAMETAG, true);
 		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG, true);
-		//$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_CAN_CLIMBING, true);
-		//$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_CAN_FLY, true);
+		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_AFFECTED_BY_GRAVITY, true);
 		
 		if(!isset($this->namedtag->OnGround)){
 			$this->namedtag->OnGround = new ByteTag("OnGround", 0);
@@ -382,8 +379,6 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 		$this->invulnerable = $this->namedtag["Invulnerable"] > 0 ? true : false;
 
 		$this->attributeMap = new AttributeMap();
-		
-		$this->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_AFFECTED_BY_GRAVITY, true);
 		
 		$this->chunk->addEntity($this);
 		$level->addEntity($this);
@@ -784,7 +779,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	}
 
 	public function sendPotionEffects(Player $player){
-		foreach ($this->effects as $effect){
+		foreach($this->effects as $effect){
 			$pk = new MobEffectPacket();
 			$pk->eid = $player->getId();
 			$pk->effectId = $effect->getId();
