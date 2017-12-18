@@ -57,12 +57,4 @@ interface ChunkManager{
      * @return mixed
      */
 	public function getMaxY();
-
-    /**
-     * @param int $chunkX
-     * @param int $chunkZ
-     *
-     * @return Chunk|null
-     */
-    public function getChunk(int $chunkX, int $chunkZ);
 }
