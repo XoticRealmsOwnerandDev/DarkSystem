@@ -525,10 +525,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$this->flying = (bool) $value;
 		$this->sendSettings();
 	}
-
-    /**
-     * @return bool
-     */
+	
 	public function isFlying(){
 		return $this->flying;
 	}
@@ -626,7 +623,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		return $this->server->isOp($this->getName());
 	}
 	
-	public function setOp($value = false){ //Important!!
+	public function setOp($value = false){ //Important!
 		if($value === $this->isOp()){
 			return false;
 		}
@@ -1930,7 +1927,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
                 $isHacker = (!$this->allowFlight && ($packet->flags >> 9) & 0x01 === 1) || 
                     (!$this->isSpectator() && ($packet->flags >> 7) & 0x01 === 1);
                 if($isHacker){
-                	$this->kick("Lütfen Hile Kullanmayınız!");
+                	$this->kick("Please do not hack!");
                 }
                 break;
 			case "LOGIN_PACKET":
@@ -2084,7 +2081,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 					}else{
 						if($packet->selectedSlot >= 0 && $packet->selectedSlot < 9){
 							$hotbarItem = $this->inventory->getHotbarSlotItem($packet->selectedSlot);
-							$isNeedSendToHolder = !($hotbarItem->deepEquals($packet->item));
 							$this->setHeldItemIndex($packet->selectedSlot);
 							$this->setHeldItemSlot($packet->slot);
 							$this->setDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_ACTION, false);
@@ -2101,7 +2097,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 				}else{
 					if($packet->selectedSlot >= 0 && $packet->selectedSlot < 9){
 						$hotbarItem = $this->inventory->getHotbarSlotItem($packet->selectedSlot);
-						$isNeedSendToHolder = !($hotbarItem->deepEquals($packet->item));
 						$this->setHeldItemIndex($packet->selectedSlot);
 						$this->setHeldItemSlot($slot);
 						$this->setDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_ACTION, false);
@@ -4700,10 +4695,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		}
 		return true;
 	}
-
-    /**
-     * @param SimpleTransactionData[] $transactionsData
-     */
+	
     private function tryEnchant(array $transactionsData){
 		foreach($transactionsData as $trData){
 			if(!$trData->isUpdateEnchantSlotTransaction() || $trData->oldItem->getId() != Item::AIR){
