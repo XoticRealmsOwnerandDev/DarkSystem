@@ -525,7 +525,10 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$this->flying = (bool) $value;
 		$this->sendSettings();
 	}
-	
+
+    /**
+     * @return bool
+     */
 	public function isFlying(){
 		return $this->flying;
 	}
@@ -1422,7 +1425,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		if($distanceSquared > /*0.0625*/0.0001 || $deltaAngle > 1.0){ //10
 			$isFirst = (is_null($this->lastX) || is_null($this->lastY) || is_null($this->lastZ));
 			if(!$isFirst){
-				if(!$this->isSpectator()){
+				if(!$this->isSpectator() && !$this->isCreative()){
 					$toX = floor($to->x);
 					$toY = ceil($to->y);
 					$toZ = floor($to->z);
@@ -2082,7 +2085,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 						if($packet->selectedSlot >= 0 && $packet->selectedSlot < 9){
 							$hotbarItem = $this->inventory->getHotbarSlotItem($packet->selectedSlot);
 							$isNeedSendToHolder = !($hotbarItem->deepEquals($packet->item));
-							$this->setHeldItemIndex($packet->selectedSlot, $isNeedSendToHolder);
+							$this->setHeldItemIndex($packet->selectedSlot);
 							$this->setHeldItemSlot($packet->slot);
 							$this->setDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_ACTION, false);
 							break;
@@ -2099,7 +2102,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 					if($packet->selectedSlot >= 0 && $packet->selectedSlot < 9){
 						$hotbarItem = $this->inventory->getHotbarSlotItem($packet->selectedSlot);
 						$isNeedSendToHolder = !($hotbarItem->deepEquals($packet->item));
-						$this->setHeldItemIndex($packet->selectedSlot, $isNeedSendToHolder);
+						$this->setHeldItemIndex($packet->selectedSlot);
 						$this->setHeldItemSlot($slot);
 						$this->setDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_ACTION, false);
 						break;
@@ -2449,7 +2452,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 									$this->chatPlayer($format = $this->server->getLanguage()->translateString($ev->getFormat(), [
 										$ev->getPlayer()->getDisplayName(),
 										$ev->getMessage()
-									]), $ev->getRecipients());
+                                    ]), $ev->getRecipients());
 								}
 							}
 						}
@@ -3092,19 +3095,23 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	}
 	
 	public $bossBarId = null;
-	
-	/**
-	* Usage for plugin developers;
-	* Create a bossbar with this,
-	* To remove, use removeBossBar()
-	*/
+
+    /**
+     * Usage for plugin developers;
+     * Create a bossbar with this,
+     * To remove, use removeBossBar()
+     *
+     * @param $message
+     * @param int $percentage
+     * @param null $ticks
+     */
 	public function sendBossBar($message, $percentage = 1, $ticks = null){
 		$percentage /= 100;
 		$this->bossBarId = BossBar::addBossBar([$this], $message, $ticks); //Creates a bossbar with variable $this->bossBarId
 		BossBar::setPercentage($percentage, $this->bossBarId); //Sets the health percent
-		BossBar::addBossBarToPlayer($this, $this->bossBarId, $message, $ticks); //Shows the bossbar
+		BossBar::sendBossBarToPlayer($this, $this->bossBarId, $message, $ticks); //Shows the bossbar
 	}
-	
+
 	public function removeBossBar(){
 		if(!is_null($this->bossBarId)){
 			BossBar::removeBossBar([$this], $this->bossBarId);
