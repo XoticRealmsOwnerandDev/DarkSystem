@@ -555,7 +555,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 	public function sendTime(){
 		$pk = new SetTimePacket();
 		$pk->time = (int) $this->time;
-		$pk->started = $this->stopTime == false;
+		$pk->started = $this->stopTime === false;
 		Server::broadcastPacket($this->players, $pk);
 	}
 
@@ -774,7 +774,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 	 * @return bool
 	 */
 	public function save($force = false){
-		if($this->getAutoSave() === false && $force === false){
+		if(!$this->getAutoSave() && !$force){
 			return false;
 		}
 		$this->server->getPluginManager()->callEvent(new LevelSaveEvent($this));
@@ -1050,7 +1050,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 	}
 	
 	public function chunkCacheClear($x, $z){
-		if(advanced_cache == true){
+		if(advanced_cache === true){
 			Cache::remove("world:" . $this->getId() . ":" . Level::chunkHash($x, $z));
 		}
 	}
@@ -1078,7 +1078,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 			$block->position($pos);
 			$index = Level::chunkHash($pos->x >> 4, $pos->z >> 4);
 			
-			if(advanced_cache == true){
+			if(advanced_cache === true){
 				Cache::remove("world:" . $this->getId() . ":" . $index);
 			}
 
@@ -1791,7 +1791,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 			$this->chunks[$index] = $chunk;
 		}
 		
-		if(advanced_cache == true){
+		if(advanced_cache === true){
 			Cache::remove("world:" . $this->getId() . ":" . Level::chunkHash($x, $z));
 		}
 		
@@ -1960,7 +1960,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 					if($player->isConnected() && isset($player->usedChunks[$index])){
 						$protocol = $player->getPlayerProtocol();
 						$subClientId = $player->getSubClientId();
-						if(advanced_cache == true){
+						if(advanced_cache === true){
 							$playerIndex = "{$protocol}:{$subClientId}";
 							$cache = Cache::get("world:" . $this->getId() . ":{$index}");
 							if($cache !== false && isset($cache[$playerIndex])){
@@ -1991,7 +1991,7 @@ class Level extends TimeValues implements ChunkManager, Metadatable{
 		} 
 		$index = Level::chunkHash($x, $z);
 		if(isset($this->chunkSendTasks[$index])){
-			if(advanced_cache == true){
+			if(advanced_cache === true){
 				$cacheId = "world:" . $this->getId() . ":{$index}";
 				if(($cache = Cache::get($cacheId)) !== false){
 					$payload = array_merge($cache, $payload);

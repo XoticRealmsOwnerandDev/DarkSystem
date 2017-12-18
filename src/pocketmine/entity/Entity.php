@@ -307,6 +307,8 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 	
 	protected $fireDamage = 1;
 	
+	protected $activatedPressurePlates = [];
+	
 	public function __construct(Level $level, CompoundTag $nbt){
 		if($level === null || $level->getProvider() === null){
 			throw new ChunkException("Invalid garbage Chunk/Level given to Entity");
@@ -1834,6 +1836,8 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 			if($this->level !== null){
 				$this->level->removeEntity($this);
 			}
+			
+			$this->activatedPressurePlates = [];
 			
 			if($this->attributeMap != null){
 				$this->attributeMap = null;
