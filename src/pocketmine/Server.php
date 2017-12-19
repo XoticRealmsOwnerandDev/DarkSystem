@@ -486,7 +486,7 @@ class Server extends DarkSystem{
 				return "%gameMode.spectator";
 		}
 
-		return "BILINMEYEN";
+		return "Unknown";
 	}
 	
 	public static function getGamemodeFromString($str){
