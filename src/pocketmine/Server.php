@@ -1617,14 +1617,14 @@ class Server extends DarkSystem{
 			
 			$data = [];
 			if($this->getConfigBoolean("auto-query", false)){
-				$data[$server] = $this->getProperty("query.server", "test");
-				$data[$host] = $this->getProperty("query.host", "0.0.0.0");
-				$data[$user] = $this->getProperty("query.user", "root");
-				$data[$pass] = $this->getProperty("query.pass", "admin");
-				$data[$dbname] = $this->getProperty("query.dbname", "test");
-				$data[$port] = $this->getProperty("query.port", "19132");
+				$data["server"] = $this->getProperty("query.server", "test");
+				$data["host"] = $this->getProperty("query.host", "0.0.0.0");
+				$data["user"] = $this->getProperty("query.user", "root");
+				$data["pass"] = $this->getProperty("query.pass", "admin");
+				$data["dbname"] = $this->getProperty("query.dbname", "test");
+				$data["port"] = $this->getProperty("query.port", "19132");
 				
-				$this->createQuery($data[$server], $data[$host], $data[$user], $data[$pass], $data[$dbname], $data[$port]);
+				$this->createQuery($data["server"], $data["host"], $data["user"], $data["pass"], $data["dbname"], $data["port"]);
 			}
 			
 			$this->entityMetadata = new EntityMetadataStore();

@@ -63,10 +63,10 @@ class Item extends Entity{
 		if(isset($this->namedtag->Thrower)){
 			$this->thrower = $this->namedtag["Thrower"];
 		}
-		if (isset($this->namedtag->Item)) {
+		if(isset($this->namedtag->Item)){
 			$this->item = NBT::getItemHelper($this->namedtag->Item);
 			$this->server->getPluginManager()->callEvent(new ItemSpawnEvent($this));
-		} else {
+		}else{
 			$this->close();
 		}	
 	}
@@ -169,7 +169,15 @@ class Item extends Entity{
 	public function getItem(){
 		return $this->item;
 	}
-
+	
+	public function getId(){
+		return $this->item->getId();
+	}
+	
+	public function isAir(){
+		return $this->item->isAir();
+	}
+	
 	public function canCollideWith(Entity $entity){
 		return false;
 	}

@@ -95,10 +95,6 @@ class Banner extends Spawnable{
 			new IntTag("z", (int)$this->z)
 		]);
 		
-		if($this->hasName()){
-			$c->CustomName = $this->namedtag->CustomName;
-		}
-		
 		return $c;
 	}
 	

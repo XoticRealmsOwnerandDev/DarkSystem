@@ -190,7 +190,7 @@ abstract class BaseInventory implements Inventory{
 
 	public function firstEmpty(){
 		for($i = 0; $i < $this->size; ++$i){
-			if($this->getItem($i)->getId() === Item::AIR){
+			if($this->getItem($i)->isAir()){
 				return $i;
 			}
 		}
@@ -207,7 +207,7 @@ abstract class BaseInventory implements Inventory{
 				if(($diff = $slot->getMaxStackSize() - $slot->getCount()) > 0){
 					$item->setCount($item->getCount() - $diff);
 				}
-			}elseif($slot->getId() === Item::AIR){
+			}elseif($slot->isAir()){
 				$item->setCount($item->getCount() - $this->getMaxStackSize());
 			}
 			if($item->getCount() <= 0){
@@ -231,7 +231,7 @@ abstract class BaseInventory implements Inventory{
 		$invSize = $this->getSize();
 		for($i = 0; $i < $invSize; ++$i){
 			$item = $this->getItem($i);
-			if($item->getId() === Item::AIR || $item->getCount() <= 0){
+			if($item->isAir() || $item->getCount() <= 0){
 				$emptySlots[] = $i;
 			}
 			$itemCount = $item->getCount();

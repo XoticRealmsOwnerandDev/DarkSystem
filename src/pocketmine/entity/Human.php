@@ -167,7 +167,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			$this->inventory = new PlayerInventory($this);
 		}
 		$this->enderChestInventory = new EnderChestInventory($this, ($this->namedtag->EnderChestInventory ?? null));
-		if(!($this instanceof Player)){
+		if(!$this instanceof Player){
 			if(isset($this->namedtag->NameTag)){
 				$this->setNameTag($this->namedtag["NameTag"]);
 			}
@@ -209,7 +209,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 				$hotbarSlot = $this->inventory->getHotbarSlotIndex($slot);
 				if($hotbarSlot !== -1){
 					$item = $this->inventory->getItem($hotbarSlot);
-					if($item->getId() !== ItemItem::AIR && $item->getCount() > 0){
+					if(!$item->isAir() && $item->getCount() > 0){
 						$this->namedtag->Inventory[$slot] = NBT::putItemHelper($item, $slot);
 						$this->namedtag->Inventory[$slot]->TrueSlot = new ByteTag("TrueSlot", $hotbarSlot);
 						continue;
@@ -289,7 +289,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function close(){
 		if(!$this->closed){
-			if(!($this instanceof Player) || $this->loggedIn){
+			if(!$this instanceof Player || $this->loggedIn){
 				foreach($this->inventory->getViewers() as $viewer){
 					$viewer->removeWindow($this->inventory);
 				}

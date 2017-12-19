@@ -102,7 +102,7 @@ class ItemFrame extends Spawnable{
 			new IntTag("y", (int) $this->y),
 			new IntTag("z", (int) $this->z),
 			$this->namedtag->ItemDropChance,
-			$this->namedtag->ItemRotation,
+			$this->namedtag->ItemRotation
 		]);
 		
 		if($this->hasItem()){

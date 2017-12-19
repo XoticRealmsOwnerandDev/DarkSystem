@@ -71,7 +71,7 @@ class FlowerPot extends Spawnable{
 	}
 	
 	public function isEmpty(){
-		return $this->getItem()->getId() === Item::AIR;
+		return $this->getItem()->isAir();
 	}
 	
 	public function getSpawnCompound(){

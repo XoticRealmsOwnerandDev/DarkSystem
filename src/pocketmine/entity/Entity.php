@@ -820,7 +820,7 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 			$p->dataPacket(clone $pk);
 		}
 		
-		if($this instanceof Player){
+		if($this->isPlayer){
 			$this->dataPacket($pk);
 		}
 	}
@@ -1031,11 +1031,10 @@ abstract class Entity extends Location implements Metadatable, EntityIds{
 
 	public function entityBaseTick($tickDiff = 1){
 		$this->justCreated = false;
-		$isPlayer = $this instanceof Player;
 		if($this->dead){
 			$this->removeAllEffects();
 			$this->despawnFromAll();
-			if(!$isPlayer){
+			if(!$this->isPlayer){
 				$this->close(); 
 			}
 			
