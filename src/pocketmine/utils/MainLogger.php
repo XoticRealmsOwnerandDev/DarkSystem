@@ -258,36 +258,7 @@ class MainLogger extends \AttachableThreadedLogger{
 				$this->shouldSendMsg .= $color . "|" . $prefix . "|" . trim($message, "\r\n") . "\n";
 			}
 		}
-		$name = \pocketmine\NAME;
-		$easter = "LOL";
-		//$message = TF::toANSI("§" . mt_rand(1, 9) . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§" . mt_rand(1, 9) . "》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
-		switch(Server::getInstance()->getTheme()){
-			case "darkness":
-			//Server::getInstance()->getThemeManager()->setTheme(Server::getInstance()->getThemeManager()->getDefaultTheme());
-			$message = TF::toANSI(TF::GREEN . "<" . date("H:i:s", $now) . "> " . TF::AQUA . $easter . " §l§6》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
-			break;
-			case "classic":
-			$message = TF::toANSI(TF::AQUA . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§6》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
-			break;
-			case "dark":
-			$message = TF::toANSI(TF::GRAY . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§3》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
-			break;
-			case "light":
-			$message = TF::toANSI(TF::WHITE . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§f》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
-			break;
-			case "metal":
-			$message = TF::toANSI(TF::GRAY . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§f》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
-			break;
-			case "energy":
-			$message = TF::toANSI(TF::YELLOW . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§6》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
-			break;
-			case "uranium":
-			$message = TF::toANSI(TF::GREEN . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§e》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
-			break;
-			default;
-			$message = TF::toANSI(TF::AQUA . "<" . date("H:i:s", $now) . "> " . TF::BLUE . $name . " §l§6》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
-			break;
-		}
+		$message = TF::toANSI(TF::AQUA . "<" . date("H:i:s", $now) . "> " . TF::BLUE . \pocketmine\NAME . " §l§6》§r " . $color . $prefix . ":" . TF::SPACE . $message . TF::RESET);
 		$cleanMessage = TF::clean($message);
 		if(!Terminal::hasFormattingCodes()){
 			echo $cleanMessage . PHP_EOL;

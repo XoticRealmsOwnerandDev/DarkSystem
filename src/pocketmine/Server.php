@@ -2418,7 +2418,6 @@ class Server extends DarkSystem{
 			$protocol = $p->getPlayerProtocol();
 			if(!isset($readyPackets[$protocol])){
 				$pk->encode($protocol, $p->getSubClientId());
-				//$pk->encode($protocol);
 				$batch = new BatchPacket();
 				$batch->payload = zlib_encode(Binary::writeVarInt(strlen($pk->getBuffer())) . $pk->getBuffer(), ZLIB_ENCODING_DEFLATE, 7);
 				$readyPackets[$protocol] = $batch;
@@ -2453,7 +2452,6 @@ class Server extends DarkSystem{
 			}
 			
 			$pk->encode($p->getPlayerProtocol(), $p->getSubClientId());
-			//$pk->encode($p->getPlayerProtocol());
 			$pk->isEncoded = true;
 			$this->craftList[$p->getPlayerProtocol()] = $pk;
 		}
