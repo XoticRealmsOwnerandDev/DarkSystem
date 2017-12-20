@@ -3236,7 +3236,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		}
 	}
 	
-	public function getDeathMessages($cause = "Unknown", $params = []){
+	public function getDeathMessage($cause = "Unknown", $params = []){
 		switch($cause === null ? EntityDamageEvent::CAUSE_CUSTOM : $cause->getCause()){
 			case EntityDamageEvent::CAUSE_ENTITY_ATTACK:
 				if($cause instanceof EntityDamageByEntityEvent){
@@ -3347,7 +3347,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 
 		$cause = $this->getLastDamageCause();
 		
-		$message = $this->getDeathMessages($cause, $params);
+		$message = $this->getDeathMessage($cause, $params);
 		
 		if($this->getPlayerProtocol() < ProtocolInfo::PROTOCOL_120){
 			Entity::kill();
@@ -3444,6 +3444,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		}
 		
 		$this->setFood($this->getFood() - $amount);
+		
 		return true;
 	}
 
@@ -3599,9 +3600,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	public function sendLoginSuccess(){
 		$pk = new PlayStatusPacket();
 		$pk->status = PlayStatusPacket::LOGIN_SUCCESS;
-		$this->dataPacket($pk);
-		
-		$pk = new ResourcePackInfoPacket();
 		$this->dataPacket($pk);
 	}
 	
