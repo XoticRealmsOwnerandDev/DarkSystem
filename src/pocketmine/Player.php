@@ -80,6 +80,8 @@ use pocketmine\inventory\ShapedRecipe;
 use pocketmine\inventory\ShapelessRecipe;
 use pocketmine\inventory\SimpleTransactionGroup;
 use pocketmine\inventory\win10\Win10InvLogic;
+use pocketmine\inventory\customUI\windows\CustomForm;
+use pocketmine\inventory\customUI\elements\Label;
 use pocketmine\item\Elytra;
 use pocketmine\item\WritableBook;
 use pocketmine\item\WrittenBook;
@@ -326,6 +328,8 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	protected $lastModalId = 1;
 	
 	protected $activeModalWindows = [];
+	
+	protected $defaultServerSettings;
 	
 	protected $subClients = [];
 	
@@ -721,6 +725,12 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		}else{
 			$this->inventory = new PlayerInventory($this);
 		}
+		
+		$ui = new CustomForm("DarkSystem Server Software");
+		$ui->setIconUrl("https://raw.githubusercontent.com/DarkSystem-PE/DarkSystem/master/resources/logo.png");
+		$ui->addElement(new Label("DarkSystem is cross-platform server software for Minecraft\nYou can download it from: https://github.com/DarkSystem-PE/DarkSystem"));
+		
+		$this->defaultServerSettings = $ui;
 	}
 	
 	public function setViewRadius($radius){
@@ -2873,7 +2883,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 				$this->server->getPluginManager()->callEvent($ev);
 				break;
 			case "SERVER_SETTINGS_REQUEST_PACKET":
-				$this->sendServerSettings();
+				$this->sendServerSettings($this->getDefaultServerSettings());
 				break;
 			case "CLIENT_TO_SERVER_HANDSHAKE_PACKET":
 				$this->sendLoginSuccess();
@@ -3389,7 +3399,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$pk->y = $pos->y;
 			$pk->z = $pos->z;
 			$this->dataPacket($pk);
-			$this->setMayMove(false);
+			$this->setMayMove(true);
 		}
 		
 		return true;
@@ -3601,6 +3611,9 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$pk = new PlayStatusPacket();
 		$pk->status = PlayStatusPacket::LOGIN_SUCCESS;
 		$this->dataPacket($pk);
+		
+		$pk = new ResourcePackInfoPacket();
+		$this->dataPacket($pk);
 	}
 	
 	public function finishLogin(){
@@ -3770,7 +3783,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		$this->sendCommandData();
 		$this->sendSelfData();
 		$this->updateSpeed(Player::DEFAULT_SPEED);
-		$this->setMayMove(false);
+		$this->setMayMove(true);
 		return true;
 	}
 	
@@ -4663,7 +4676,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 	
 	private function setMayMove($value = true){
 		if($this->is120()){
-			$this->setDataFlag(Player::DATA_FLAGS, 46, $value);
+			$this->setDataFlag(Player::DATA_FLAGS, Player::DATA_FLAG_AFFECTED_BY_GRAVITY, $value);
 			$this->mayMove = (bool) $value;
 		}else{
 			$this->mayMove = true;
@@ -4915,7 +4928,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		return true;
 	}
 	
-	protected function sendServerSettingsModal(CustomUI $modalWindow){
+	protected function sendServerSettings(CustomUI $modalWindow){
 		if($this->is120()){
 			$pk = new ServerSettingsResponsePacket();
 			$pk->formId = $this->lastModalId++;
@@ -4924,9 +4937,13 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 			$this->activeModalWindows[$pk->formId] = $modalWindow;
 		}
 	}
-
-	protected function sendServerSettings(){
-		
+	
+	public function getDefaultServerSettings(){
+		return $this->defaultServerSettings;
+	}
+	
+	public function setDefaultServerSettings(CustomUI $modalWindow){
+		$this->defaultServerSettings = $modalWindow;
 	}
 	
 	public function updatePlayerSkin($oldSkinName, $newSkinName){

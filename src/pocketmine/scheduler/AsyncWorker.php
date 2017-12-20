@@ -35,7 +35,7 @@ class AsyncWorker extends Worker{
 		$store = [];
 	}
 
-	public function start($options = \PTHREADS_INHERIT_NONE){
+	public function start(int $options = \PTHREADS_INHERIT_NONE){
 		parent::start(PTHREADS_INHERIT_CONSTANTS);
 	}
 	

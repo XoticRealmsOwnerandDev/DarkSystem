@@ -145,27 +145,7 @@ class AddUICommand extends VanillaCommand{
             }
         }
         
-        /*$form = new SimpleForm("TestTitle");
-        $player->showModal($form);
-        $button = new Button("TestButton");
-        $form->addButton($button);
-        $slider = new Slider("TestSlider");
-        $form->addSlider($slider);
-        
-        $ui = new CustomForm("TestWindow");
-		$ui->addElement(new Label("Label"));
-		$ui->addElement(new Dropdown("Dropdown", ["Name1", "Name2"]));
-		$ui->addElement(new Input("Input", "Text"));
-		$ui->addElement(new Slider("Slider", 5, 10, 0.5));
-		$ui->addElement(new StepSlider("Stepslider", [5, 7, 9, 11]));
-		$ui->addElement(new Toggle("Toggle"));*/
-		
 		$player->showModal($ui);
-		
-		/*$response = $player->checkModal($ui);
-		if($response == "Button"){
-			//TODO
-		}*/
 		
         return true;
     }
