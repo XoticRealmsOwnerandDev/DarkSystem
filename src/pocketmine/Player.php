@@ -3347,7 +3347,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 
 		$cause = $this->getLastDamageCause();
 		
-		$message = $this->getDeathMessage($cause, $params);
+		$message = $this->getDeathMessages($cause, $params);
 		
 		if($this->getPlayerProtocol() < ProtocolInfo::PROTOCOL_120){
 			Entity::kill();
@@ -4605,10 +4605,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 				
 				break;
 			}
-		}
-		
-		if($isAllCraftSlotsEmpty){
-			throw new \Exception("All craft slots are empty");
 		}
 	}
 	
