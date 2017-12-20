@@ -19,7 +19,9 @@ class Translate{
 	const TUR = "tur";
 	
 	public static $result;
-	
+	private $server;
+	private static $servers;
+
 	public function __construct(Server $server){
 		$this->server = $server;
 	}
@@ -58,7 +60,7 @@ class Translate{
     }
     
     public static function getServer(){
-    	return $this->server;
+    	return Translate::$servers;
     }
     
 }
