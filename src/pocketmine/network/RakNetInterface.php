@@ -220,13 +220,19 @@ class RakNetInterface implements ServerInstance, AdvancedSourceInterface{
 			$this->network->addStatistics($v["up"], $v["down"]);
 		}
 	}
-	
+
+    /**
+     * @param Player $player
+     * @param DataPacket $packet
+     * @param bool $immediate
+     * @return null
+     */
 	public function putPacket(Player $player, DataPacket $packet, $immediate = false){
 		if(isset($this->identifiers[$player])){			
 			$protocol = $player->getPlayerProtocol();							
 			$packet->encode($protocol);
 			if(!($packet instanceof BatchPacket) && strlen($packet->buffer) >= Network::$BATCH_THRESHOLD){
-				$this->server->batchPackets([$player], [$packet], true);
+				$this->server->batchPackets([$player], [$packet]);
 				return null;
 			}
 			$identifier = $this->identifiers[$player];	
@@ -240,8 +246,13 @@ class RakNetInterface implements ServerInstance, AdvancedSourceInterface{
 		}
 		return null;
 	}
-	
-	private function getPacket($buffer, $player){
+
+    /**
+     * @param $buffer
+     * @param Player $player
+     * @return null|DataPacket
+     */
+	private function getPacket($buffer, Player $player){
 		$playerProtocol = $player->getPlayerProtocol();
 		/*if($playerProtocol >= ProtocolInfo::PROTOCOL_110){
 			$pk = new BatchPacket($buffer);
@@ -256,8 +267,12 @@ class RakNetInterface implements ServerInstance, AdvancedSourceInterface{
 		$data->setBuffer($buffer, $offset);
 		return $data;
 	}
-	
-	public function putReadyPacket($player, $buffer){
+
+    /**
+     * @param Player $player
+     * @param $buffer
+     */
+	public function putReadyPacket(Player $player, $buffer){
 		if(isset($this->identifiers[$player])){
 			$pk = new EncapsulatedPacket();
 			$pk->buffer = chr(0xfe) . $buffer;

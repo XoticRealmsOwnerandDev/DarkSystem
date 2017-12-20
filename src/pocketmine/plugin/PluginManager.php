@@ -415,6 +415,7 @@ class PluginManager{
 	public function getPermissionSubscriptions($permission){
 		if(isset($this->permSubs[$permission])){
 			return $this->permSubs[$permission];
+			//FIX SOON
 			$subs = [];
 			foreach($this->permSubs[$permission] as $k => $perm){
 				/** @var \WeakRef $perm */

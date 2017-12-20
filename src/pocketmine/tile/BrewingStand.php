@@ -56,7 +56,7 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 		$this->inventory = new BrewingInventory($this);
 		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof ListTag)){
 			$this->namedtag->Items = new ListTag("Items", []);
-			$this->namedtag->Items->setTagType(NBT::TAG_CompoundTag);
+			$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		}
 		for($i = 0; $i < $this->getSize(); ++$i){
 			$this->inventory->setItem($i, $this->getItem($i));
@@ -94,7 +94,7 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 
 	public function saveNBT(){
 		$this->namedtag->Items = new ListTag("Items", []);
-		$this->namedtag->Items->setTagType(NBT::TAG_CompoundTag);
+		$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		for($index = 0; $index < $this->getSize(); ++$index){
 			$this->setItem($index, $this->inventory->getItem($index));
 		}
@@ -159,9 +159,9 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 					break;
 				}
 			}
-			$this->namedtag->Items[$i] = NBT::putItemHelper($index);
+			$this->namedtag->Items[$i] = NBT::putItemHelper($item, $index);
 		}else{
-			$this->namedtag->Items[$i] = NBT::putItemHelper($index);
+			$this->namedtag->Items[$i] = NBT::putItemHelper($item, $index);
 		}
 
 		return true;

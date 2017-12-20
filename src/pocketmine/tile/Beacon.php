@@ -11,6 +11,7 @@
 
 namespace pocketmine\tile;
 
+use pocketmine\entity\Effect;
 use pocketmine\inventory\BeaconInventory;
 use pocketmine\inventory\InventoryHolder;
 use pocketmine\level\Level;
@@ -20,6 +21,7 @@ use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\block\Block;
+use pocketmine\Player;
 
 class Beacon extends Spawnable implements Nameable, InventoryHolder{
 	

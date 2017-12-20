@@ -214,7 +214,8 @@ class Session{
 
     /**
      * @param EncapsulatedPacket $pk
-     * @param int                $flags
+     * @param int $flags
+     * @return bool
      */
     private function addToQueue(EncapsulatedPacket $pk, $flags = RakNet::PRIORITY_NORMAL){
         $priority = $flags & 0b0000111;

@@ -30,7 +30,11 @@ class FlowerPot extends Spawnable{
 		}
 		parent::__construct($level, $nbt);
 	}
-	
+
+    /**
+     * @param Item $item
+     * @return bool
+     */
 	public function canAddItem(Item $item){
 		if(!$this->isEmpty()){
 			return false;
@@ -40,6 +44,7 @@ class FlowerPot extends Spawnable{
 				if($item->getDamage() === 1){
 					return false;
 				}
+				break;
 			case Item::SAPLING:
 			case Item::DEAD_BUSH:
 			case Item::DANDELION:

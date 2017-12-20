@@ -12,6 +12,7 @@
 namespace pocketmine\tile;
 
 use pocketmine\level\Level;
+use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;

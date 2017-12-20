@@ -16,6 +16,8 @@ use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\event\block\SignChangeEvent;
+use pocketmine\Player;
+use pocketmine\utils\TextFormat;
 
 class Sign extends Spawnable{
 

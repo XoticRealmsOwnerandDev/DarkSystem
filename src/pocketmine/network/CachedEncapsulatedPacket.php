@@ -11,9 +11,9 @@
 
 namespace pocketmine\network;
 
-use raklib\protocol\EncapsulatedPacket;
+use pocketmine\network\raknet\protocol\EncapsulatedPacket;
 
-class CachedEncapsulatedPacket extends EncapsulatedPacket{
+class CachedEncapsulatedPacket extends EncapsulatedPacket {
 
 	private $internalData = null;
 

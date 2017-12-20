@@ -128,9 +128,9 @@ class Dropper extends Spawnable implements InventoryHolder, Container, Nameable{
 					break;
 				}
 			}
-			$this->namedtag->Items[$i] = NBT::putItemHelper($index);
+			$this->namedtag->Items[$i] = NBT::putItemHelper($item, $index);
 		}else{
-			$this->namedtag->Items[$i] = NBT::putItemHelper($index);
+			$this->namedtag->Items[$i] = NBT::putItemHelper($item, $index);
 		}
 
 		return true;
@@ -232,12 +232,12 @@ class Dropper extends Spawnable implements InventoryHolder, Container, Nameable{
 					new FloatTag("", 0)
 				]),
 				"Health" => new ShortTag("Health", 5),
-				"Item" => NBT::putItemHelper(-1, "Item"),
+				"Item" => NBT::putItemHelper(-1, "Item"),//FIX SOON
 				"PickupDelay" => new ShortTag("PickupDelay", 10)
 			]);
 
 			$f = 0.3;
-			$itemEntity = new ItemEntity($this->getLevel(), $nbt, $this);
+			$itemEntity = new ItemEntity($this->getLevel(), $nbt);
 			$itemEntity->setMotion($itemEntity->getMotion()->multiply($f));
 			$itemEntity->spawnToAll();
 

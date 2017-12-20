@@ -30,9 +30,9 @@ interface ServerInstance{
     public function closeSession($identifier, $reason);
 
     /**
-     * @param string             $identifier
-     * @param EncapsulatedPacket $packet
-     * @param int                $flags
+     * @param $identifier
+     * @param $buffer
+     * @return mixed
      */
     public function handleEncapsulated($identifier, $buffer);
 

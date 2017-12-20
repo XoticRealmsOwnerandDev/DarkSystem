@@ -176,12 +176,12 @@ class Permission{
 		}
 	}
 
-	/**
-	 * @param array $data
-	 * @param       $default
-	 *
-	 * @return Permission[]
-	 */
+    /**
+     * @param array $data
+     * @param string $default
+     * @return array
+     * @throws \Exception
+     */
 	public static function loadPermissions(array $data, $default = Permission::DEFAULT_OP){
 		$result = [];
 		foreach($data as $key => $entry){

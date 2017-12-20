@@ -77,7 +77,7 @@ class PluginLogger implements \AttachableLogger{
 	}
 
 	public function logException(\Throwable $e, $trace = null){
-		Server::getInstance()->getLogger()->logException($e, $trace);
+		Server::getInstance()->getLogger()->logException($e);
 	}
 
 	public function log($level, $message){
