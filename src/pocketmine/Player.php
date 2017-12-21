@@ -2424,7 +2424,7 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 							if($this->is120()){
 								$this->server->broadcastMessage($format, $ev->getRecipients());
 							}else{
-								$this->chatPlayer($format, $ev->getRecipients());
+								$this->chatPlayer($format);
 							}
 						}
 					}
@@ -3348,8 +3348,6 @@ class Player extends Human implements CommandSender, InventoryHolder, IPlayer{
 		if(!$this->spawned || $this->dead || $this->isNotLiving()){
 			return false;
 		}
-
-		$message = "death.attack.generic";
 
 		$params = [
 			$this->getName()
